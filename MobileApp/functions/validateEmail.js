@@ -1,4 +1,5 @@
 export function validateEmail(emailInput) {
+    console.log("Are de");
     //Checks if email field is empty
     if (emailInput === "") {
         return "You have to insert password in order to continue!";

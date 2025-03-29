@@ -6,6 +6,7 @@ import { StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import { View, Text } from "react-native";
 import { validateEmail } from "../functions/validateEmail";
 import { validatePassword } from "../functions/validatePassword";
+import { createUser } from "../database/userController";
 
 export default function SignUp() {
   const { theme, toggleTheme } = useTheme();
@@ -26,25 +27,52 @@ export default function SignUp() {
   }
 
   async function submitHandler() {
-    const validateEmail = validateEmail(newUserData.email);
-    const validatePassword = validatePassword(newUserData.password);
+    const myValidateEmail = validateEmail(newUserData.email);
+    const myValidatePassword = validatePassword(newUserData.password);
 
-    if (validateEmail !== "Success" || validatePassword !== "Success") {
-      if (validateEmail !== "Success") {
+    console.log("EHOOOOO");
+
+    //Sets the error messages and stop the function from executing
+    if (myValidateEmail !== "Success" || myValidatePassword !== "Success") {
+      if (myValidateEmail !== "Success") {
         setErrors((oldValue) => {
-          return { ...oldValue, emailError: validateEmail };
+          return { ...oldValue, emailError: myValidateEmail };
+        });
+      } else {
+        setErrors((oldValue) => {
+          return { ...oldValue, emailError: "" };
         });
       }
 
-      if (validatePassword !== "Success") {
+      if (myValidatePassword !== "Success") {
+        console.log("ALOOOO");
         setErrors((oldValue) => {
-          return { ...oldValue, passwordError: validatePassword };
+          return { ...oldValue, passwordError: myValidatePassword };
+        });
+      } else {
+        setErrors((oldValue) => {
+          return { ...oldValue, passwordError: "" };
         });
       }
 
       return;
     }
+
+    //Testvay kak raboti log in funciqta s Firebase. Dano da stane
+    console.log("Dobre e");
+
+    //Creates and authorize the new user
+    const createUserResult = await createUser(newUserData);
+    //const createUser = "";
+
+    if (createUserResult === "Success") {
+      console.log("Aideeee. Ydri sirene");
+    } else {
+      console.log(createUserResult);
+    }
   }
+
+  console.log("Nigga");
 
   const styles = StyleSheet.create({
     backButton: {
@@ -68,8 +96,6 @@ export default function SignUp() {
       fontWeight: "bold",
     },
   });
-
-  console.log(newUserData);
 
   return (
     <View style={{ ...GLOBAL_STYLES.page, backgroundColor: theme.primary }}>
@@ -103,6 +129,11 @@ export default function SignUp() {
           <Text style={{ ...GLOBAL_STYLES.standardText, color: theme.text }}>
             Enter your password
           </Text>
+          {errors.passwordError !== "" && (
+            <Text style={{ ...GLOBAL_STYLES.errorText }}>
+              {errors.passwordError}
+            </Text>
+          )}
           <TextInput
             placeholder="password"
             onChangeText={(value) => {
@@ -116,6 +147,9 @@ export default function SignUp() {
             ...GLOBAL_STYLES.buttonStyle,
             borderColor: theme.accent,
             backgroundColor: theme.background,
+          }}
+          onPress={() => {
+            submitHandler();
           }}
         >
           <Text style={{ ...GLOBAL_STYLES.buttonText, color: theme.text }}>
