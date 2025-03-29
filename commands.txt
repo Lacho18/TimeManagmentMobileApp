@@ -1,4 +1,4 @@
 git add .
-git commit -m "Adding comments to functions"
+git commit -m "Adding new pages"
 git branch -M main
 git push -u origin main
