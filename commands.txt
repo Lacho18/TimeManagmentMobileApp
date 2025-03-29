@@ -1,4 +1,4 @@
 git add .
-git commit -m "Removing .env file"
+git commit -m "Adding comments to functions"
 git branch -M main
 git push -u origin main
