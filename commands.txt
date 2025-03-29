@@ -1,4 +1,4 @@
 git add .
-git commit -m "Creating navigation"
+git commit -m "Adding routes to the navigation"
 git branch -M main
 git push -u origin main
