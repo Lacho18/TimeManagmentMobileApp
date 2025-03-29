@@ -45,6 +45,12 @@ export default function Index() {
 
   return (
     <View style={{ ...GLOBAL_STYLES.page, backgroundColor: theme.primary }}>
+      <TouchableOpacity
+        style={{ width: 40, height: 40, backgroundColor: "brown" }}
+        onPress={() => {
+          router.push("/home/dailyTasks");
+        }}
+      ></TouchableOpacity>
       <Text style={styles.title}>EasePlan</Text>
       <Text style={styles.loginText}>Login</Text>
       <View style={{ gap: 20, marginTop: 40 }}>
