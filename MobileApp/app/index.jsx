@@ -4,14 +4,14 @@ import { useTheme } from "../context/ThemeContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import { useEffect } from "react";
-import axios from "axios";
+import GoogleAuth from "../components/GoogleAuth";
 
 export default function Index() {
   const { theme, toggleTheme } = useTheme();
   const router = useRouter();
 
-  //Gets the theme before component is loaded
   useEffect(() => {
+    //Gets the theme before component is loaded
     async function setColorTheme() {
       const savedTheme = await AsyncStorage.getItem("theme");
 
@@ -20,13 +20,19 @@ export default function Index() {
       }
     }
 
-    setColorTheme();
-  }, []);
+    //Checks if the user is already logged in
+    async function checkForLogInUser() {
+      const userId = await AsyncStorage.getItem("@user");
+      console.log(userId);
 
-  async function registerUserHandler(type) {
-    console.log(type);
-    //Tyka si sloshi IP na kompytura s axios.post
-  }
+      if (userId) {
+        //router.push("/home/dailyTasks");
+      }
+    }
+
+    setColorTheme();
+    checkForLogInUser();
+  }, []);
 
   //Component styles
   const styles = StyleSheet.create({
@@ -54,24 +60,7 @@ export default function Index() {
       <Text style={styles.title}>EasePlan</Text>
       <Text style={styles.loginText}>Login</Text>
       <View style={{ gap: 20, marginTop: 40 }}>
-        <TouchableOpacity
-          style={{
-            ...GLOBAL_STYLES.buttonStyle,
-            borderColor: theme.accent,
-            backgroundColor: theme.background,
-          }}
-          onPress={() => {
-            registerUserHandler("Google");
-          }}
-        >
-          <Text style={{ ...GLOBAL_STYLES.buttonText, color: theme.text }}>
-            Google
-          </Text>
-          <Image
-            style={{ width: 30, height: 30 }}
-            source={require("../assets/images/Google__G__logo.svg.png")}
-          />
-        </TouchableOpacity>
+        <GoogleAuth theme={theme} />
         <TouchableOpacity
           style={{
             ...GLOBAL_STYLES.buttonStyle,

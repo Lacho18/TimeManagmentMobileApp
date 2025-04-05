@@ -30,8 +30,6 @@ export default function SignUp() {
     const myValidateEmail = validateEmail(newUserData.email);
     const myValidatePassword = validatePassword(newUserData.password);
 
-    console.log("EHOOOOO");
-
     //Sets the error messages and stop the function from executing
     if (myValidateEmail !== "Success" || myValidatePassword !== "Success") {
       if (myValidateEmail !== "Success") {
@@ -45,7 +43,6 @@ export default function SignUp() {
       }
 
       if (myValidatePassword !== "Success") {
-        console.log("ALOOOO");
         setErrors((oldValue) => {
           return { ...oldValue, passwordError: myValidatePassword };
         });
@@ -58,9 +55,6 @@ export default function SignUp() {
       return;
     }
 
-    //Testvay kak raboti log in funciqta s Firebase. Dano da stane
-    console.log("Dobre e");
-
     //Creates and authorize the new user
     const createUserResult = await createUser(newUserData);
     //const createUser = "";
@@ -71,8 +65,6 @@ export default function SignUp() {
       console.log(createUserResult);
     }
   }
-
-  console.log("Nigga");
 
   const styles = StyleSheet.create({
     backButton: {
