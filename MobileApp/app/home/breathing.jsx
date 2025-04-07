@@ -2,11 +2,11 @@ import { View, Text } from "react-native";
 import { useTheme } from "../../context/ThemeContext";
 import { GLOBAL_STYLES } from "@/constants/PageStyle";
 
-export default function Overview() {
+export default function BreathingAnimation() {
   const { theme } = useTheme();
   return (
     <View style={{ ...GLOBAL_STYLES.page, backgroundColor: theme.background }}>
-      <Text>Upcoming</Text>
+      <Text>Breathing technique</Text>
     </View>
   );
 }

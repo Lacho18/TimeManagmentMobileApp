@@ -6,6 +6,7 @@ import Daily from "@expo/vector-icons/AntDesign";
 import Events from "@expo/vector-icons/MaterialIcons";
 import Calendar from "@expo/vector-icons/AntDesign";
 import Profile from "@expo/vector-icons/MaterialIcons";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { useRouter } from "expo-router";
 
 export default function Navigation() {
@@ -34,6 +35,11 @@ export default function Navigation() {
       fontWeight: "bold",
       textAlign: "center",
     },
+    navButtonView: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    },
   });
 
   return (
@@ -44,20 +50,9 @@ export default function Navigation() {
           router.push("/home/dailyTasks");
         }}
       >
-        <View>
+        <View style={styles.navButtonView}>
           <Daily name="home" size={34} color="black" />
           <Text style={styles.navButtonText}>Daily</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.navButton}
-        onPress={() => {
-          router.push("/home/events");
-        }}
-      >
-        <View>
-          <Events name="event" size={34} color="black" />
-          <Text style={styles.navButtonText}>Events</Text>
         </View>
       </TouchableOpacity>
       <TouchableOpacity
@@ -66,20 +61,42 @@ export default function Navigation() {
           router.push("/home/overview");
         }}
       >
-        <View>
+        <View style={styles.navButtonView}>
           <Calendar name="calendar" size={34} color="black" />
-          <Text style={styles.navButtonText}>View</Text>
+          <Text style={styles.navButtonText}>Upcoming</Text>
         </View>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.navButton}
         onPress={() => {
-          router.push("/home/dailyTasks");
+          router.push("/home/events");
         }}
       >
-        <View>
+        <View style={styles.navButtonView}>
+          <Events name="event" size={34} color="black" />
+          <Text style={styles.navButtonText}>Events</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.navButton}
+        onPress={() => {
+          router.push("/home/breathing");
+        }}
+      >
+        <View style={styles.navButtonView}>
+          <FontAwesome6 name="person-circle-plus" size={34} color="black" />
+          <Text style={styles.navButtonText}>Breathing</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.navButton}
+        onPress={() => {
+          router.push("/home/profile");
+        }}
+      >
+        <View style={styles.navButtonView}>
           <Profile name="account-box" size={34} color="black" />
-          <Text style={styles.navButtonText}>Daily</Text>
+          <Text style={styles.navButtonText}>Profile</Text>
         </View>
       </TouchableOpacity>
     </View>

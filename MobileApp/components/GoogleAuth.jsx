@@ -5,10 +5,11 @@ import * as Google from "expo-auth-session/providers/google";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import createUserWithGoogle from "../functions/createUserWithGoogle";
 
 WebBrowser.maybeCompleteAuthSession();
 
-export default function GoogleAuth({ theme }) {
+export default function GoogleAuth({ theme, router }) {
   const [userInfo, setUserInfo] = useState(null);
   const [token, setToken] = useState(null);
   const [request, response, promptAsync] = Google.useAuthRequest({
@@ -54,11 +55,16 @@ export default function GoogleAuth({ theme }) {
       );
       console.log(response);
       const user = response.data;
-      //Calls the props function, which logs in the user and creates account in the database if not already created
-      //logInHandler(token);
+
       await AsyncStorage.setItem("@user", JSON.stringify(user));
       await AsyncStorage.setItem("@token", token);
       setUserInfo(user);
+
+      //Creates the user and authenticates him
+      await createUserWithGoogle(token);
+
+      //Navigates to the home page
+      router.push("/home/dailyTasks");
     } catch (err) {
       console.error(err);
     }

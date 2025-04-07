@@ -1,12 +1,12 @@
-import { View, Text } from "react-native";
+import { Text, View } from "react-native";
 import { useTheme } from "../../context/ThemeContext";
 import { GLOBAL_STYLES } from "@/constants/PageStyle";
 
-export default function Overview() {
+export default function Profile() {
   const { theme } = useTheme();
   return (
     <View style={{ ...GLOBAL_STYLES.page, backgroundColor: theme.background }}>
-      <Text>Upcoming</Text>
+      <Text>Profile</Text>
     </View>
   );
 }

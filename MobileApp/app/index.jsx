@@ -26,7 +26,9 @@ export default function Index() {
       console.log(userId);
 
       if (userId) {
-        //router.push("/home/dailyTasks");
+        //await AsyncStorage.removeItem("@user");
+
+        router.push("/home/dailyTasks");
       }
     }
 
@@ -60,7 +62,7 @@ export default function Index() {
       <Text style={styles.title}>EasePlan</Text>
       <Text style={styles.loginText}>Login</Text>
       <View style={{ gap: 20, marginTop: 40 }}>
-        <GoogleAuth theme={theme} />
+        <GoogleAuth theme={theme} router={router} />
         <TouchableOpacity
           style={{
             ...GLOBAL_STYLES.buttonStyle,

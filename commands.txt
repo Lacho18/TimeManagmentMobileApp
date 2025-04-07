@@ -1,4 +1,4 @@
 git add .
-git commit -m "Creating user model"
+git commit -m "Adding all pages"
 git branch -M main
 git push -u origin main
