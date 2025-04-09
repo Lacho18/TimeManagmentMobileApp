@@ -1,5 +1,4 @@
 export function validatePassword(passwordInput) {
-    console.log("Tyka ida li");
     console.log(passwordInput === "");
     //Checks if password field is empty
     if (passwordInput === "") {

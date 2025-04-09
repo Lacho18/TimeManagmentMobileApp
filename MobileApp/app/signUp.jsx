@@ -60,7 +60,6 @@ export default function SignUp() {
     //const createUser = "";
 
     if (createUserResult === "Success") {
-      console.log("Aideeee. Ydri sirene");
     } else {
       console.log(createUserResult);
     }

@@ -2,6 +2,7 @@ import { Image, Text, TouchableOpacity } from "react-native";
 import { GLOBAL_STYLES } from "@/constants/PageStyle";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
+import * as AuthSession from "expo-auth-session";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -15,6 +16,7 @@ export default function GoogleAuth({ theme, router }) {
   const [request, response, promptAsync] = Google.useAuthRequest({
     androidClientId: process.env.EXPO_PUBLIC_ANDROID_GOOGLE_CLIENT_ID,
     webClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID,
+    selectAccount: true,
     scopes: [
       "https://www.googleapis.com/auth/calendar.readonly",
       "https://www.googleapis.com/auth/calendar",
@@ -22,6 +24,25 @@ export default function GoogleAuth({ theme, router }) {
       "https://www.googleapis.com/auth/userinfo.profile",
     ],
   });
+
+  /*useEffect(() => {
+    if (response?.type === "success") {
+      const { id_token } = response.params;
+
+      // Decode the ID token (JWT) manually
+      const base64Url = id_token.split(".")[1];
+      const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split("")
+          .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+          .join("")
+      );
+
+      const user = JSON.parse(jsonPayload);
+      setUserInfo(user);
+    }
+  }, [response]);*/
 
   useEffect(() => {
     console.log(response);
@@ -70,6 +91,7 @@ export default function GoogleAuth({ theme, router }) {
     }
   }
 
+  console.log("USER INFO:");
   console.log(userInfo);
 
   return (
