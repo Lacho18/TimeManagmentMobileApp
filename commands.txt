@@ -1,4 +1,4 @@
 git add .
-git commit -m "Adding all pages"
+git commit -m "Creating user Context"
 git branch -M main
 git push -u origin main

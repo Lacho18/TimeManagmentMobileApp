@@ -2,7 +2,7 @@ import { Image, Text, TouchableOpacity } from "react-native";
 import { GLOBAL_STYLES } from "@/constants/PageStyle";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
-import * as AuthSession from "expo-auth-session";
+import { makeRedirectUri } from "expo-auth-session";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -11,10 +11,13 @@ import createUserWithGoogle from "../functions/createUserWithGoogle";
 WebBrowser.maybeCompleteAuthSession();
 
 export default function GoogleAuth({ theme, router }) {
+  const redirectUri = "https://auth.expo.io/@lachezar_genov/MobileApp";
   const [userInfo, setUserInfo] = useState(null);
   const [token, setToken] = useState(null);
   const [request, response, promptAsync] = Google.useAuthRequest({
+    expoClientId: process.env.EXPO_PUBLIC_EXPO_GOOGLE_CLIENT_ID,
     androidClientId: process.env.EXPO_PUBLIC_ANDROID_GOOGLE_CLIENT_ID,
+    iosClientId: process.env.EXPO_PUBLIC_IOS_GOOGLE_CLIENT_ID,
     webClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID,
     selectAccount: true,
     scopes: [
@@ -23,29 +26,13 @@ export default function GoogleAuth({ theme, router }) {
       "https://www.googleapis.com/auth/userinfo.email",
       "https://www.googleapis.com/auth/userinfo.profile",
     ],
+    redirectUri: makeRedirectUri({ useProxy: true }),
   });
-
-  /*useEffect(() => {
-    if (response?.type === "success") {
-      const { id_token } = response.params;
-
-      // Decode the ID token (JWT) manually
-      const base64Url = id_token.split(".")[1];
-      const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-      const jsonPayload = decodeURIComponent(
-        atob(base64)
-          .split("")
-          .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
-          .join("")
-      );
-
-      const user = JSON.parse(jsonPayload);
-      setUserInfo(user);
-    }
-  }, [response]);*/
 
   useEffect(() => {
     console.log(response);
+    console.log(process.env.EXPO_PUBLIC_EXPO_GOOGLE_CLIENT_ID);
+    console.log("Redirect URI:", makeRedirectUri({ useProxy: true }));
     handleSignIn();
   }, [response]);
 
@@ -77,7 +64,7 @@ export default function GoogleAuth({ theme, router }) {
       console.log(response);
       const user = response.data;
 
-      await AsyncStorage.setItem("@user", JSON.stringify(user));
+      //await AsyncStorage.setItem("@user", JSON.stringify(user));
       await AsyncStorage.setItem("@token", token);
       setUserInfo(user);
 
@@ -102,7 +89,7 @@ export default function GoogleAuth({ theme, router }) {
         backgroundColor: theme.background,
       }}
       onPress={() => {
-        promptAsync();
+        promptAsync({ useProxy: true });
       }}
     >
       <Text style={{ ...GLOBAL_STYLES.buttonText, color: theme.text }}>

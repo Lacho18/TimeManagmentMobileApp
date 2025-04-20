@@ -1,6 +1,8 @@
 export default userModel = {
     email: "",
     password: null,
+    name: "",
+    image: "",
     preferences: {
         notification_time: "08:00",
         notification_sound: "",
