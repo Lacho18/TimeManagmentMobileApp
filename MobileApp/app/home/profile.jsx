@@ -1,11 +1,14 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useTheme } from "../../context/ThemeContext";
-import { GLOBAL_STYLES } from "@/constants/PageStyle";
 import { useUser } from "../../context/UserContext";
+
+//icons
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function Profile() {
   const { theme } = useTheme();
-  const { user } = useUser();
+  const { user, logout } = useUser();
 
   console.log("Q puk stane");
   console.log(user.image);
@@ -27,6 +30,8 @@ export default function Profile() {
       paddingRight: 20,
       boxSizing: "border-box",
       backgroundColor: theme.primary,
+      borderBottomWidth: 3,
+      borderBottomColor: theme.secondary,
     },
     profileImage: {
       width: 30,
@@ -38,6 +43,24 @@ export default function Profile() {
       fontWeight: "bold",
       color: theme.text,
     },
+    buttonsDiv: {
+      margin: 10,
+      padding: 5,
+      display: "flex",
+      gap: 15,
+    },
+    buttonStyle: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "flex-start",
+      gap: 20,
+      paddingLeft: 5,
+      paddingRight: 5,
+    },
+    buttonText: {
+      color: theme.text,
+      fontSize: 17,
+    },
   });
 
   return (
@@ -46,8 +69,19 @@ export default function Profile() {
         <Image style={styles.profileImage} source={{ uri: user.image }} />
         <Text style={styles.titleText}>{user.name}</Text>
       </View>
-      <View>
-        <TouchableOpacity></TouchableOpacity>
+      <View style={styles.buttonsDiv}>
+        <TouchableOpacity style={styles.buttonStyle}>
+          <MaterialIcons name="color-lens" size={28} color={theme.secondary} />
+          <Text style={styles.buttonText}>Color theme</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonStyle}>
+          <Ionicons
+            name="person-remove-sharp"
+            size={28}
+            color={theme.secondary}
+          />
+          <Text style={styles.buttonText}>Sign out</Text>
+        </TouchableOpacity>
       </View>
       <Text>Profile</Text>
     </View>
