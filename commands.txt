@@ -1,4 +1,4 @@
 git add .
-git commit -m "Adding buttons for common settings"
+git commit -m "Adding loading functionality"
 git branch -M main
 git push -u origin main

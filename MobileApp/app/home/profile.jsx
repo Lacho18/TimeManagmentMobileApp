@@ -5,10 +5,13 @@ import { useUser } from "../../context/UserContext";
 //icons
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import ColorThemeSelector from "../../components/ColorThemeSelector";
 
 export default function Profile() {
   const { theme } = useTheme();
-  const { user, logout } = useUser();
+  const { user, logout, loading } = useUser();
+
+  if (loading) return;
 
   console.log("Q puk stane");
   console.log(user.image);
@@ -70,10 +73,14 @@ export default function Profile() {
         <Text style={styles.titleText}>{user.name}</Text>
       </View>
       <View style={styles.buttonsDiv}>
-        <TouchableOpacity style={styles.buttonStyle}>
+        {/*<TouchableOpacity style={styles.buttonStyle}>
           <MaterialIcons name="color-lens" size={28} color={theme.secondary} />
           <Text style={styles.buttonText}>Color theme</Text>
-        </TouchableOpacity>
+        </TouchableOpacity>*/}
+        <ColorThemeSelector
+          buttonStyle={styles.buttonStyle}
+          buttonText={styles.buttonText}
+        />
         <TouchableOpacity style={styles.buttonStyle}>
           <Ionicons
             name="person-remove-sharp"
