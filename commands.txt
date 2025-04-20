@@ -1,4 +1,4 @@
 git add .
-git commit -m "Creating user Context"
+git commit -m "Adding profile header"
 git branch -M main
 git push -u origin main
