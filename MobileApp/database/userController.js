@@ -2,19 +2,12 @@ import { auth } from "../firebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore/lite";
 import { db } from "@/firebaseConfig";
+import UserModel from "../models/UserModel";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const createUser = async (user) => {
     //Only fields for email and password
-    const newUser = { ...user };
-
-    //Default color theme
-    newUser.theme = "purple";
-
-    //True if logged in with google account
-    newUser.googleSync = false;
-
-    //Daily notification time (Default 08:00, can be changed after)
-    newUser.dailyNotificationTime = "08:00";
+    const newUser = { ...UserModel, email: user.email, password: user.password, name: user.name, google_sync: false };
 
     try {
         //Adds auth data with email and password
@@ -27,7 +20,9 @@ export const createUser = async (user) => {
         //Gets the 'Users' collection
         const usersCollection = collection(db, "Users");
         //Post the new user to the database
-        await addDoc(usersCollection, newUser);
+        const dataResult = await addDoc(usersCollection, newUser);
+
+        await AsyncStorage.setItem("@user", dataResult.id);
 
         return "Success";
     }

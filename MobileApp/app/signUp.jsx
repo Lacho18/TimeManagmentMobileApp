@@ -7,6 +7,7 @@ import { View, Text } from "react-native";
 import { validateEmail } from "../functions/validateEmail";
 import { validatePassword } from "../functions/validatePassword";
 import { createUser } from "../database/userController";
+import LogIn from "../components/LogIn";
 
 export default function SignUp() {
   const { theme, toggleTheme } = useTheme();
@@ -14,11 +15,13 @@ export default function SignUp() {
   const [newUserData, setNewUserData] = useState({
     email: "",
     password: "",
+    name: "",
   });
   const [errors, setErrors] = useState({
     emailError: "",
     passwordError: "",
   });
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   function inputChangeHandler(value, field) {
     setNewUserData((oldValue) => {
@@ -60,6 +63,8 @@ export default function SignUp() {
     //const createUser = "";
 
     if (createUserResult === "Success") {
+      router.push("/home/dailyTasks");
+      console.log("Bravo");
     } else {
       console.log(createUserResult);
     }
@@ -86,6 +91,11 @@ export default function SignUp() {
       fontSize: 35,
       fontWeight: "bold",
     },
+    linkText: {
+      color: theme.secondary,
+      textDecorationLine: "underline",
+      fontSize: 18,
+    },
   });
 
   return (
@@ -98,56 +108,83 @@ export default function SignUp() {
       >
         <Text style={styles.backButtonText}>{"<"}</Text>
       </TouchableOpacity>
-      <View style={{ gap: 20 }}>
-        <View style={{ gap: 10 }}>
-          <Text style={{ ...GLOBAL_STYLES.standardText, color: theme.text }}>
-            Enter valid email address
-          </Text>
-          {errors.emailError !== "" && (
-            <Text style={{ ...GLOBAL_STYLES.errorText }}>
-              {errors.emailError}
+      {isLoggingIn ? (
+        <LogIn />
+      ) : (
+        <View style={{ gap: 20 }}>
+          <View style={{ gap: 10 }}>
+            <Text style={{ ...GLOBAL_STYLES.standardText, color: theme.text }}>
+              Enter valid email address
             </Text>
-          )}
-          <TextInput
-            placeholder="email"
-            onChangeText={(value) => {
-              inputChangeHandler(value, "email");
-            }}
-            style={{ ...GLOBAL_STYLES.standardTextField }}
-          />
-        </View>
-        <View style={{ gap: 10 }}>
-          <Text style={{ ...GLOBAL_STYLES.standardText, color: theme.text }}>
-            Enter your password
-          </Text>
-          {errors.passwordError !== "" && (
-            <Text style={{ ...GLOBAL_STYLES.errorText }}>
-              {errors.passwordError}
+            {errors.emailError !== "" && (
+              <Text style={{ ...GLOBAL_STYLES.errorText }}>
+                {errors.emailError}
+              </Text>
+            )}
+            <TextInput
+              placeholder="email"
+              onChangeText={(value) => {
+                inputChangeHandler(value, "email");
+              }}
+              style={{ ...GLOBAL_STYLES.standardTextField }}
+            />
+          </View>
+          <View style={{ gap: 10 }}>
+            <Text style={{ ...GLOBAL_STYLES.standardText, color: theme.text }}>
+              Enter your password
             </Text>
-          )}
-          <TextInput
-            placeholder="password"
-            onChangeText={(value) => {
-              inputChangeHandler(value, "password");
+            {errors.passwordError !== "" && (
+              <Text style={{ ...GLOBAL_STYLES.errorText }}>
+                {errors.passwordError}
+              </Text>
+            )}
+            <TextInput
+              placeholder="password"
+              onChangeText={(value) => {
+                inputChangeHandler(value, "password");
+              }}
+              style={{ ...GLOBAL_STYLES.standardTextField }}
+            />
+          </View>
+
+          <View style={{ gap: 10 }}>
+            <Text style={{ ...GLOBAL_STYLES.standardText, color: theme.text }}>
+              Enter your name
+            </Text>
+            <TextInput
+              placeholder="name"
+              onChangeText={(value) => {
+                inputChangeHandler(value, "name");
+              }}
+              style={{ ...GLOBAL_STYLES.standardTextField }}
+            />
+          </View>
+
+          <TouchableOpacity
+            style={{
+              ...GLOBAL_STYLES.buttonStyle,
+              borderColor: theme.accent,
+              backgroundColor: theme.background,
             }}
-            style={{ ...GLOBAL_STYLES.standardTextField }}
-          />
-        </View>
-        <TouchableOpacity
-          style={{
-            ...GLOBAL_STYLES.buttonStyle,
-            borderColor: theme.accent,
-            backgroundColor: theme.background,
-          }}
-          onPress={() => {
-            submitHandler();
-          }}
-        >
-          <Text style={{ ...GLOBAL_STYLES.buttonText, color: theme.text }}>
-            Submit
+            onPress={() => {
+              submitHandler();
+            }}
+          >
+            <Text style={{ ...GLOBAL_STYLES.buttonText, color: theme.text }}>
+              Submit
+            </Text>
+          </TouchableOpacity>
+
+          <Text
+            style={styles.linkText}
+            onPress={() => {
+              setIsLoggingIn(true);
+            }}
+          >
+            Already has Account? Log in to it
           </Text>
-        </TouchableOpacity>
-      </View>
+        </View>
+      )}
     </View>
   );
 }

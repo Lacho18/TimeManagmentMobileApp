@@ -1,4 +1,4 @@
 git add .
-git commit -m "Adding comments"
+git commit -m "Creating log in with email and password components"
 git branch -M main
 git push -u origin main
