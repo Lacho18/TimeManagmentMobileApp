@@ -51,7 +51,7 @@ export default function Navigation() {
         }}
       >
         <View style={styles.navButtonView}>
-          <Daily name="home" size={34} color="black" />
+          <Daily name="home" size={34} color={theme.secondary} />
           <Text style={styles.navButtonText}>Daily</Text>
         </View>
       </TouchableOpacity>
@@ -62,7 +62,7 @@ export default function Navigation() {
         }}
       >
         <View style={styles.navButtonView}>
-          <Calendar name="calendar" size={34} color="black" />
+          <Calendar name="calendar" size={34} color={theme.secondary} />
           <Text style={styles.navButtonText}>Upcoming</Text>
         </View>
       </TouchableOpacity>
@@ -73,7 +73,7 @@ export default function Navigation() {
         }}
       >
         <View style={styles.navButtonView}>
-          <Events name="event" size={34} color="black" />
+          <Events name="event" size={34} color={theme.secondary} />
           <Text style={styles.navButtonText}>Events</Text>
         </View>
       </TouchableOpacity>
@@ -84,7 +84,11 @@ export default function Navigation() {
         }}
       >
         <View style={styles.navButtonView}>
-          <FontAwesome6 name="person-circle-plus" size={34} color="black" />
+          <FontAwesome6
+            name="person-circle-plus"
+            size={34}
+            color={theme.secondary}
+          />
           <Text style={styles.navButtonText}>Breathing</Text>
         </View>
       </TouchableOpacity>
@@ -95,7 +99,7 @@ export default function Navigation() {
         }}
       >
         <View style={styles.navButtonView}>
-          <Profile name="account-box" size={34} color="black" />
+          <Profile name="account-box" size={34} color={theme.secondary} />
           <Text style={styles.navButtonText}>Profile</Text>
         </View>
       </TouchableOpacity>

@@ -8,28 +8,28 @@ const colorThemes = {
         primary: "#A88BEB",
         background: "#DCCFF9",
         accent: "#5D3FD3",
-        secondary: "#5F9EA0",
+        secondary: "#4B367C",
     },
     lightBlue: {
         text: "#2C3E50",
         primary: "#89CFF0",
         background: "#D6EAF8",
         accent: "#34495E",
-        secondary: "#F5E6CA",
+        secondary: "#5A7892"
     },
     earthColors: {
         text: "#5D4037",
         primary: "#A39171",
         background: "#EAD7C5",
         accent: "#6B8E23",
-        secondary: "#C27C59",
+        secondary: "#7B4F2C"
     },
     darkTheme: {
         background: "#121212",
         text: "#FFFFFF",
-        primary: "#BB86FC",
-        accent: "#d1d1d1",
-        secondary: "#a1a1a1",
+        primary: "#1F1F1F",
+        accent: "#2A2A2A",
+        secondary: "#B0B0B0",
     }
 };
 

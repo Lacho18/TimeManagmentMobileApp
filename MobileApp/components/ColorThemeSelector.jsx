@@ -4,11 +4,15 @@ import { useTheme } from "../context/ThemeContext";
 import { useState } from "react";
 
 export default function ColorThemeSelector({ buttonStyle, buttonText }) {
-  const { theme, colorThemes } = useTheme();
+  const { theme, toggleTheme, colorThemes } = useTheme();
   const [themes, setThemes] = useState(false);
 
   console.log(themes);
   console.log(Object.keys(colorThemes));
+
+  function changeThemeColorHandler(selectedTheme) {
+    toggleTheme(selectedTheme);
+  }
 
   const styles = StyleSheet.create({
     colorsDiv: {
@@ -44,6 +48,9 @@ export default function ColorThemeSelector({ buttonStyle, buttonText }) {
               style={{
                 ...styles.colorPickerButton,
                 backgroundColor: colorThemes[arrayTheme].primary,
+              }}
+              onPress={() => {
+                changeThemeColorHandler(arrayTheme);
               }}
             ></TouchableOpacity>
           ))}
