@@ -1,4 +1,4 @@
 git add .
-git commit -m "Adding loading functionality"
+git commit -m "Adding styling for color picker"
 git branch -M main
 git push -u origin main

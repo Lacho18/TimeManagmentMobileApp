@@ -1,4 +1,4 @@
-import { View, TouchableOpacity, Text } from "react-native";
+import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useTheme } from "../context/ThemeContext";
 import { useState } from "react";
@@ -7,7 +7,25 @@ export default function ColorThemeSelector({ buttonStyle, buttonText }) {
   const { theme, colorThemes } = useTheme();
   const [themes, setThemes] = useState(false);
 
-  console.log(colorThemes);
+  console.log(themes);
+  console.log(Object.keys(colorThemes));
+
+  const styles = StyleSheet.create({
+    colorsDiv: {
+      display: "flex",
+      flexDirection: "row",
+      paddingLeft: 10,
+      marginTop: 10,
+      gap: 10,
+    },
+
+    colorPickerButton: {
+      width: 25,
+      height: 25,
+      borderWidth: 1,
+      padding: 3,
+    },
+  });
 
   return (
     <View>
@@ -19,10 +37,14 @@ export default function ColorThemeSelector({ buttonStyle, buttonText }) {
         <Text style={buttonText}>Color theme</Text>
       </TouchableOpacity>
       {themes && (
-        <View>
-          {colorThemes.map((arrayTheme) => (
+        <View style={styles.colorsDiv}>
+          {Object.keys(colorThemes).map((arrayTheme) => (
             <TouchableOpacity
-              style={{ backgroundColor: arrayTheme.primary }}
+              key={arrayTheme}
+              style={{
+                ...styles.colorPickerButton,
+                backgroundColor: colorThemes[arrayTheme].primary,
+              }}
             ></TouchableOpacity>
           ))}
         </View>
