@@ -12,17 +12,17 @@ export const UserProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        //When load finds the data for the user from the Firestore using user id from the async storage
         const loadUser = async () => {
-            console.log("KUDE SA PARITEEEEEEEEEEEEEEEEE. AAAAAAAAAAAAAAAAAAAAAA");
-            console.log("TRQBVA DA SE IZPULNQQQQQ");
             const storedUser = await AsyncStorage.getItem("@user");
 
-            console.log(storedUser);
-
             if (storedUser) {
+                //Gets reference for the document
                 const userDocRef = doc(db, "Users", storedUser);
+                //Gets the document for the user
                 const userSnapshot = await getDoc(userDocRef);
 
+                //If the user is found sets global state to his data
                 if (userSnapshot.exists()) {
                     setUser({ id: userSnapshot.id, ...userSnapshot.data() });
                 } else {
@@ -30,12 +30,14 @@ export const UserProvider = ({ children }) => {
                 }
             }
 
+            //After user is found the loading is set to false to allow the components to render
             setLoading(false);
         }
 
         loadUser();
     }, []);
 
+    //Function that log outs the user from its account
     const logout = async () => {
         await AsyncStorage.removeItem("@user");
         setUser(null);

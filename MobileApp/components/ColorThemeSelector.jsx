@@ -7,11 +7,10 @@ export default function ColorThemeSelector({ buttonStyle, buttonText }) {
   const { theme, toggleTheme, colorThemes } = useTheme();
   const [themes, setThemes] = useState(false);
 
-  console.log(themes);
-  console.log(Object.keys(colorThemes));
-
+  //Function that changes the theme color from the provider
   function changeThemeColorHandler(selectedTheme) {
     toggleTheme(selectedTheme);
+    //Hides the pop up for the color themes
     setThemes(false);
   }
 
