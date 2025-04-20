@@ -1,4 +1,4 @@
 git add .
-git commit -m "Adjusting color themes and adding functionality for changing them from personal profile page"
+git commit -m "Adding sign out functionality"
 git branch -M main
 git push -u origin main

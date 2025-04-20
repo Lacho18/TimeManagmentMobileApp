@@ -40,6 +40,9 @@ export default async function createUserWithGoogle(token) {
             //Prints the result
             console.log(dataResult);
         }
+        else {
+            await AsyncStorage.setItem("@user", querySnapshot.docs[0].id);
+        }
     }
     catch (err) {
         console.error(err);

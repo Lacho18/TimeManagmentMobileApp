@@ -12,6 +12,7 @@ export default function ColorThemeSelector({ buttonStyle, buttonText }) {
 
   function changeThemeColorHandler(selectedTheme) {
     toggleTheme(selectedTheme);
+    setThemes(false);
   }
 
   const styles = StyleSheet.create({

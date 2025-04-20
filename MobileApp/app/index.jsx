@@ -10,6 +10,8 @@ export default function Index() {
   const { theme, toggleTheme } = useTheme();
   const router = useRouter();
 
+  console.log("PEDERASIIIIIIIIIIIIIIIIIIIII");
+
   useEffect(() => {
     //Gets the theme before component is loaded
     async function setColorTheme() {

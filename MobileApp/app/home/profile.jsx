@@ -3,18 +3,23 @@ import { useTheme } from "../../context/ThemeContext";
 import { useUser } from "../../context/UserContext";
 
 //icons
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Ionicons from "@expo/vector-icons/Ionicons";
+
 import ColorThemeSelector from "../../components/ColorThemeSelector";
+import { router } from "expo-router";
+import { useEffect } from "react";
 
 export default function Profile() {
   const { theme } = useTheme();
   const { user, logout, loading } = useUser();
 
-  if (loading) return;
+  //Checks if the data for user is loading or if the user is found. Does not return anything if so.
+  if (loading || !user) return null;
 
-  console.log("Q puk stane");
-  console.log(user.image);
+  async function signOutHandler() {
+    await logout();
+    router.replace("/");
+  }
 
   const styles = StyleSheet.create({
     page: {
@@ -73,15 +78,11 @@ export default function Profile() {
         <Text style={styles.titleText}>{user.name}</Text>
       </View>
       <View style={styles.buttonsDiv}>
-        {/*<TouchableOpacity style={styles.buttonStyle}>
-          <MaterialIcons name="color-lens" size={28} color={theme.secondary} />
-          <Text style={styles.buttonText}>Color theme</Text>
-        </TouchableOpacity>*/}
         <ColorThemeSelector
           buttonStyle={styles.buttonStyle}
           buttonText={styles.buttonText}
         />
-        <TouchableOpacity style={styles.buttonStyle}>
+        <TouchableOpacity style={styles.buttonStyle} onPress={signOutHandler}>
           <Ionicons
             name="person-remove-sharp"
             size={28}

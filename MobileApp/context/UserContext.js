@@ -14,7 +14,10 @@ export const UserProvider = ({ children }) => {
     useEffect(() => {
         const loadUser = async () => {
             console.log("KUDE SA PARITEEEEEEEEEEEEEEEEE. AAAAAAAAAAAAAAAAAAAAAA");
+            console.log("TRQBVA DA SE IZPULNQQQQQ");
             const storedUser = await AsyncStorage.getItem("@user");
+
+            console.log(storedUser);
 
             if (storedUser) {
                 const userDocRef = doc(db, "Users", storedUser);
