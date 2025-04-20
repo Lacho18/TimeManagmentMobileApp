@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { addDoc, collection, doc, getDoc, getDocs, limit, query, where } from "firebase/firestore/lite";
+import { doc, getDoc } from "firebase/firestore/lite";
 import { db } from "../firebaseConfig";
 
 const UserContext = createContext();

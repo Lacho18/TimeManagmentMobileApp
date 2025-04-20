@@ -64,7 +64,6 @@ export default function SignUp() {
 
     if (createUserResult === "Success") {
       router.push("/home/dailyTasks");
-      console.log("Bravo");
     } else {
       console.log(createUserResult);
     }
@@ -109,7 +108,7 @@ export default function SignUp() {
         <Text style={styles.backButtonText}>{"<"}</Text>
       </TouchableOpacity>
       {isLoggingIn ? (
-        <LogIn />
+        <LogIn GLOBAL_STYLES={GLOBAL_STYLES} theme={theme} router={router} />
       ) : (
         <View style={{ gap: 20 }}>
           <View style={{ gap: 10 }}>
