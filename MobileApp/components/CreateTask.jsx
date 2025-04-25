@@ -11,6 +11,7 @@ import {
 import Fontisto from "@expo/vector-icons/Fontisto";
 import { useTheme } from "../context/ThemeContext";
 import TaskModel from "../models/TaskModel";
+import OptionSelect from "./OptionsSelect";
 
 const screenHeight = Dimensions.get("window").height;
 
@@ -26,6 +27,12 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
       useNativeDriver: true,
     }).start();
   }, [visible]);
+
+  function setNewTaskField(field, value) {
+    setNewTask((oldValue) => {
+      return { ...oldValue, [field]: value };
+    });
+  }
 
   const styles = StyleSheet.create({
     container: {
@@ -45,6 +52,7 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
       display: "flex",
       padding: 20,
       justifyContent: "",
+      gap: 20,
     },
     closeButton: {
       width: 40,
@@ -60,15 +68,14 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
     title: {
       fontSize: 25,
       fontWeight: "bold",
-      color: theme.background,
-      marginBottom: 10,
+      color: theme.text,
     },
     inputContainer: {
       display: "flex",
       gap: 10,
     },
     labelText: {
-      color: theme.background,
+      color: theme.text,
       fontSize: 18,
       fontWeight: 500,
     },
@@ -78,6 +85,28 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
       borderColor: theme.background,
       fontSize: 20,
       borderRadius: 19,
+      color: theme.text,
+    },
+    dateButtonsDiv: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-evenly",
+      marginTop: 5,
+    },
+    buttonStyle: {
+      borderWidth: 1,
+      borderColor: theme.background,
+      borderRadius: 7,
+      width: 100,
+      height: 40,
+      backgroundColor: theme.secondary,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    buttonText: {
+      fontSize: 15,
+      color: "orange",
     },
   });
 
@@ -99,6 +128,35 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
         <View style={styles.inputContainer}>
           <Text style={styles.labelText}>Enter task name</Text>
           <TextInput placeholder="Name" style={styles.inputField} />
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.labelText}>Enter task description</Text>
+          <TextInput placeholder="Description" style={styles.inputField} />
+        </View>
+        <View>
+          <Text style={styles.labelText}>Task date</Text>
+          <View style={styles.dateButtonsDiv}>
+            <TouchableOpacity style={styles.buttonStyle}>
+              <Text style={styles.buttonText}>today</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.buttonStyle}>
+              <Text style={styles.buttonText}>tomorrow</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.buttonStyle}>
+              <Text style={styles.buttonText}>select date</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View>
+          <Text style={styles.labelText}>
+            How important is the task for the day
+          </Text>
+          <View style={styles.dateButtonsDiv}>
+            <OptionSelect
+              selectedPriority={newTask.priority}
+              changePriority={setNewTaskField}
+            />
+          </View>
         </View>
       </View>
     </Animated.View>

@@ -1,4 +1,4 @@
 git add .
-git commit -m "Adding first components to the Add task menu"
+git commit -m "Creating component for selecting priority"
 git branch -M main
 git push -u origin main
