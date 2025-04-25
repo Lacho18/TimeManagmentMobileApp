@@ -1,4 +1,4 @@
 git add .
-git commit -m "Adding log in functionality with email and password"
+git commit -m "Creating add button for the tasks"
 git branch -M main
 git push -u origin main
