@@ -21,6 +21,7 @@ export default function Navigation() {
       flexDirection: "row",
       justifyContent: "space-around",
       alignItems: "center",
+      zIndex: 5,
     },
     navButton: {
       width: "20%",

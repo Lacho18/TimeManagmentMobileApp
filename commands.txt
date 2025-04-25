@@ -1,4 +1,4 @@
 git add .
-git commit -m "Creating add button for the tasks"
+git commit -m "Creating create task menu"
 git branch -M main
 git push -u origin main

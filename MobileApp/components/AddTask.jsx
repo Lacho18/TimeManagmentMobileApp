@@ -15,6 +15,7 @@ export default function AddTask() {
       backgroundColor: "red",
       left: "75%",
       top: "80%",
+      zIndex: 30,
     },
   });
   return (
