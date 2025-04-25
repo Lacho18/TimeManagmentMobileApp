@@ -22,7 +22,7 @@ export default function RootLayout() {
         <Stack screenOptions={{ headerShown: false }}></Stack>
 
         <AddTask showAddTaskMenu={showAddTaskMenu} />
-        <CreateTask closeAddTaskMenu={closeAddTaskMenu} />
+        {showAddTask && <CreateTask closeAddTaskMenu={closeAddTaskMenu} />}
         <Navigation />
       </ThemeProvider>
     </UserProvider>

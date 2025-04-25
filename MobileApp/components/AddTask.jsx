@@ -1,7 +1,7 @@
 import { TouchableOpacity, StyleSheet } from "react-native";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
-export default function AddTask() {
+export default function AddTask({ showAddTaskMenu }) {
   const styles = StyleSheet.create({
     buttonStyle: {
       position: "absolute",
@@ -19,7 +19,10 @@ export default function AddTask() {
     },
   });
   return (
-    <TouchableOpacity style={styles.buttonStyle}>
+    <TouchableOpacity
+      style={styles.buttonStyle}
+      onPress={() => showAddTaskMenu()}
+    >
       <FontAwesome6 name="add" size={28} color="black" />
     </TouchableOpacity>
   );

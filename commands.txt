@@ -1,4 +1,4 @@
 git add .
-git commit -m "Creating create task menu"
+git commit -m "Adding hide and show functionality"
 git branch -M main
 git push -u origin main
