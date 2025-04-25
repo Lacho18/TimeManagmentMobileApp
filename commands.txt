@@ -1,4 +1,4 @@
 git add .
-git commit -m "Adding pop up animation"
+git commit -m "Adding first components to the Add task menu"
 git branch -M main
 git push -u origin main
