@@ -1,4 +1,4 @@
 git add .
-git commit -m "Adding hide and show functionality"
+git commit -m "Adding pop up animation"
 git branch -M main
 git push -u origin main
