@@ -1,7 +1,7 @@
 import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
-import { TASK_PRIORITIES } from "../constants/TaskPriority";
+import { TASK_PRIORITIES } from "../../constants/TaskPriority";
 
-export default function OptionSelect({ selectedPriority, changePriority }) {
+export default function PrioritySelect({ selectedPriority, changePriority }) {
   const styles = StyleSheet.create({
     container: {
       display: "flex",

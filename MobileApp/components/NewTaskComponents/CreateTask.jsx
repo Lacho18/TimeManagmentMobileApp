@@ -11,14 +11,17 @@ import {
 import Fontisto from "@expo/vector-icons/Fontisto";
 import { useTheme } from "../../context/ThemeContext";
 import TaskModel from "../../models/TaskModel";
-import OptionSelect from "./PrioritySelect";
+import PrioritySelect from "./PrioritySelect";
 import StressLevelSelect from "./StressLevelSelect";
+import DateSelection from "./DateSelection";
 
 const screenHeight = Dimensions.get("window").height;
 
 export default function CreateTask({ closeAddTaskMenu, visible }) {
   const { theme } = useTheme();
   const [newTask, setNewTask] = useState({ ...TaskModel });
+  const [dateSelection, setDateSelection] = useState(false);
+
   const translateY = useRef(new Animated.Value(screenHeight)).current;
 
   useEffect(() => {
@@ -143,7 +146,12 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
             <TouchableOpacity style={styles.buttonStyle}>
               <Text style={styles.buttonText}>tomorrow</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonStyle}>
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              onPress={() => {
+                setDateSelection(true);
+              }}
+            >
               <Text style={styles.buttonText}>select date</Text>
             </TouchableOpacity>
           </View>
@@ -153,7 +161,7 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
             How important is the task for the day
           </Text>
           <View style={styles.dateButtonsDiv}>
-            <OptionSelect
+            <PrioritySelect
               selectedPriority={newTask.priority}
               changePriority={setNewTaskField}
             />
@@ -168,6 +176,10 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
             />
           </View>
         </View>
+
+        {dateSelection && (
+          <DateSelection theme={theme} visible={dateSelection} />
+        )}
       </View>
     </Animated.View>
   );
