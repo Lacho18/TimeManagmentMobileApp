@@ -2,9 +2,9 @@ import { Stack } from "expo-router";
 import { ThemeProvider } from "../../context/ThemeContext";
 import Navigation from "./navigation";
 import { UserProvider } from "../../context/UserContext";
-import AddTask from "../../components/AddTask";
+import AddTask from "../../components/NewTaskComponents/AddTask";
 import { useState } from "react";
-import CreateTask from "../../components/CreateTask";
+import CreateTask from "../../components/NewTaskComponents/CreateTask";
 
 export default function RootLayout() {
   //Manage whether the add task menu is visible or not

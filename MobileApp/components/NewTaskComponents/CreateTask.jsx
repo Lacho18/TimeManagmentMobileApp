@@ -9,9 +9,10 @@ import {
   TextInput,
 } from "react-native";
 import Fontisto from "@expo/vector-icons/Fontisto";
-import { useTheme } from "../context/ThemeContext";
-import TaskModel from "../models/TaskModel";
-import OptionSelect from "./OptionsSelect";
+import { useTheme } from "../../context/ThemeContext";
+import TaskModel from "../../models/TaskModel";
+import OptionSelect from "./PrioritySelect";
+import StressLevelSelect from "./StressLevelSelect";
 
 const screenHeight = Dimensions.get("window").height;
 
@@ -155,6 +156,15 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
             <OptionSelect
               selectedPriority={newTask.priority}
               changePriority={setNewTaskField}
+            />
+          </View>
+        </View>
+        <View>
+          <Text style={styles.labelText}>How do you feel about this task</Text>
+          <View style={styles.dateButtonsDiv}>
+            <StressLevelSelect
+              selectedStressLevel={newTask.stressLevel}
+              changeStressLevel={setNewTaskField}
             />
           </View>
         </View>
