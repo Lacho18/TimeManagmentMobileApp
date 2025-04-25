@@ -5,6 +5,7 @@ const screenHeight = Dimensions.get("window").height;
 
 /*
     Napravi go kato v ToDoIst
+    Dobavi i buton za zatvarqneto na DateSelection
     Dobavi button za Tommorow i tyka kakto i next week
     Napravi go cato calendar
     Chasut shte e ot otdelno pole kakto i produljitelnostta
