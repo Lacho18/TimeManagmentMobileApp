@@ -1,4 +1,4 @@
 git add .
-git commit -m "Adding today and tomorrow buttons functionality"
+git commit -m "Creating dinamic component for adding start and end time of the task with additional functionality for setting time"
 git branch -M main
 git push -u origin main 

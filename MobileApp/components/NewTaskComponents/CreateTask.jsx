@@ -16,6 +16,7 @@ import StressLevelSelect from "./StressLevelSelect";
 import DateSelection from "./DateSelection";
 import { formatDate } from "../../utils/dateUtil";
 import TimeSelector from "./TimeSelector";
+import TaskDate from "./TaskDate";
 
 const screenHeight = Dimensions.get("window").height;
 
@@ -40,6 +41,7 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
     }).start();
   }, [visible]);
 
+  //Function that changes a field of the new task
   function setNewTaskField(field, value) {
     //If the changed value is date immediately ask the user to select time. The field describes the date type (start or end)
     if (value instanceof Date) {
@@ -50,15 +52,38 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
       return { ...oldValue, [field]: value };
     });
 
+    //If date is selected hide the menu for the selection of dates
     if (dateSelection) setDateSelection(false);
   }
 
+  //Sets a date by given numbers of days ahead
   function featureDate(field, numberOfDays) {
     let now = new Date();
     let featureDate = new Date(now);
     featureDate.setDate(now.getDate() + numberOfDays);
 
     setNewTaskField(field, featureDate);
+  }
+
+  //Function that executes when user set time for the task
+  function onTimeSet(dateType, dateWithTime) {
+    //Sets the new field of the new task big object
+    setNewTaskField(dateType, dateWithTime);
+
+    //This happens after time set. At this point the date selection component should be hidden
+    if (dateSelection) {
+      setDateSelection(false);
+    }
+
+    //Adding functionality for duration. If this is true visualize a question that ask for setting a duration
+    if (timeSelection.dateType === "startTime") {
+      console.log("A question for that asks for setting duration of the task");
+    }
+
+    //After time is set hide the window that sets it
+    if (timeSelection.isSelecting) {
+      setTimeSelection({ isSelecting: false, dateType: "" });
+    }
   }
 
   const styles = StyleSheet.create({
@@ -166,7 +191,7 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
           <Text style={styles.labelText}>Enter task description</Text>
           <TextInput placeholder="Description" style={styles.inputField} />
         </View>
-        <View>
+        {/*<View>
           <Text style={styles.labelText}>Task date</Text>
           <View style={styles.dateButtonsDiv}>
             <TouchableOpacity
@@ -199,7 +224,16 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
               Selected: {formatDate(newTask.startTime)}
             </Text>
           )}
-        </View>
+        </View> */}
+        <TaskDate
+          theme={theme}
+          dateType={"startTime"}
+          newTaskValue={newTask.startTime}
+          openDateSelection={() => {
+            setDateSelection(true);
+          }}
+          setFeatureDate={featureDate}
+        />
         <View>
           <Text style={styles.labelText}>
             How important is the task for the day
@@ -239,6 +273,7 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
             theme={theme}
             dateType={timeSelection.dateType}
             currentSelectionOfDate={newTask[timeSelection.dateType]}
+            onTimeSelect={onTimeSet}
           />
         )}
       </View>
