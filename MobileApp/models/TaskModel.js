@@ -5,6 +5,7 @@ export default taskModel = {
     priority: 0,
     stressLevel: 0,
     startTime: Date,
+    endTime: Date,
     duration: 0,
     reminder: Date,
     repeating: {

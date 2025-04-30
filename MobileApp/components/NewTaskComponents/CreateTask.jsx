@@ -24,6 +24,8 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
 
   const translateY = useRef(new Animated.Value(screenHeight)).current;
 
+  console.log(newTask);
+
   useEffect(() => {
     Animated.timing(translateY, {
       toValue: visible ? 0 : screenHeight,
@@ -36,6 +38,14 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
     setNewTask((oldValue) => {
       return { ...oldValue, [field]: value };
     });
+  }
+
+  function featureDate(field, numberOfDays) {
+    let now = new Date();
+    let featureDate = new Date(now);
+    featureDate.setDate(now.getDate() + numberOfDays);
+
+    setNewTaskField(field, featureDate);
   }
 
   const styles = StyleSheet.create({
@@ -140,10 +150,20 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
         <View>
           <Text style={styles.labelText}>Task date</Text>
           <View style={styles.dateButtonsDiv}>
-            <TouchableOpacity style={styles.buttonStyle}>
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              onPress={() => {
+                setNewTaskField("startTime", new Date());
+              }}
+            >
               <Text style={styles.buttonText}>today</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonStyle}>
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              onPress={() => {
+                featureDate("startTime", 1);
+              }}
+            >
               <Text style={styles.buttonText}>tomorrow</Text>
             </TouchableOpacity>
             <TouchableOpacity
