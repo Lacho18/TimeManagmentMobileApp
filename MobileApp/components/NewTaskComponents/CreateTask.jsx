@@ -14,6 +14,8 @@ import TaskModel from "../../models/TaskModel";
 import PrioritySelect from "./PrioritySelect";
 import StressLevelSelect from "./StressLevelSelect";
 import DateSelection from "./DateSelection";
+import { formatDate } from "../../utils/dateUtil";
+import TimeSelector from "./TimeSelector";
 
 const screenHeight = Dimensions.get("window").height;
 
@@ -21,6 +23,7 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
   const { theme } = useTheme();
   const [newTask, setNewTask] = useState({ ...TaskModel });
   const [dateSelection, setDateSelection] = useState(false);
+  const [timeSelection, setTimeSelection] = useState(false);
 
   const translateY = useRef(new Animated.Value(screenHeight)).current;
 
@@ -124,6 +127,12 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
       fontSize: 15,
       color: "orange",
     },
+    dateVisualText: {
+      color: "red",
+      fontSize: 18,
+      textAlign: "center",
+      margin: 10,
+    },
   });
 
   return (
@@ -177,6 +186,11 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
               <Text style={styles.buttonText}>select date</Text>
             </TouchableOpacity>
           </View>
+          {newTask.startTime !== null && (
+            <Text style={styles.dateVisualText}>
+              Selected: {formatDate(newTask.startTime)}
+            </Text>
+          )}
         </View>
         <View>
           <Text style={styles.labelText}>
@@ -210,6 +224,8 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
             }}
           />
         )}
+
+        {timeSelection && <TimeSelector />}
       </View>
     </Animated.View>
   );

@@ -5,6 +5,7 @@ import { UserProvider } from "../../context/UserContext";
 import AddTask from "../../components/NewTaskComponents/AddTask";
 import { useState } from "react";
 import CreateTask from "../../components/NewTaskComponents/CreateTask";
+import "../../utils/dateUtil";
 
 export default function RootLayout() {
   //Manage whether the add task menu is visible or not

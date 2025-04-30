@@ -57,7 +57,7 @@ export default function MonthView({ month, theme, onDateSelect }) {
           <View key={day.toISOString()} style={styles.dayCell}>
             <TouchableOpacity
               onPress={() => {
-                onDateSelect("startDate", day);
+                onDateSelect("startTime", day);
               }}
             >
               <Text style={{ color: theme.background, fontSize: 15 }}>
