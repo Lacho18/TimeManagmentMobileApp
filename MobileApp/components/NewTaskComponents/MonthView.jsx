@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export default function MonthView({ month, theme, onDateSelect }) {
+export default function MonthView({ month, theme, onDateSelect, dateType }) {
   const styles = StyleSheet.create({
     monthContainer: {
       marginBottom: 24,
@@ -57,7 +57,7 @@ export default function MonthView({ month, theme, onDateSelect }) {
           <View key={day.toISOString()} style={styles.dayCell}>
             <TouchableOpacity
               onPress={() => {
-                onDateSelect("startTime", day);
+                onDateSelect(dateType, day);
               }}
             >
               <Text style={{ color: theme.background, fontSize: 15 }}>

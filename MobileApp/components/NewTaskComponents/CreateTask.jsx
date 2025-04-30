@@ -38,6 +38,9 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
   }, [visible]);
 
   function setNewTaskField(field, value) {
+    if (value instanceof Date) {
+      //setTimeSelection(true);
+    }
     setNewTask((oldValue) => {
       return { ...oldValue, [field]: value };
     });
@@ -217,6 +220,7 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
           <DateSelection
             theme={theme}
             visible={dateSelection}
+            dateType={"startTime"}
             closeButtonStyle={styles.closeButton}
             onDateSelect={setNewTaskField}
             onClose={() => {

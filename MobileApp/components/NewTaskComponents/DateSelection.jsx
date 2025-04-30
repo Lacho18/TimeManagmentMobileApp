@@ -30,6 +30,7 @@ const screenHeight = Dimensions.get("window").height;
 export default function DateSelection({
   theme,
   visible,
+  dateType,
   closeButtonStyle,
   onDateSelect,
   onClose,
@@ -43,6 +44,32 @@ export default function DateSelection({
       useNativeDriver: true,
     }).start();
   }, [visible]);
+
+  //Function that handles the tomorrow button click
+  function handleTomorrowSelect() {
+    let now = new Date();
+    let featureDate = new Date(now);
+    featureDate.setDate(now.getDate() + 1);
+
+    onDateSelect(dateType, featureDate);
+  }
+
+  //Function that selects the closest saturday
+  function fastButtonsHandler(newWeek) {
+    //Today date
+    const today = new Date();
+
+    //Returns the number of the day in the week. Wednesday = 3
+    const dayOfWeek = today.getDay();
+
+    //Calculates the days until if newWeek until Monday and if not until the weekend
+    const daysUntil = ((newWeek ? 1 : 6) - dayOfWeek + 7) % 7; // if today is Saturday → 0 days
+
+    const result = new Date(today);
+    result.setDate(today.getDate() + daysUntil);
+
+    onDateSelect(dateType, result);
+  }
 
   const styles = StyleSheet.create({
     container: {
@@ -88,6 +115,7 @@ export default function DateSelection({
       color: theme.background,
     },
   });
+
   return (
     <Animated.View
       style={[
@@ -107,11 +135,21 @@ export default function DateSelection({
         </TouchableOpacity>
         <Text style={styles.title}>Date</Text>
         <View style={styles.fastOptionsDiv}>
-          <TouchableOpacity style={styles.fastButtonStyle}>
+          <TouchableOpacity
+            style={styles.fastButtonStyle}
+            onPress={() => {
+              handleTomorrowSelect();
+            }}
+          >
             <MaterialIcons name="today" size={28} color={theme.accent} />
             <Text style={styles.fastButtonText}>Tomorrow</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.fastButtonStyle}>
+          <TouchableOpacity
+            style={styles.fastButtonStyle}
+            onPress={() => {
+              fastButtonsHandler(false);
+            }}
+          >
             <MaterialCommunityIcons
               name="calendar-weekend"
               size={28}
@@ -119,7 +157,12 @@ export default function DateSelection({
             />
             <Text style={styles.fastButtonText}>This weekend</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.fastButtonStyle}>
+          <TouchableOpacity
+            style={styles.fastButtonStyle}
+            onPress={() => {
+              fastButtonsHandler(true);
+            }}
+          >
             <Feather name="calendar" size={28} color={theme.accent} />
             <Text style={styles.fastButtonText}>Next week</Text>
           </TouchableOpacity>
@@ -128,6 +171,7 @@ export default function DateSelection({
           <CalendarView
             monthsAhead={12}
             theme={theme}
+            dateType={dateType}
             onDateSelect={onDateSelect}
           />
         </View>

@@ -8,7 +8,12 @@ import {
 } from "date-fns";
 import MonthView from "./MonthView";
 
-export default function CalendarView({ monthsAhead, theme, onDateSelect }) {
+export default function CalendarView({
+  monthsAhead,
+  theme,
+  onDateSelect,
+  dateType,
+}) {
   const today = new Date();
 
   const generateMonthData = (startDate, isFirstMonth = false) => {
@@ -31,7 +36,12 @@ export default function CalendarView({ monthsAhead, theme, onDateSelect }) {
   return (
     <View>
       {months.map((month) => (
-        <MonthView month={month} theme={theme} onDateSelect={onDateSelect} />
+        <MonthView
+          month={month}
+          theme={theme}
+          onDateSelect={onDateSelect}
+          dateType={dateType}
+        />
       ))}
     </View>
   );
