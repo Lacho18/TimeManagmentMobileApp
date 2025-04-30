@@ -38,6 +38,8 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
     setNewTask((oldValue) => {
       return { ...oldValue, [field]: value };
     });
+
+    if (dateSelection) setDateSelection(false);
   }
 
   function featureDate(field, numberOfDays) {
@@ -198,7 +200,15 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
         </View>
 
         {dateSelection && (
-          <DateSelection theme={theme} visible={dateSelection} />
+          <DateSelection
+            theme={theme}
+            visible={dateSelection}
+            closeButtonStyle={styles.closeButton}
+            onDateSelect={setNewTaskField}
+            onClose={() => {
+              setDateSelection(false);
+            }}
+          />
         )}
       </View>
     </Animated.View>
