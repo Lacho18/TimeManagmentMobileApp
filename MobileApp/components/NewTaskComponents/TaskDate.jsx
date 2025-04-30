@@ -8,7 +8,6 @@ export default function TaskDate({
   openDateSelection,
   setFeatureDate,
 }) {
-  console.log(newTaskValue);
   const styles = StyleSheet.create({
     labelText: {
       color: theme.text,
