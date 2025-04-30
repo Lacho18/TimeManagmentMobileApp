@@ -23,7 +23,10 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
   const { theme } = useTheme();
   const [newTask, setNewTask] = useState({ ...TaskModel });
   const [dateSelection, setDateSelection] = useState(false);
-  const [timeSelection, setTimeSelection] = useState(false);
+  const [timeSelection, setTimeSelection] = useState({
+    isSelecting: false,
+    dateType: "",
+  });
 
   const translateY = useRef(new Animated.Value(screenHeight)).current;
 
@@ -38,9 +41,11 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
   }, [visible]);
 
   function setNewTaskField(field, value) {
+    //If the changed value is date immediately ask the user to select time. The field describes the date type (start or end)
     if (value instanceof Date) {
-      //setTimeSelection(true);
+      setTimeSelection({ isSelecting: true, dateType: field });
     }
+
     setNewTask((oldValue) => {
       return { ...oldValue, [field]: value };
     });
@@ -229,7 +234,13 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
           />
         )}
 
-        {timeSelection && <TimeSelector />}
+        {timeSelection.isSelecting && (
+          <TimeSelector
+            theme={theme}
+            dateType={timeSelection.dateType}
+            currentSelectionOfDate={newTask[timeSelection.dateType]}
+          />
+        )}
       </View>
     </Animated.View>
   );

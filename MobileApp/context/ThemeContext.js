@@ -9,20 +9,23 @@ const colorThemes = {
         background: "#DCCFF9",
         accent: "#5D3FD3",
         secondary: "#4B367C",
+        highlight: "#BB86FC" // Soft purple highlight
     },
     lightBlue: {
         text: "#2C3E50",
         primary: "#89CFF0",
         background: "#D6EAF8",
         accent: "#34495E",
-        secondary: "#5A7892"
+        secondary: "#5A7892",
+        highlight: "#7FDBFF" // Fresh light blue highlight
     },
     earthColors: {
         text: "#5D4037",
         primary: "#A39171",
         background: "#EAD7C5",
         accent: "#6B8E23",
-        secondary: "#7B4F2C"
+        secondary: "#7B4F2C",
+        highlight: "#C2B280" // Sand / Earthy highlight
     },
     darkTheme: {
         background: "#121212",
@@ -30,6 +33,7 @@ const colorThemes = {
         primary: "#1F1F1F",
         accent: "#2A2A2A",
         secondary: "#B0B0B0",
+        highlight: "#BB86FC" // Same purple neon used in modern dark themes
     }
 };
 
