@@ -22,3 +22,19 @@ export const formatDateMonthName = (date) => {
 
     return `${twoDigits(date.getDate())} ${months[date.getMonth()]} ${twoDigits(date.getHours())}:${twoDigits(date.getMinutes())}`;
 }
+
+export const millisecondsCalculator = (milliseconds) => {
+    const result = "";
+
+    const totalSeconds = parseInt(Math.floor(milliseconds / 1000));
+    const minutes = parseInt(Math.floor(totalSeconds / 60));
+    const hours = parseInt(Math.floor(minutes / 60));
+    const days = parseInt(Math.floor(hours / 24));
+    const months = parseInt(Math.floor(days / 30));
+    const years = parseInt(Math.floor(months / 12));
+
+
+    //Dovurshi go prosto tova izchislqva milisecuindi v niz
+
+    result = `${minutes}`;
+}
