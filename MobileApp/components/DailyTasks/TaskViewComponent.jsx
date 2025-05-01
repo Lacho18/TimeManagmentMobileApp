@@ -11,12 +11,6 @@ export default function TaskViewComponent({ theme, task }) {
     (indexValue) => indexValue.priorityValue === task.priority
   );
 
-  console.log(task);
-  console.log(STRESS_LEVELS);
-  console.log(TASK_PRIORITIES);
-  console.log(stressColors);
-  console.log(priorityColors);
-
   const styles = StyleSheet.create({
     mainDiv: {
       width: "95%",
