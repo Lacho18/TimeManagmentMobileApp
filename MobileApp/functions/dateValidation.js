@@ -1,32 +1,31 @@
 export const dateValidation = (startDate, endDate) => {
-
-    //At the moment time
     let atTheMoment = new Date();
+    atTheMoment.setMinutes(atTheMoment.getMinutes() - 10); // 10 minutes earlier
+
+    console.log("EBANA FYNKCIQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ");
+    console.log(startDate);
+    console.log(endDate);
 
     if (startDate && endDate) {
-        //Checks if the end time is before start time
-        if (endDate < startDate) {
-            return "The task can not end before it begin";
+        if (endDate.getTime() < startDate.getTime()) {
+            return "The task cannot end before it begins";
         }
-        else return "";
-    }
-    else if (startDate) {
-        //Removes 10 minutes from the current time. The user is planned to have 10 minutes between selecting start time and creating the task
-        atTheMoment.setMinutes(atTheMoment.getMinutes() - 10);
-
-        if (startDate < atTheMoment) {
-            return "Start time can not be in the past";
-        }
-        else return "";
-    }
-    else if (endDate) {
-        if (startDate < atTheMoment) {
-            return "End time can not be in the past";
-        }
-        else return "";
-    }
-    else {
         return "";
     }
 
+    if (startDate) {
+        if (startDate < atTheMoment) {
+            return "Start time cannot be in the past";
+        }
+        return "";
+    }
+
+    if (endDate) {
+        if (endDate < atTheMoment) {
+            return "End time cannot be in the past";
+        }
+        return "";
+    }
+
+    return "";
 }

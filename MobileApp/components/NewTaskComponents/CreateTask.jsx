@@ -42,7 +42,7 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
 
   const translateY = useRef(new Animated.Value(screenHeight)).current;
 
-  console.log(newTask);
+  //console.log(newTask);
 
   useEffect(() => {
     Animated.timing(translateY, {
@@ -57,7 +57,6 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
     //If the changed value is date immediately ask the user to select time. The field describes the date type (start or end)
     if (value instanceof Date) {
       setTimeSelection({ isSelecting: true, dateType: field });
-      setError(dateValidation(newTask.startTime, newTask.endTime));
     }
 
     setNewTask((oldValue) => {
@@ -97,6 +96,16 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
     if (timeSelection.isSelecting) {
       setTimeSelection({ isSelecting: false, dateType: "" });
     }
+
+    setTimeout(() => {
+      if (dateType === "startTime") {
+        setError(dateValidation(dateWithTime, newTask.endTime));
+      } else if (dateType === "endTime") {
+        setError(dateValidation(newTask.startTime, dateWithTime));
+      } else {
+        setError(dateValidation(newTask.startTime, newTask.endTime));
+      }
+    }, 1000);
   }
 
   //Function that handle task creation

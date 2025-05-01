@@ -1,5 +1,6 @@
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore/lite";
 import { db } from "../firebaseConfig";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const getTaskForGivenDay = async (givenDay) => {
     const startOfDay = new Date(givenDay.getFullYear(), givenDay.getMonth(), givenDay.getDate(), 0, 0, 0);
@@ -39,6 +40,19 @@ export const createTask = async (newTask) => {
     }
 
     try {
+        const userId = await AsyncStorage.getItem("@user");
+
+        if (!userId) {
+            throw new Error("No user account fount!");
+        }
+
+        newTask.userId = userId;
+
+        //Calculates the duration of the task
+        if (newTask.endTime) {
+            newTask.duration = newTask.endTime - newTask.startTime;
+        }
+
         const taskCollection = collection(db, "Tasks");
 
         const insertedDoc = await addDoc(taskCollection, newTask);
