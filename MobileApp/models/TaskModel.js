@@ -7,7 +7,7 @@ export default taskModel = {
     startTime: null,
     endTime: null,
     duration: 0,
-    reminder: Date,
+    reminder: null,
     repeating: {
         isRepeating: false,
         repeatInterval: null

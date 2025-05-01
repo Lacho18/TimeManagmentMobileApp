@@ -80,7 +80,6 @@ export default function TaskDate({
           Selected: {formatDate(newTaskValue)}
         </Text>
       )}
-      {error !== "" && <Text style={styles.dateVisualText}>{error}</Text>}
     </View>
   );
 }

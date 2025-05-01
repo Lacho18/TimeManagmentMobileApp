@@ -20,6 +20,7 @@ import { formatDate } from "../../utils/dateUtil";
 import TimeSelector from "./TimeSelector";
 import TaskDate from "./TaskDate";
 import { dateValidation } from "../../functions/dateValidation";
+import { createTask } from "../../database/taskController";
 
 const screenHeight = Dimensions.get("window").height;
 
@@ -56,7 +57,7 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
     //If the changed value is date immediately ask the user to select time. The field describes the date type (start or end)
     if (value instanceof Date) {
       setTimeSelection({ isSelecting: true, dateType: field });
-      //setError(dateValidation(newTask.startTime, newTask.endTime));
+      setError(dateValidation(newTask.startTime, newTask.endTime));
     }
 
     setNewTask((oldValue) => {
@@ -98,6 +99,15 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
     }
   }
 
+  //Function that handle task creation
+  async function createTaskHandler() {
+    const result = await createTask(newTask);
+
+    if (result === "Success") {
+      closeAddTaskMenu();
+    } else setError(result);
+  }
+
   const styles = StyleSheet.create({
     container: {
       position: "absolute",
@@ -127,6 +137,7 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
       right: 0,
       top: 0,
       borderTopRightRadius: 20,
+      zIndex: 100,
     },
     title: {
       fontSize: 25,
@@ -181,6 +192,18 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
       backgroundColor: theme.background,
       padding: 5,
     },
+
+    errorMessage: {
+      position: "fixed",
+      top: "105%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      color: "red",
+      fontSize: 20,
+      fontWeight: "bold",
+      width: 250,
+      textAlign: "center",
+    },
   });
 
   return (
@@ -204,18 +227,33 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
         <Text style={styles.title}>Add new task</Text>
         <View style={styles.inputContainer}>
           <Text style={styles.labelText}>Enter task name</Text>
-          <TextInput placeholder="Name" style={styles.inputField} />
+          <TextInput
+            placeholder="Name"
+            style={styles.inputField}
+            onChangeText={(value) => {
+              setNewTaskField("title", value);
+            }}
+          />
         </View>
         <View style={styles.inputContainer}>
           <Text style={styles.labelText}>Enter task description</Text>
-          <TextInput placeholder="Description" style={styles.inputField} />
+          <TextInput
+            placeholder="Description"
+            style={styles.inputField}
+            onChangeText={(value) => {
+              setNewTaskField("description", value);
+            }}
+          />
         </View>
         <TaskDate
           theme={theme}
           dateType={"startTime"}
           newTaskValue={newTask.startTime}
-          openDateSelection={() => {
+          openDateSelection={(dateType) => {
             setDateSelection(true);
+            setTimeSelection((oldValue) => {
+              return { ...oldValue, dateType: dateType };
+            });
           }}
           setFeatureDate={featureDate}
           error={error}
@@ -313,11 +351,20 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
           </Text>
         </View>
 
-        <View>
-          <TouchableOpacity>
+        <View
+          style={{
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "center",
+            marginTop: 18,
+          }}
+        >
+          <TouchableOpacity onPress={createTaskHandler}>
             <Text style={styles.buttonText}>Add task</Text>
           </TouchableOpacity>
         </View>
+
+        {error !== "" && <Text style={styles.errorMessage}>{error}</Text>}
 
         {/*Sub pages for the day*/}
         {dateSelection && (
