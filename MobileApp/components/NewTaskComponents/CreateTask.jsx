@@ -17,6 +17,7 @@ import DateSelection from "./DateSelection";
 import { formatDate } from "../../utils/dateUtil";
 import TimeSelector from "./TimeSelector";
 import TaskDate from "./TaskDate";
+import { dateValidation } from "../../functions/dateValidation";
 
 const screenHeight = Dimensions.get("window").height;
 
@@ -24,12 +25,17 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
   const { theme } = useTheme();
   const [newTask, setNewTask] = useState({ ...TaskModel });
   const [dateSelection, setDateSelection] = useState(false);
+
+  //isSelecting follows whether the menu for time selection is visible. dateType is used to know whether the time is selected for startTime or endTime
   const [timeSelection, setTimeSelection] = useState({
     isSelecting: false,
     dateType: "",
   });
   //Possible values: 0 - nothing is seen; 1 - shows question that asks for setting duration of the task; 2 - shows date selection for the duration
   const [isThereDuration, setIsThereDuration] = useState(0);
+
+  //State for visualizing errors
+  const [error, setError] = useState("");
 
   const translateY = useRef(new Animated.Value(screenHeight)).current;
 
@@ -48,6 +54,7 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
     //If the changed value is date immediately ask the user to select time. The field describes the date type (start or end)
     if (value instanceof Date) {
       setTimeSelection({ isSelecting: true, dateType: field });
+      //setError(dateValidation(newTask.startTime, newTask.endTime));
     }
 
     setNewTask((oldValue) => {
@@ -206,6 +213,7 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
             setDateSelection(true);
           }}
           setFeatureDate={featureDate}
+          error={error}
         />
         {isThereDuration !== 0 &&
           (isThereDuration === 1 ? (
@@ -241,10 +249,14 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
               theme={theme}
               dateType={"endTime"}
               newTaskValue={newTask.endTime}
-              openDateSelection={() => {
+              openDateSelection={(dateType) => {
                 setDateSelection(true);
+                setTimeSelection((oldValue) => {
+                  return { ...oldValue, dateType: dateType };
+                });
               }}
               setFeatureDate={featureDate}
+              error={error}
             />
           ))}
         <View>
@@ -268,11 +280,12 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
           </View>
         </View>
 
+        {/*Sub pages for the day*/}
         {dateSelection && (
           <DateSelection
             theme={theme}
             visible={dateSelection}
-            dateType={"startTime"}
+            dateType={timeSelection.dateType}
             closeButtonStyle={styles.closeButton}
             onDateSelect={setNewTaskField}
             onClose={() => {

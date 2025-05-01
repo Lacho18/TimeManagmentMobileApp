@@ -7,6 +7,7 @@ export default function TaskDate({
   newTaskValue,
   openDateSelection,
   setFeatureDate,
+  error,
 }) {
   const styles = StyleSheet.create({
     labelText: {
@@ -68,7 +69,7 @@ export default function TaskDate({
         <TouchableOpacity
           style={styles.buttonStyle}
           onPress={() => {
-            openDateSelection();
+            openDateSelection(dateType);
           }}
         >
           <Text style={styles.buttonText}>select date</Text>
@@ -79,6 +80,7 @@ export default function TaskDate({
           Selected: {formatDate(newTaskValue)}
         </Text>
       )}
+      {error !== "" && <Text style={styles.dateVisualText}>{error}</Text>}
     </View>
   );
 }
