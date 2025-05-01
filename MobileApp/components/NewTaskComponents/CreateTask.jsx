@@ -28,6 +28,8 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
     isSelecting: false,
     dateType: "",
   });
+  //Possible values: 0 - nothing is seen; 1 - shows question that asks for setting duration of the task; 2 - shows date selection for the duration
+  const [isThereDuration, setIsThereDuration] = useState(0);
 
   const translateY = useRef(new Animated.Value(screenHeight)).current;
 
@@ -77,6 +79,7 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
 
     //Adding functionality for duration. If this is true visualize a question that ask for setting a duration
     if (timeSelection.dateType === "startTime") {
+      setIsThereDuration(1);
       console.log("A question for that asks for setting duration of the task");
     }
 
@@ -145,26 +148,30 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
       justifyContent: "space-evenly",
       marginTop: 5,
     },
-    buttonStyle: {
-      borderWidth: 1,
-      borderColor: theme.background,
-      borderRadius: 7,
-      width: 100,
-      height: 40,
-      backgroundColor: theme.secondary,
+    buttonText: {
+      fontSize: 18,
+      color: theme.text,
+    },
+    questionDiv: {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
+      gap: 10,
     },
-    buttonText: {
-      fontSize: 15,
-      color: "orange",
+
+    questionAnswerDiv: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      width: 100,
     },
-    dateVisualText: {
-      color: "red",
-      fontSize: 18,
-      textAlign: "center",
-      margin: 10,
+
+    questionButtons: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: theme.background,
+      padding: 5,
     },
   });
 
@@ -191,40 +198,6 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
           <Text style={styles.labelText}>Enter task description</Text>
           <TextInput placeholder="Description" style={styles.inputField} />
         </View>
-        {/*<View>
-          <Text style={styles.labelText}>Task date</Text>
-          <View style={styles.dateButtonsDiv}>
-            <TouchableOpacity
-              style={styles.buttonStyle}
-              onPress={() => {
-                setNewTaskField("startTime", new Date());
-              }}
-            >
-              <Text style={styles.buttonText}>today</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.buttonStyle}
-              onPress={() => {
-                featureDate("startTime", 1);
-              }}
-            >
-              <Text style={styles.buttonText}>tomorrow</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.buttonStyle}
-              onPress={() => {
-                setDateSelection(true);
-              }}
-            >
-              <Text style={styles.buttonText}>select date</Text>
-            </TouchableOpacity>
-          </View>
-          {newTask.startTime !== null && (
-            <Text style={styles.dateVisualText}>
-              Selected: {formatDate(newTask.startTime)}
-            </Text>
-          )}
-        </View> */}
         <TaskDate
           theme={theme}
           dateType={"startTime"}
@@ -234,6 +207,46 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
           }}
           setFeatureDate={featureDate}
         />
+        {isThereDuration !== 0 &&
+          (isThereDuration === 1 ? (
+            <View style={styles.questionDiv}>
+              <Text style={styles.labelText}>Set task duration?</Text>
+              <View style={styles.questionAnswerDiv}>
+                <TouchableOpacity
+                  style={{
+                    ...styles.questionButtons,
+                    backgroundColor: "#1fff26",
+                  }}
+                  onPress={() => {
+                    setIsThereDuration(2);
+                  }}
+                >
+                  <Text style={styles.buttonText}>Yes</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    ...styles.questionButtons,
+                    backgroundColor: "#ff0000",
+                  }}
+                  onPress={() => {
+                    setIsThereDuration(0);
+                  }}
+                >
+                  <Text style={styles.buttonText}>No</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          ) : (
+            <TaskDate
+              theme={theme}
+              dateType={"endTime"}
+              newTaskValue={newTask.endTime}
+              openDateSelection={() => {
+                setDateSelection(true);
+              }}
+              setFeatureDate={featureDate}
+            />
+          ))}
         <View>
           <Text style={styles.labelText}>
             How important is the task for the day

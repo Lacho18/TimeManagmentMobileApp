@@ -33,7 +33,7 @@ export default function TaskDate({
     },
     buttonText: {
       fontSize: 15,
-      color: "orange",
+      color: "#E67300",
     },
     dateVisualText: {
       color: "red",
