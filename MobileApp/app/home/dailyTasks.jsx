@@ -1,9 +1,10 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { useTheme } from "../../context/ThemeContext";
 import { GLOBAL_STYLES } from "@/constants/PageStyle";
 import { useUser } from "../../context/UserContext";
 import { useEffect, useState } from "react";
 import { getTaskForGivenDay } from "../../database/taskController";
+import TaskViewComponent from "../../components/DailyTasks/TaskViewComponent";
 
 export default function DailyTasks() {
   const { theme } = useTheme();
@@ -20,13 +21,13 @@ export default function DailyTasks() {
     }
 
     getTodayTasks();
-  });
+  }, []);
 
   const styles = StyleSheet.create({
     page: {
       flex: 1,
       justifyContent: "flex-start",
-      alignItems: "flex-start",
+      alignItems: "center",
       backgroundColor: theme.background,
       padding: 10,
     },
@@ -41,6 +42,17 @@ export default function DailyTasks() {
       fontSize: 18,
       color: theme.text,
     },
+
+    tasksDiv: {
+      width: "100%",
+    },
+
+    tasksContainerStyle: {
+      display: "flex",
+      justifyContent: "flex-start",
+      alignItems: "center",
+      gap: 20,
+    },
   });
 
   if (loading) {
@@ -53,10 +65,19 @@ export default function DailyTasks() {
 
   return (
     <View style={styles.page}>
-      <View>
+      <View style={{ alignSelf: "flex-start" }}>
         <Text style={styles.title}>Today</Text>
         <Text style={styles.subTitle}>{allDailyTasks.length} tasks</Text>
       </View>
+      <ScrollView
+        vertical
+        style={styles.tasksDiv}
+        contentContainerStyle={styles.tasksContainerStyle}
+      >
+        {allDailyTasks.map((task) => (
+          <TaskViewComponent theme={theme} task={task} />
+        ))}
+      </ScrollView>
     </View>
   );
 }

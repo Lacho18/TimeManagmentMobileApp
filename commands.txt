@@ -1,4 +1,4 @@
 git add .
-git commit -m "Creating dinamic component for adding start and end time of the task with additional functionality for setting time"
+git commit -m "Starting to adjust daily tasks page"
 git branch -M main
 git push -u origin main 
