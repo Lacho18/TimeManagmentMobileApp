@@ -3,6 +3,9 @@ export const dateValidation = (startDate, endDate) => {
     //At the moment time
     let atTheMoment = new Date();
 
+    console.log(startDate);
+    console.log(endDate);
+
     if (startDate && endDate) {
         //Checks if the end time is before start time
         if (endDate < startDate) {

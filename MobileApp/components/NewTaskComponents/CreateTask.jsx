@@ -7,6 +7,8 @@ import {
   Dimensions,
   Animated,
   TextInput,
+  CheckBox,
+  ScrollView,
 } from "react-native";
 import Fontisto from "@expo/vector-icons/Fontisto";
 import { useTheme } from "../../context/ThemeContext";
@@ -113,7 +115,6 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
       elevation: 10,
       display: "flex",
       padding: 20,
-      justifyContent: "",
       gap: 20,
     },
     closeButton: {
@@ -191,7 +192,11 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
         },
       ]}
     >
-      <View style={styles.panel}>
+      <ScrollView
+        vertical
+        contentContainerStyle={{ gap: 20 }}
+        style={styles.panel}
+      >
         <TouchableOpacity style={styles.closeButton} onPress={closeAddTaskMenu}>
           <Fontisto name="close-a" size={20} color="black" />
         </TouchableOpacity>
@@ -280,6 +285,40 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
           </View>
         </View>
 
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 10,
+            marginTop: 18,
+          }}
+        >
+          <CheckBox
+            value={newTask.repeating.isRepeating}
+            onValueChange={() => {
+              setNewTask((oldValue) => ({
+                ...oldValue,
+                repeating: {
+                  ...oldValue.repeating,
+                  isRepeating: !oldValue.repeating.isRepeating,
+                },
+              }));
+            }}
+            tintColors={{ true: "#FF8C00", false: "gray" }}
+          />
+          <Text style={styles.labelText}>
+            Do you want the task to repeate every day
+          </Text>
+        </View>
+
+        <View>
+          <TouchableOpacity>
+            <Text style={styles.buttonText}>Add task</Text>
+          </TouchableOpacity>
+        </View>
+
         {/*Sub pages for the day*/}
         {dateSelection && (
           <DateSelection
@@ -302,7 +341,7 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
             onTimeSelect={onTimeSet}
           />
         )}
-      </View>
+      </ScrollView>
     </Animated.View>
   );
 }
