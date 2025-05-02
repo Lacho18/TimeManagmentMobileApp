@@ -30,9 +30,21 @@ export default function SelectedTask({ selectedTask, theme, hideTask }) {
 
   const styles = StyleSheet.create({
     contentContainer: {
-      flex: 1,
-      alignItems: "center",
-      justifyContent: "center",
+      display: "flex",
+      justifyContent: "flex-start",
+      alignItems: "flex-start",
+      gap: 10,
+      padding: 15,
+    },
+    title: {
+      fontSize: 25,
+      fontWeight: "bold",
+      color: theme.background,
+    },
+    description: {
+      fontSize: 18,
+      fontWeight: 200,
+      color: theme.background,
     },
   });
 
@@ -57,11 +69,19 @@ export default function SelectedTask({ selectedTask, theme, hideTask }) {
               snapPoints={snapPoints}
               onChange={handleSheetChanges}
               enablePanDownToClose={true}
-              backgroundStyle={{ backgroundColor: theme?.primary || "white" }}
-              handleIndicatorStyle={{ backgroundColor: "grey", width: 75 }}
+              backgroundStyle={{ backgroundColor: theme.secondary }}
+              handleIndicatorStyle={{
+                backgroundColor: theme.primary,
+                width: 75,
+              }}
             >
               <BottomSheetView style={styles.contentContainer}>
-                <Text>Awesome 🎉</Text>
+                <Text style={styles.title}>{selectedTask.title}</Text>
+                {selectedTask.description !== "" && (
+                  <Text style={styles.description}>
+                    {selectedTask.description}
+                  </Text>
+                )}
               </BottomSheetView>
             </BottomSheet>
           </View>

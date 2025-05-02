@@ -16,8 +16,6 @@ export default function TaskViewComponent({ theme, task, selectTask }) {
 
   const taskDuration = millisecondsCalculator(task.duration);
 
-  console.log(task);
-
   const styles = StyleSheet.create({
     mainDiv: {
       width: "95%",

@@ -1,6 +1,5 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { useTheme } from "../../context/ThemeContext";
-import { GLOBAL_STYLES } from "@/constants/PageStyle";
 import { useUser } from "../../context/UserContext";
 import { useEffect, useState } from "react";
 import { getTaskForGivenDay } from "../../database/taskController";
