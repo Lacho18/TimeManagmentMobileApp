@@ -1,15 +1,22 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { STRESS_LEVELS } from "../../constants/StressLevel";
 import { TASK_PRIORITIES } from "../../constants/TaskPriority";
-import { formatDateMonthName } from "../../utils/dateUtil";
+import {
+  formatDateMonthName,
+  millisecondsCalculator,
+} from "../../utils/dateUtil";
 
-export default function TaskViewComponent({ theme, task }) {
+export default function TaskViewComponent({ theme, task, selectTask }) {
   const stressColors = STRESS_LEVELS.find(
     (indexValue) => indexValue.stressValue === task.stressLevel
   );
   const priorityColors = TASK_PRIORITIES.find(
     (indexValue) => indexValue.priorityValue === task.priority
   );
+
+  console.log(task);
+
+  const taskDuration = millisecondsCalculator(task.duration);
 
   const styles = StyleSheet.create({
     mainDiv: {
@@ -49,7 +56,12 @@ export default function TaskViewComponent({ theme, task }) {
   });
 
   return (
-    <View style={styles.mainDiv}>
+    <TouchableOpacity
+      style={styles.mainDiv}
+      onPress={() => {
+        selectTask(task);
+      }}
+    >
       <TouchableOpacity style={styles.completeTaskButton}></TouchableOpacity>
       <View>
         <Text style={styles.title}>{task.title}</Text>
@@ -63,10 +75,10 @@ export default function TaskViewComponent({ theme, task }) {
               {formatDateMonthName(task.startTime)} -{" "}
               {formatDateMonthName(task.endTime)}
             </Text>
-            <Text>{task.duration}</Text>
+            <Text style={styles.dateText}>{taskDuration}</Text>
           </View>
         )}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }

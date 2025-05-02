@@ -24,8 +24,6 @@ export const formatDateMonthName = (date) => {
 }
 
 export const millisecondsCalculator = (milliseconds) => {
-    const result = "";
-
     const totalSeconds = parseInt(Math.floor(milliseconds / 1000));
     const minutes = parseInt(Math.floor(totalSeconds / 60));
     const hours = parseInt(Math.floor(minutes / 60));
@@ -33,8 +31,26 @@ export const millisecondsCalculator = (milliseconds) => {
     const months = parseInt(Math.floor(days / 30));
     const years = parseInt(Math.floor(months / 12));
 
+    console.log(totalSeconds);
+    console.log(minutes);
+    console.log(hours);
+    console.log(days);
+    console.log(months);
+    console.log(years);
 
-    //Dovurshi go prosto tova izchislqva milisecuindi v niz
-
-    result = `${minutes}`;
+    if (years > 0) {
+        return `${years} year${years > 1 && "s"}`;
+    }
+    else if (months > 0) {
+        return `${months} month${months > 1 && "s"}`;
+    }
+    else if (days > 0) {
+        return `${days} day${days > 1 && "s"} ${hours > 0 && "and " + hours + "hours"}`;
+    }
+    else if (hours > 0) {
+        return `${hours} hour${hours > 1 && "s"} ${minutes > 0 && `and ${minutes} minute${minutes > 1 && "s"}`}`;
+    }
+    else {
+        return `${minutes} minute${minutes > 1 && "s"}`;
+    }
 }

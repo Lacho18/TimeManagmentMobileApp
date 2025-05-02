@@ -5,11 +5,13 @@ import { useUser } from "../../context/UserContext";
 import { useEffect, useState } from "react";
 import { getTaskForGivenDay } from "../../database/taskController";
 import TaskViewComponent from "../../components/DailyTasks/TaskViewComponent";
+import SelectedTask from "../../components/DailyTasks/SelectedTask";
 
 export default function DailyTasks() {
   const { theme } = useTheme();
   const { loading } = useUser();
   const [allDailyTasks, setAllDailyTasks] = useState([]);
+  const [selectedTask, setSelectedTask] = useState(null);
 
   useEffect(() => {
     async function getTodayTasks() {
@@ -30,6 +32,7 @@ export default function DailyTasks() {
       alignItems: "center",
       backgroundColor: theme.background,
       padding: 10,
+      gap: 15,
     },
 
     title: {
@@ -75,9 +78,17 @@ export default function DailyTasks() {
         contentContainerStyle={styles.tasksContainerStyle}
       >
         {allDailyTasks.map((task) => (
-          <TaskViewComponent theme={theme} task={task} />
+          <TaskViewComponent
+            theme={theme}
+            task={task}
+            selectTask={(selection) => {
+              setSelectedTask(selection);
+            }}
+          />
         ))}
       </ScrollView>
+
+      {selectedTask && <SelectedTask selectedTask={selectedTask} />}
     </View>
   );
 }

@@ -16,7 +16,6 @@ import TaskModel from "../../models/TaskModel";
 import PrioritySelect from "./PrioritySelect";
 import StressLevelSelect from "./StressLevelSelect";
 import DateSelection from "./DateSelection";
-import { formatDate } from "../../utils/dateUtil";
 import TimeSelector from "./TimeSelector";
 import TaskDate from "./TaskDate";
 import { dateValidation } from "../../functions/dateValidation";
@@ -41,8 +40,6 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
   const [error, setError] = useState("");
 
   const translateY = useRef(new Animated.Value(screenHeight)).current;
-
-  //console.log(newTask);
 
   useEffect(() => {
     Animated.timing(translateY, {
