@@ -31,13 +31,6 @@ export const millisecondsCalculator = (milliseconds) => {
     const months = parseInt(Math.floor(days / 30));
     const years = parseInt(Math.floor(months / 12));
 
-    console.log(totalSeconds);
-    console.log(minutes);
-    console.log(hours);
-    console.log(days);
-    console.log(months);
-    console.log(years);
-
     if (years > 0) {
         return `${years} year${years > 1 && "s"}`;
     }

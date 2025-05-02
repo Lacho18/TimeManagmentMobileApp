@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { getTaskForGivenDay } from "../../database/taskController";
 import TaskViewComponent from "../../components/DailyTasks/TaskViewComponent";
 import SelectedTask from "../../components/DailyTasks/SelectedTask";
+import { DUMMY_DATA_TASKS } from "../../constants/dummyData";
 
 export default function DailyTasks() {
   const { theme } = useTheme();
@@ -15,7 +16,9 @@ export default function DailyTasks() {
 
   useEffect(() => {
     async function getTodayTasks() {
-      const result = await getTaskForGivenDay(new Date());
+      //const result = await getTaskForGivenDay(new Date());
+
+      const result = DUMMY_DATA_TASKS;
 
       if (result.length > 0) {
         setAllDailyTasks(result);
@@ -33,6 +36,7 @@ export default function DailyTasks() {
       backgroundColor: theme.background,
       padding: 10,
       gap: 15,
+      position: "relative",
     },
 
     title: {
@@ -79,6 +83,7 @@ export default function DailyTasks() {
       >
         {allDailyTasks.map((task) => (
           <TaskViewComponent
+            key={task.id}
             theme={theme}
             task={task}
             selectTask={(selection) => {
@@ -88,7 +93,15 @@ export default function DailyTasks() {
         ))}
       </ScrollView>
 
-      {selectedTask && <SelectedTask selectedTask={selectedTask} />}
+      {selectedTask && (
+        <SelectedTask
+          selectedTask={selectedTask}
+          theme={theme}
+          hideTask={() => {
+            setSelectedTask(null);
+          }}
+        />
+      )}
     </View>
   );
 }

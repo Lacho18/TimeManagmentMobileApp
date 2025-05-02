@@ -14,9 +14,9 @@ export default function TaskViewComponent({ theme, task, selectTask }) {
     (indexValue) => indexValue.priorityValue === task.priority
   );
 
-  console.log(task);
-
   const taskDuration = millisecondsCalculator(task.duration);
+
+  console.log(task);
 
   const styles = StyleSheet.create({
     mainDiv: {
