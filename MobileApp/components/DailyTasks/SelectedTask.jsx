@@ -57,7 +57,7 @@ export default function SelectedTask({ selectedTask, theme, hideTask }) {
     title: {
       fontSize: 25,
       fontWeight: "bold",
-      color: theme.background,
+      color: theme.text,
     },
     description: {
       fontSize: 18,
@@ -203,6 +203,9 @@ export default function SelectedTask({ selectedTask, theme, hideTask }) {
                       style={{
                         color: stressDescription.lightColor,
                         fontWeight: "bold",
+                        textShadowColor: "black",
+                        textShadowOffset: { width: 1, height: 1 },
+                        textShadowRadius: 1,
                       }}
                     >
                       {stressDescription.textDescription}

@@ -1,4 +1,4 @@
 git add .
-git commit -m "Adding more styling"
+git commit -m "Create menu component"
 git branch -M main
 git push -u origin main 
