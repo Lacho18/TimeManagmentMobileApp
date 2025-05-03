@@ -1,4 +1,4 @@
 git add .
-git commit -m "Adjust logic for apearence and disapearence of the menu component"
+git commit -m "Adding function that handles sorting buttons presses"
 git branch -M main
 git push -u origin main 

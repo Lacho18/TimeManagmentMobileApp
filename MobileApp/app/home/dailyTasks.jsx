@@ -42,6 +42,7 @@ export default function DailyTasks() {
     getTodayTasks();
   }, []);
 
+  //Calculates the position of the button so the menu component to display on the right position on every device
   function menuButtonHandler() {
     menuButtonRef.current.measure((fx, fy, width, height, px, py) => {
       setMenuPosition({ top: py + height, left: px + width });
@@ -49,6 +50,7 @@ export default function DailyTasks() {
     });
   }
 
+  //Closes all the open menus by clicking anywhere on the page
   function closeMenusHandler() {
     if (selectedTask) {
       setSelectedTask(null);
@@ -57,6 +59,11 @@ export default function DailyTasks() {
     if (showMenu) {
       setShowMenu(false);
     }
+  }
+
+  function sortingTasksHandler(sortingType) {
+    console.log(sortingType);
+    setShowMenu(false);
   }
 
   const styles = StyleSheet.create({
@@ -116,6 +123,7 @@ export default function DailyTasks() {
           theme={theme}
           topPosition={menuPosition.top}
           leftPosition={menuPosition.left}
+          sortingTasksHandler={sortingTasksHandler}
         />
       )}
       <View style={styles.header}>
