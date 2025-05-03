@@ -1,4 +1,4 @@
 git add .
-git commit -m "Create menu component"
+git commit -m "Adjust logic for apearence and disapearence of the menu component"
 git branch -M main
 git push -u origin main 

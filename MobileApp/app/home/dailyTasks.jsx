@@ -4,10 +4,11 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  Pressable,
 } from "react-native";
 import { useTheme } from "../../context/ThemeContext";
 import { useUser } from "../../context/UserContext";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getTaskForGivenDay } from "../../database/taskController";
 import TaskViewComponent from "../../components/DailyTasks/TaskViewComponent";
 import SelectedTask from "../../components/DailyTasks/SelectedTask";
@@ -15,12 +16,17 @@ import SelectedTask from "../../components/DailyTasks/SelectedTask";
 import { DUMMY_DATA_TASKS } from "../../constants/dummyData";
 
 import Entypo from "@expo/vector-icons/Entypo";
+import MenuOptions from "../../components/DailyTasks/MenuOptions";
 
 export default function DailyTasks() {
   const { theme } = useTheme();
   const { loading } = useUser();
   const [allDailyTasks, setAllDailyTasks] = useState([]);
   const [selectedTask, setSelectedTask] = useState(null);
+
+  const menuButtonRef = useRef(null);
+  const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
+  const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
     async function getTodayTasks() {
@@ -35,6 +41,23 @@ export default function DailyTasks() {
 
     getTodayTasks();
   }, []);
+
+  function menuButtonHandler() {
+    menuButtonRef.current.measure((fx, fy, width, height, px, py) => {
+      setMenuPosition({ top: py + height, left: px + width });
+      setShowMenu((oldValue) => !oldValue);
+    });
+  }
+
+  function closeMenusHandler() {
+    if (selectedTask) {
+      setSelectedTask(null);
+    }
+
+    if (showMenu) {
+      setShowMenu(false);
+    }
+  }
 
   const styles = StyleSheet.create({
     page: {
@@ -87,13 +110,25 @@ export default function DailyTasks() {
   }
 
   return (
-    <View style={styles.page}>
+    <Pressable style={styles.page} onPress={closeMenusHandler}>
+      {showMenu && (
+        <MenuOptions
+          theme={theme}
+          topPosition={menuPosition.top}
+          leftPosition={menuPosition.left}
+        />
+      )}
       <View style={styles.header}>
         <View>
           <Text style={styles.title}>Today</Text>
           <Text style={styles.subTitle}>{allDailyTasks.length} tasks</Text>
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity
+          ref={menuButtonRef}
+          onPress={() => {
+            menuButtonHandler();
+          }}
+        >
           <Entypo name="dots-three-vertical" size={24} color={theme.text} />
         </TouchableOpacity>
       </View>
@@ -123,6 +158,6 @@ export default function DailyTasks() {
           }}
         />
       )}
-    </View>
+    </Pressable>
   );
 }
