@@ -5,6 +5,13 @@ import BottomSheet, {
   BottomSheetModalProvider,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
+import {
+  formatDateMonthName,
+  millisecondsCalculator,
+} from "../../utils/dateUtil";
+
+import AntDesign from "@expo/vector-icons/AntDesign";
+import Octicons from "@expo/vector-icons/Octicons";
 
 export default function SelectedTask({ selectedTask, theme, hideTask }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -33,7 +40,7 @@ export default function SelectedTask({ selectedTask, theme, hideTask }) {
       display: "flex",
       justifyContent: "flex-start",
       alignItems: "flex-start",
-      gap: 10,
+      gap: 15,
       padding: 15,
     },
     title: {
@@ -45,6 +52,35 @@ export default function SelectedTask({ selectedTask, theme, hideTask }) {
       fontSize: 18,
       fontWeight: 200,
       color: theme.background,
+    },
+    dateText: {
+      fontSize: 18,
+      fontWeight: 200,
+      color: theme.background,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      gap: 10,
+    },
+    durationDiv: {
+      display: "flex",
+      alignItems: "flex-start",
+      gap: 5,
+      width: "100%",
+    },
+    durationText: {
+      color: theme.background,
+      fontSize: 15,
+      alignSelf: "flex-end",
+    },
+    lineDiv: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    circle: {
+      width: 50,
+      height: 50,
     },
   });
 
@@ -81,6 +117,39 @@ export default function SelectedTask({ selectedTask, theme, hideTask }) {
                   <Text style={styles.description}>
                     {selectedTask.description}
                   </Text>
+                )}
+                {selectedTask.endTime ? (
+                  <Text style={styles.dateText}>
+                    <AntDesign name="calendar" size={24} color="red" />
+                    <Text>
+                      {formatDateMonthName(selectedTask.startTime)} -{" "}
+                      {formatDateMonthName(selectedTask.endTime)}
+                    </Text>
+                  </Text>
+                ) : (
+                  <Text style={styles.dateText}>
+                    <AntDesign name="calendar" size={24} color="red" />
+                    {formatDateMonthName(selectedTask.startTime)}
+                  </Text>
+                )}
+
+                {selectedTask.endTime && (
+                  <View style={styles.durationDiv}>
+                    <Text style={styles.dateText}>
+                      <Octicons name="hourglass" size={28} color="yellow" />
+                      <Text style={{ fontSize: 20, fontWeight: 300 }}>
+                        Duration
+                      </Text>
+                    </Text>
+                    <Text style={styles.durationText}>
+                      {millisecondsCalculator(selectedTask.duration)}
+                    </Text>
+                    <View>
+                      <View></View>
+                      <View></View>
+                      <View></View>
+                    </View>
+                  </View>
                 )}
               </BottomSheetView>
             </BottomSheet>

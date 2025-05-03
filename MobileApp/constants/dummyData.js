@@ -28,7 +28,7 @@ export const DUMMY_DATA_TASKS = [
         stressLevel: 4,
         startTime: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 10, 30),
         endTime: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 10, 45),
-        duration: this.startTime - this.endTime,
+        duration: 900000,
         reminder: null,
         repeating: {
             isRepeating: false,
@@ -46,7 +46,7 @@ export const DUMMY_DATA_TASKS = [
         stressLevel: 1,
         startTime: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 11, 0),
         endTime: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 11, 15),
-        duration: this.startTime - this.endTime,
+        duration: 1500000,
         reminder: null,
         repeating: {
             isRepeating: false,
