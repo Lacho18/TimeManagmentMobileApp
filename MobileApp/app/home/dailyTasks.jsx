@@ -1,11 +1,20 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { useTheme } from "../../context/ThemeContext";
 import { useUser } from "../../context/UserContext";
 import { useEffect, useState } from "react";
 import { getTaskForGivenDay } from "../../database/taskController";
 import TaskViewComponent from "../../components/DailyTasks/TaskViewComponent";
 import SelectedTask from "../../components/DailyTasks/SelectedTask";
+
 import { DUMMY_DATA_TASKS } from "../../constants/dummyData";
+
+import Entypo from "@expo/vector-icons/Entypo";
 
 export default function DailyTasks() {
   const { theme } = useTheme();
@@ -36,6 +45,14 @@ export default function DailyTasks() {
       padding: 10,
       gap: 15,
       position: "relative",
+    },
+
+    header: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      width: "100%",
     },
 
     title: {
@@ -71,9 +88,14 @@ export default function DailyTasks() {
 
   return (
     <View style={styles.page}>
-      <View style={{ alignSelf: "flex-start" }}>
-        <Text style={styles.title}>Today</Text>
-        <Text style={styles.subTitle}>{allDailyTasks.length} tasks</Text>
+      <View style={styles.header}>
+        <View>
+          <Text style={styles.title}>Today</Text>
+          <Text style={styles.subTitle}>{allDailyTasks.length} tasks</Text>
+        </View>
+        <TouchableOpacity>
+          <Entypo name="dots-three-vertical" size={24} color={theme.text} />
+        </TouchableOpacity>
       </View>
       <ScrollView
         vertical

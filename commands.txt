@@ -1,4 +1,4 @@
 git add .
-git commit -m "Completed styling for selected task component"
+git commit -m "Adding more styling"
 git branch -M main
 git push -u origin main 

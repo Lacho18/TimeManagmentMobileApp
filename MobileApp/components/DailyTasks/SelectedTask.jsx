@@ -62,12 +62,12 @@ export default function SelectedTask({ selectedTask, theme, hideTask }) {
     description: {
       fontSize: 18,
       fontWeight: 200,
-      color: theme.background,
+      color: theme.text,
     },
     dateText: {
       fontSize: 18,
       fontWeight: 200,
-      color: theme.background,
+      color: theme.text,
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
@@ -143,9 +143,9 @@ export default function SelectedTask({ selectedTask, theme, hideTask }) {
               snapPoints={snapPoints}
               onChange={handleSheetChanges}
               enablePanDownToClose={true}
-              backgroundStyle={{ backgroundColor: theme.secondary }}
+              backgroundStyle={{ backgroundColor: theme.primary }}
               handleIndicatorStyle={{
-                backgroundColor: theme.primary,
+                backgroundColor: theme.secondary,
                 width: 75,
               }}
             >
