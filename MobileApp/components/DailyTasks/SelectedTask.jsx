@@ -75,12 +75,21 @@ export default function SelectedTask({ selectedTask, theme, hideTask }) {
     },
     lineDiv: {
       display: "flex",
+      flexDirection: "row",
       justifyContent: "center",
       alignItems: "center",
+      width: "100%",
     },
     circle: {
-      width: 50,
-      height: 50,
+      width: 20,
+      height: 20,
+      borderRadius: "50%",
+      backgroundColor: selectedTask.durationColor,
+    },
+    line: {
+      width: "90%",
+      height: 3,
+      backgroundColor: selectedTask.durationColor,
     },
   });
 
@@ -144,10 +153,10 @@ export default function SelectedTask({ selectedTask, theme, hideTask }) {
                     <Text style={styles.durationText}>
                       {millisecondsCalculator(selectedTask.duration)}
                     </Text>
-                    <View>
-                      <View></View>
-                      <View></View>
-                      <View></View>
+                    <View style={styles.lineDiv}>
+                      <View style={styles.circle}></View>
+                      <View style={styles.line}></View>
+                      <View style={styles.circle}></View>
                     </View>
                   </View>
                 )}

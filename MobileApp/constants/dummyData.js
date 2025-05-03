@@ -11,6 +11,7 @@ export const DUMMY_DATA_TASKS = [
         startTime: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 10, 15),
         endTime: null,
         duration: 0,
+        durationColor: "",
         reminder: null,
         repeating: {
             isRepeating: false,
@@ -29,6 +30,7 @@ export const DUMMY_DATA_TASKS = [
         startTime: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 10, 30),
         endTime: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 10, 45),
         duration: 900000,
+        durationColor: "#911c8b",
         reminder: null,
         repeating: {
             isRepeating: false,
@@ -47,6 +49,7 @@ export const DUMMY_DATA_TASKS = [
         startTime: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 11, 0),
         endTime: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 11, 15),
         duration: 1500000,
+        durationColor: "#f0f013",
         reminder: null,
         repeating: {
             isRepeating: false,

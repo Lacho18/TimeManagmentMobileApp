@@ -1,4 +1,4 @@
 git add .
-git commit -m "Creating function for setting task duration proper color and fixing problem with big numbers on the database"
+git commit -m "Adding line component to Selected Task"
 git branch -M main
 git push -u origin main 
