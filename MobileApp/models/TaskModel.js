@@ -6,7 +6,8 @@ export default taskModel = {
     stressLevel: 0,
     startTime: null,
     endTime: null,
-    duration: 0,
+    duration: "",
+    durationColor: "",
     reminder: null,
     repeating: {
         isRepeating: false,

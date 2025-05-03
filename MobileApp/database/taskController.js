@@ -1,6 +1,8 @@
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore/lite";
 import { db } from "../firebaseConfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { millisecondsCalculator } from "../utils/dateUtil";
+import { durationColorSetter } from "../utils/durationColorUtil";
 
 export const getTaskForGivenDay = async (givenDay) => {
     const startOfDay = new Date(givenDay.getFullYear(), givenDay.getMonth(), givenDay.getDate(), 0, 0, 0);
@@ -50,7 +52,14 @@ export const createTask = async (newTask) => {
 
         //Calculates the duration of the task
         if (newTask.endTime) {
-            newTask.duration = newTask.endTime - newTask.startTime;
+            //Calculates the duration in milliseconds
+            const taskDuration = newTask.endTime - newTask.startTime;
+
+            //Gets text value for the duration
+            newTask.duration = millisecondsCalculator(taskDuration);
+
+            //Gets proper color to describe the duration of the task
+            newTask.durationColor = durationColorSetter(newTask.duration);
         }
 
         const taskCollection = collection(db, "Tasks");
