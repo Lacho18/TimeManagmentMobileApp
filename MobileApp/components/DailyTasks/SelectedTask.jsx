@@ -1,5 +1,5 @@
 import { useEffect, useRef, useMemo, useState } from "react";
-import { Modal, StyleSheet, Text, View } from "react-native";
+import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import BottomSheet, {
   BottomSheetModalProvider,
@@ -10,14 +10,25 @@ import {
   millisecondsCalculator,
 } from "../../utils/dateUtil";
 
+import { STRESS_LEVELS } from "../../constants/StressLevel";
+import { TASK_PRIORITIES } from "../../constants/TaskPriority";
+
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Octicons from "@expo/vector-icons/Octicons";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function SelectedTask({ selectedTask, theme, hideTask }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const bottomSheetRef = useRef(null);
 
   const snapPoints = useMemo(() => ["50%"], []);
+
+  const stressDescription = STRESS_LEVELS.find(
+    (indexValue) => indexValue.stressValue === selectedTask.stressLevel
+  );
+  const priorityDescription = TASK_PRIORITIES.find(
+    (indexValue) => indexValue.priorityValue === selectedTask.priority
+  );
 
   const handleSheetChanges = (index) => {
     console.log("Sheet moved to index:", index);
@@ -91,6 +102,24 @@ export default function SelectedTask({ selectedTask, theme, hideTask }) {
       height: 3,
       backgroundColor: selectedTask.durationColor,
     },
+    stressCircle: {
+      width: 25,
+      height: 25,
+      borderRadius: "50%",
+      backgroundColor: stressDescription.backgroundColor,
+      borderWidth: 3,
+      borderColor: stressDescription.lightColor,
+    },
+    breathingButton: {
+      padding: 7,
+      backgroundColor: theme.primary,
+      borderRadius: 18,
+    },
+    breathingButtonText: {
+      fontSize: 18,
+      color: theme.secondary,
+      fontWeight: 500,
+    },
   });
 
   if (!isModalVisible) return null;
@@ -160,6 +189,45 @@ export default function SelectedTask({ selectedTask, theme, hideTask }) {
                     </View>
                   </View>
                 )}
+                <View
+                  style={{
+                    ...styles.lineDiv,
+                    gap: 20,
+                    marginTop: 20,
+                    justifyContent: "flex-start",
+                  }}
+                >
+                  <Text style={styles.dateText}>
+                    You are feeling
+                    <Text
+                      style={{
+                        color: stressDescription.lightColor,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {stressDescription.textDescription}
+                    </Text>{" "}
+                    about this task
+                  </Text>
+                  <View style={styles.stressCircle}></View>
+                </View>
+                {selectedTask.stressLevel > 3 && (
+                  <View style={styles.lineDiv}>
+                    <TouchableOpacity style={styles.breathingButton}>
+                      <Text style={styles.breathingButtonText}>
+                        Perform breathing exercise
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
+                <Text style={styles.dateText}>
+                  <Ionicons
+                    name="flag"
+                    size={24}
+                    color={priorityDescription.backgroundColor}
+                  />{" "}
+                  Priority - {priorityDescription.textDescription}
+                </Text>
               </BottomSheetView>
             </BottomSheet>
           </View>

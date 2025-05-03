@@ -1,4 +1,4 @@
 git add .
-git commit -m "Adding line component to Selected Task"
+git commit -m "Completed styling for selected task component"
 git branch -M main
 git push -u origin main 
