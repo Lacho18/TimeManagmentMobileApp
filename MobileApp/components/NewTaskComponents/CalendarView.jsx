@@ -37,6 +37,7 @@ export default function CalendarView({
     <View>
       {months.map((month) => (
         <MonthView
+          key={month.title}
           month={month}
           theme={theme}
           onDateSelect={onDateSelect}

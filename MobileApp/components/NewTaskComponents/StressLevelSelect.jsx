@@ -32,6 +32,7 @@ export default function StressLevelSelect({
       {STRESS_LEVELS.map((stressLevel) => {
         return (
           <TouchableOpacity
+            key={stressLevel.textDescription}
             style={{
               ...styles.buttonStyle,
               backgroundColor:

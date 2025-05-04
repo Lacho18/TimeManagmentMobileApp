@@ -26,6 +26,7 @@ export default function PrioritySelect({ selectedPriority, changePriority }) {
       {TASK_PRIORITIES.map((priority) => {
         return (
           <TouchableOpacity
+            key={priority.textDescription}
             style={{
               ...styles.buttonStyle,
               backgroundColor:
