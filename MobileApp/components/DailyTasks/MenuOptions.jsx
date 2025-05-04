@@ -1,12 +1,18 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Animated,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import AntDesign from "@expo/vector-icons/AntDesign";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import SortButton from "./SortButton";
+import { useEffect, useRef, useState } from "react";
 
 /*
     Napravi go da se poqvqva s animaciq
@@ -22,6 +28,50 @@ export default function MenuOptions({
   sortingTasksHandler,
 }) {
   const COMPONENT_WIDTH = 230;
+
+  const [menuVisible, setMenuVisible] = useState(false);
+  const scaleAnim = useRef(new Animated.Value(0)).current; // starts small
+  const opacityAnim = useRef(new Animated.Value(0)).current; // starts invisible
+
+  useEffect(() => {
+    setMenuVisible(true);
+    openMenu();
+
+    return () => {
+      closeMenu();
+    };
+  }, []);
+
+  const openMenu = () => {
+    setMenuVisible(true);
+    Animated.parallel([
+      Animated.timing(scaleAnim, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+      Animated.timing(opacityAnim, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  };
+
+  const closeMenu = () => {
+    Animated.parallel([
+      Animated.timing(scaleAnim, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+      Animated.timing(opacityAnim, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+    ]).start(() => setMenuVisible(false));
+  };
 
   const styles = StyleSheet.create({
     mainDiv: {
@@ -60,7 +110,15 @@ export default function MenuOptions({
   console.log(lastSelectedFilter);
 
   return (
-    <View style={styles.mainDiv}>
+    <Animated.View
+      style={[
+        styles.mainDiv,
+        {
+          transform: [{ scale: scaleAnim }],
+          opacity: opacityAnim,
+        },
+      ]}
+    >
       <SortButton
         icon={
           <MaterialIcons
@@ -107,6 +165,6 @@ export default function MenuOptions({
         lastSelectedFilter={lastSelectedFilter}
         sortingTasksHandler={sortingTasksHandler}
       />
-    </View>
+    </Animated.View>
   );
 }

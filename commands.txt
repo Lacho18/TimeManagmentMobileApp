@@ -1,4 +1,4 @@
 git add .
-git commit -m "Finalizing filter sorting component for daily tasks"
+git commit -m "Adding animation to the menu appearance"
 git branch -M main
 git push -u origin main 
