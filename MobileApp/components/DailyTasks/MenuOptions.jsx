@@ -6,6 +6,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import AntDesign from "@expo/vector-icons/AntDesign";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import SortButton from "./SortButton";
 
 /*
     Napravi go da se poqvqva s animaciq
@@ -60,65 +61,52 @@ export default function MenuOptions({
 
   return (
     <View style={styles.mainDiv}>
-      <TouchableOpacity
-        style={styles.buttonStyle}
-        onPress={() => {
-          sortingTasksHandler("startTime");
-        }}
-      >
-        <MaterialIcons
-          name="access-time-filled"
-          size={24}
-          color={theme.secondary}
-        />
-        <Text style={styles.buttonText}>Sort by time </Text>
-        {lastSelectedFilter.type === "startTime" ? (
-          <AntDesign
-            name="caretup"
+      <SortButton
+        icon={
+          <MaterialIcons
+            name="access-time-filled"
             size={24}
-            color={theme.background}
-            style={{ alignSelf: "flex-end" }}
+            color={theme.secondary}
           />
-        ) : (
-          <AntDesign
-            name="caretdown"
+        }
+        theme={theme}
+        buttonType={"startTime"}
+        lastSelectedFilter={lastSelectedFilter}
+        sortingTasksHandler={sortingTasksHandler}
+      />
+      <SortButton
+        icon={<Ionicons name="flag-sharp" size={24} color={theme.secondary} />}
+        theme={theme}
+        buttonType={"priority"}
+        lastSelectedFilter={lastSelectedFilter}
+        sortingTasksHandler={sortingTasksHandler}
+      />
+      <SortButton
+        icon={
+          <MaterialCommunityIcons
+            name="gauge"
             size={24}
-            color={theme.background}
-            style={{ alignSelf: "flex-end" }}
+            color={theme.secondary}
           />
-        )}
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.buttonStyle}
-        onPress={() => {
-          sortingTasksHandler("priority");
-        }}
-      >
-        <Ionicons name="flag-sharp" size={24} color={theme.secondary} />
-        <Text style={styles.buttonText}>Sort by priority</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.buttonStyle}
-        onPress={() => {
-          sortingTasksHandler("stressLevel");
-        }}
-      >
-        <MaterialCommunityIcons
-          name="gauge"
-          size={24}
-          color={theme.secondary}
-        />
-        <Text style={styles.buttonText}>Sort by stress level</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.buttonStyle}
-        onPress={() => {
-          sortingTasksHandler("duration");
-        }}
-      >
-        <FontAwesome6 name="hourglass-end" size={24} color={theme.secondary} />
-        <Text style={styles.buttonText}>Sort by duration</Text>
-      </TouchableOpacity>
+        }
+        theme={theme}
+        buttonType={"stressLevel"}
+        lastSelectedFilter={lastSelectedFilter}
+        sortingTasksHandler={sortingTasksHandler}
+      />
+      <SortButton
+        icon={
+          <FontAwesome6
+            name="hourglass-end"
+            size={24}
+            color={theme.secondary}
+          />
+        }
+        theme={theme}
+        buttonType={"duration"}
+        lastSelectedFilter={lastSelectedFilter}
+        sortingTasksHandler={sortingTasksHandler}
+      />
     </View>
   );
 }

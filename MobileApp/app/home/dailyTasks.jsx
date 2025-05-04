@@ -70,18 +70,32 @@ export default function DailyTasks() {
 
   //Function that is called on menu button click
   function sortingTasksHandler(sortingType) {
-    //Setting the last selected sorting type
-    lastSelectedFilter.current = sortingType;
+    //Checking if the last filter is the same. If so change the ascending method to descending
+    if (lastSelectedFilter.current.type === sortingType) {
+      lastSelectedFilter.current.sorting =
+        lastSelectedFilter.current.sorting === "ascending"
+          ? "descending"
+          : "ascending";
+    } else {
+      //Setting the last selected sorting type
+      lastSelectedFilter.current.type = sortingType;
+      lastSelectedFilter.current.sorting = "ascending";
+    }
+
     //Sort the today tasks array
-    taskSorter(sortingType);
+    taskSorter(sortingType, lastSelectedFilter.current.sorting);
     //Closes the menu
     setShowMenu(false);
   }
 
   //Function that make filters by given field from the task object
-  function taskSorter(sortingField) {
+  function taskSorter(sortingField, sortBy) {
     let todayTasks = allDailyTasks;
-    todayTasks = todayTasks.sort((a, b) => a[sortingField] - b[sortingField]);
+    if (sortBy === "ascending") {
+      todayTasks = todayTasks.sort((a, b) => a[sortingField] - b[sortingField]);
+    } else {
+      todayTasks = todayTasks.sort((a, b) => b[sortingField] - a[sortingField]);
+    }
 
     setAllDailyTasks(todayTasks);
   }

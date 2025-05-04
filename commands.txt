@@ -1,4 +1,4 @@
 git add .
-git commit -m "Creating ascending and descending functionality for the menu buttons"
+git commit -m "Finalizing filter sorting component for daily tasks"
 git branch -M main
 git push -u origin main 
