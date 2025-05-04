@@ -111,13 +111,13 @@ export default function SelectedTask({ selectedTask, theme, hideTask }) {
       borderColor: stressDescription.lightColor,
     },
     breathingButton: {
-      padding: 7,
-      backgroundColor: theme.primary,
+      padding: 10,
       borderRadius: 18,
+      backgroundColor: theme.accent,
     },
     breathingButtonText: {
       fontSize: 18,
-      color: theme.secondary,
+      color: theme.background,
       fontWeight: 500,
     },
   });

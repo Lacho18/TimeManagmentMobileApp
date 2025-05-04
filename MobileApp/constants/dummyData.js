@@ -4,8 +4,8 @@ export const DUMMY_DATA_TASKS = [
     {
         id: "OjTPAQMki5gyFwBWgCMZ",
         userId: "",
-        title: "The gym",
-        description: "Go to the fucking gym my man",
+        title: "Make new email",
+        description: "Create new email address with Gmail",
         priority: 3,
         stressLevel: 3,
         startTime: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 10, 15),

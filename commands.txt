@@ -1,4 +1,4 @@
 git add .
-git commit -m "Adding function that handles sorting buttons presses"
+git commit -m "Fixing styling"
 git branch -M main
 git push -u origin main 

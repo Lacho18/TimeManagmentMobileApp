@@ -6,6 +6,8 @@ import {
   millisecondsCalculator,
 } from "../../utils/dateUtil";
 
+import Octicons from "@expo/vector-icons/Octicons";
+
 export default function TaskViewComponent({ theme, task, selectTask }) {
   const stressColors = STRESS_LEVELS.find(
     (indexValue) => indexValue.stressValue === task.stressLevel
@@ -73,7 +75,15 @@ export default function TaskViewComponent({ theme, task, selectTask }) {
               {formatDateMonthName(task.startTime)} -{" "}
               {formatDateMonthName(task.endTime)}
             </Text>
-            <Text style={styles.dateText}>{taskDuration}</Text>
+            <Text style={styles.dateText}>
+              <Octicons
+                name="hourglass"
+                size={16}
+                color="yellow"
+                style={{ marginRight: 5 }}
+              />
+              {taskDuration}
+            </Text>
           </View>
         )}
       </View>
