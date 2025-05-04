@@ -1,4 +1,4 @@
 git add .
-git commit -m "Adding comments"
+git commit -m "Creating ascending and descending functionality for the menu buttons"
 git branch -M main
 git push -u origin main 

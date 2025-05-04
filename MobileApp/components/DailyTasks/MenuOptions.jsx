@@ -3,6 +3,8 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+
+import AntDesign from "@expo/vector-icons/AntDesign";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
 /*
@@ -15,9 +17,10 @@ export default function MenuOptions({
   theme,
   topPosition,
   leftPosition,
+  lastSelectedFilter,
   sortingTasksHandler,
 }) {
-  const COMPONENT_WIDTH = 200;
+  const COMPONENT_WIDTH = 230;
 
   const styles = StyleSheet.create({
     mainDiv: {
@@ -53,6 +56,8 @@ export default function MenuOptions({
     },
   });
 
+  console.log(lastSelectedFilter);
+
   return (
     <View style={styles.mainDiv}>
       <TouchableOpacity
@@ -66,7 +71,22 @@ export default function MenuOptions({
           size={24}
           color={theme.secondary}
         />
-        <Text style={styles.buttonText}>Sort by time</Text>
+        <Text style={styles.buttonText}>Sort by time </Text>
+        {lastSelectedFilter.type === "startTime" ? (
+          <AntDesign
+            name="caretup"
+            size={24}
+            color={theme.background}
+            style={{ alignSelf: "flex-end" }}
+          />
+        ) : (
+          <AntDesign
+            name="caretdown"
+            size={24}
+            color={theme.background}
+            style={{ alignSelf: "flex-end" }}
+          />
+        )}
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.buttonStyle}

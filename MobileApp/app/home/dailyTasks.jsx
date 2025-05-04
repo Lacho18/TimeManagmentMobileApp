@@ -28,7 +28,10 @@ export default function DailyTasks() {
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
   const [showMenu, setShowMenu] = useState(false);
 
-  const lastSelectedFilter = useRef("");
+  const lastSelectedFilter = useRef({
+    type: "startTime",
+    sorting: "ascending",
+  });
 
   console.log(allDailyTasks);
 
@@ -140,6 +143,7 @@ export default function DailyTasks() {
           theme={theme}
           topPosition={menuPosition.top}
           leftPosition={menuPosition.left}
+          lastSelectedFilter={lastSelectedFilter.current}
           sortingTasksHandler={sortingTasksHandler}
         />
       )}
