@@ -28,6 +28,8 @@ export default function DailyTasks() {
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
   const [showMenu, setShowMenu] = useState(false);
 
+  const lastSelectedFilter = useRef("");
+
   console.log(allDailyTasks);
 
   useEffect(() => {
@@ -65,12 +67,16 @@ export default function DailyTasks() {
 
   //Function that is called on menu button click
   function sortingTasksHandler(sortingType) {
-    taskFilter(sortingType);
+    //Setting the last selected sorting type
+    lastSelectedFilter.current = sortingType;
+    //Sort the today tasks array
+    taskSorter(sortingType);
+    //Closes the menu
     setShowMenu(false);
   }
 
   //Function that make filters by given field from the task object
-  function taskFilter(sortingField) {
+  function taskSorter(sortingField) {
     let todayTasks = allDailyTasks;
     todayTasks = todayTasks.sort((a, b) => a[sortingField] - b[sortingField]);
 
