@@ -28,6 +28,7 @@ export default function MenuOptions({
   sortingTasksHandler,
 }) {
   const COMPONENT_WIDTH = 230;
+  const COMPONENT_HEIGHT = 280;
 
   const [menuVisible, setMenuVisible] = useState(false);
   const scaleAnim = useRef(new Animated.Value(0)).current; // starts small
@@ -76,7 +77,7 @@ export default function MenuOptions({
   const styles = StyleSheet.create({
     mainDiv: {
       width: COMPONENT_WIDTH,
-      height: "auto",
+      height: COMPONENT_HEIGHT,
       backgroundColor: theme.primary,
       borderRadius: 20,
       display: "flex",
@@ -114,7 +115,21 @@ export default function MenuOptions({
       style={[
         styles.mainDiv,
         {
-          transform: [{ scale: scaleAnim }],
+          transform: [
+            { scale: scaleAnim },
+            {
+              translateX: scaleAnim.interpolate({
+                inputRange: [0, 1],
+                outputRange: [COMPONENT_WIDTH, 0],
+              }),
+            },
+            {
+              translateY: scaleAnim.interpolate({
+                inputRange: [0, 1],
+                outputRange: [-COMPONENT_HEIGHT, 0],
+              }),
+            },
+          ],
           opacity: opacityAnim,
         },
       ]}
