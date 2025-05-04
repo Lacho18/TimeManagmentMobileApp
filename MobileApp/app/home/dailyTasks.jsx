@@ -63,11 +63,13 @@ export default function DailyTasks() {
     }
   }
 
+  //Function that is called on menu button click
   function sortingTasksHandler(sortingType) {
     taskFilter(sortingType);
     setShowMenu(false);
   }
 
+  //Function that make filters by given field from the task object
   function taskFilter(sortingField) {
     let todayTasks = allDailyTasks;
     todayTasks = todayTasks.sort((a, b) => a[sortingField] - b[sortingField]);
