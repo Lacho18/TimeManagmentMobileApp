@@ -28,6 +28,8 @@ export default function DailyTasks() {
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
   const [showMenu, setShowMenu] = useState(false);
 
+  console.log(allDailyTasks);
+
   useEffect(() => {
     async function getTodayTasks() {
       //const result = await getTaskForGivenDay(new Date());
@@ -62,8 +64,15 @@ export default function DailyTasks() {
   }
 
   function sortingTasksHandler(sortingType) {
-    console.log(sortingType);
+    taskFilter(sortingType);
     setShowMenu(false);
+  }
+
+  function taskFilter(sortingField) {
+    let todayTasks = allDailyTasks;
+    todayTasks = todayTasks.sort((a, b) => a[sortingField] - b[sortingField]);
+
+    setAllDailyTasks(todayTasks);
   }
 
   const styles = StyleSheet.create({

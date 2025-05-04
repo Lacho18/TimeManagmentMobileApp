@@ -1,4 +1,4 @@
 git add .
-git commit -m "Fixing styling"
+git commit -m "Adding sorting function"
 git branch -M main
 git push -u origin main 
