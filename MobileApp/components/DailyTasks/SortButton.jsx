@@ -5,6 +5,7 @@ export default function SortButton({
   icon,
   theme,
   buttonType,
+  sortMethod,
   lastSelectedFilter,
   sortingTasksHandler,
 }) {
@@ -35,7 +36,7 @@ export default function SortButton({
       }}
     >
       {icon}
-      <Text style={styles.buttonText}>Sort by duration</Text>
+      <Text style={styles.buttonText}>Sort by {sortMethod}</Text>
       {lastSelectedFilter.type === buttonType &&
       lastSelectedFilter.sorting === "ascending" ? (
         <AntDesign

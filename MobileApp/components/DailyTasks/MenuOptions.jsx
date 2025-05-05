@@ -144,6 +144,7 @@ export default function MenuOptions({
         }
         theme={theme}
         buttonType={"startTime"}
+        sortMethod={"date"}
         lastSelectedFilter={lastSelectedFilter}
         sortingTasksHandler={sortingTasksHandler}
       />
@@ -151,6 +152,7 @@ export default function MenuOptions({
         icon={<Ionicons name="flag-sharp" size={24} color={theme.secondary} />}
         theme={theme}
         buttonType={"priority"}
+        sortMethod={"priority"}
         lastSelectedFilter={lastSelectedFilter}
         sortingTasksHandler={sortingTasksHandler}
       />
@@ -164,6 +166,7 @@ export default function MenuOptions({
         }
         theme={theme}
         buttonType={"stressLevel"}
+        sortMethod={"stress level"}
         lastSelectedFilter={lastSelectedFilter}
         sortingTasksHandler={sortingTasksHandler}
       />
@@ -177,6 +180,7 @@ export default function MenuOptions({
         }
         theme={theme}
         buttonType={"duration"}
+        sortMethod={"duration"}
         lastSelectedFilter={lastSelectedFilter}
         sortingTasksHandler={sortingTasksHandler}
       />

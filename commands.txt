@@ -1,4 +1,4 @@
 git add .
-git commit -m "Fixing the animation to the menu appearance"
+git commit -m "FFixing problems with menu buttons"
 git branch -M main
 git push -u origin main 
