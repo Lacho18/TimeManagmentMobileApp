@@ -1,4 +1,4 @@
-import { eachDayOfInterval, endOfWeek, startOfWeek } from "date-fns";
+import { eachDayOfInterval, endOfDay, endOfWeek, startOfDay, startOfWeek } from "date-fns";
 
 //Formats the date as a string
 export const formatDate = (date) => {
@@ -55,6 +55,18 @@ export const millisecondsCalculator = (milliseconds) => {
 export const getCurrentWeek = (weekDay) => {
     const startDay = startOfWeek(weekDay, { weekStartsOn: 1 });
     const endDay = endOfWeek(weekDay, { weekStartsOn: 1 });
+    const days = eachDayOfInterval({ start: startDay, end: endDay });
+
+    return days;
+}
+
+//Returns arrays of days from today to given number of days ahead
+export const getGivenNumberOfDays = (numberOfDays) => {
+    const currentTime = new Date();
+    const startDay = startOfDay(currentTime);
+    currentTime.setDate(currentTime.getDate() + numberOfDays);
+    const endDay = endOfDay(currentTime);
+
     const days = eachDayOfInterval({ start: startDay, end: endDay });
 
     return days;

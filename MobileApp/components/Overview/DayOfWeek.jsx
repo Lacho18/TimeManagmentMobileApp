@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-
-const WEEK_DAYS = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
+import { WEEK_DAYS } from "../../constants/DateConstants";
 
 export default function DayOfWeek({ daysFromWeek, theme }) {
   const styles = StyleSheet.create({
@@ -23,6 +22,11 @@ export default function DayOfWeek({ daysFromWeek, theme }) {
       color: theme.text,
       fontWeight: 300,
     },
+    dayNumberText: {
+      fontSize: 18,
+      color: theme.primary,
+      fontWeight: "bold",
+    },
   });
 
   return (
@@ -32,8 +36,8 @@ export default function DayOfWeek({ daysFromWeek, theme }) {
         const dayNumber = day.getDate();
         return (
           <View style={styles.dayView}>
-            <Text>{dayName}</Text>
-            <Text>{dayNumber}</Text>
+            <Text style={styles.dayNameText}>{dayName}</Text>
+            <Text style={styles.dayNumberText}>{dayNumber}</Text>
           </View>
         );
       })}

@@ -1,11 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
-import { MONTHS } from "../../constants/Months";
+//import { MONTHS } from "../../constants/Months";
+import {
+  WEEKS_AHEAD_OVERVIEW_VIEW,
+  MONTHS,
+} from "../../constants/DateConstants";
 import { getCurrentWeek } from "../../utils/dateUtil";
 import Carousel from "react-native-reanimated-carousel";
 import DayOfWeek from "./DayOfWeek";
 
-const WEEKS_AHEAD_VIEW = 5;
 const screenWidth = Dimensions.get("window").width - 10;
 
 export default function OverViewHeader({ theme }) {
@@ -23,7 +26,7 @@ export default function OverViewHeader({ theme }) {
     const groups = [];
     const currentDate = new Date();
 
-    for (let i = 0; i < WEEKS_AHEAD_VIEW; i++) {
+    for (let i = 0; i < WEEKS_AHEAD_OVERVIEW_VIEW; i++) {
       const group = getCurrentWeek(currentDate);
 
       groups.push(group);

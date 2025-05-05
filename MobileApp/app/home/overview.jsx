@@ -1,9 +1,14 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { useTheme } from "../../context/ThemeContext";
 import OverViewHeader from "../../components/Overview/OverViewHeader";
+import { useRef } from "react";
+import { DAYS_AHEAD_OVERVIEW_VIEW } from "../../constants/DateConstants";
+import { getGivenNumberOfDays } from "../../utils/dateUtil";
+import DayOverviewView from "../../components/Overview/DayOverviewView";
 
 export default function Overview() {
   const { theme } = useTheme();
+  const daysAhead = useRef(getGivenNumberOfDays(DAYS_AHEAD_OVERVIEW_VIEW));
 
   const styles = StyleSheet.create({
     page: {
@@ -27,6 +32,11 @@ export default function Overview() {
       color: theme.text,
       fontWeight: "bold",
     },
+
+    scrollView: {
+      display: "flex",
+      width: "100%",
+    },
   });
 
   return (
@@ -36,6 +46,15 @@ export default function Overview() {
 
         <OverViewHeader theme={theme} />
       </View>
+      <ScrollView
+        vertical
+        contentContainerStyle={{ gap: 15 }}
+        style={styles.scrollView}
+      >
+        {daysAhead.current.map((date) => (
+          <DayOverviewView date={date} />
+        ))}
+      </ScrollView>
     </View>
   );
 }
