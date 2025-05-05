@@ -1,3 +1,5 @@
+import { eachDayOfInterval, endOfWeek, startOfWeek } from "date-fns";
+
 //Formats the date as a string
 export const formatDate = (date) => {
     //In case of FireStore TimeStamp
@@ -23,6 +25,7 @@ export const formatDateMonthName = (date) => {
     return `${twoDigits(date.getDate())} ${months[date.getMonth()]} ${twoDigits(date.getHours())}:${twoDigits(date.getMinutes())}`;
 }
 
+//Calculates text value from given milliseconds
 export const millisecondsCalculator = (milliseconds) => {
     const totalSeconds = parseInt(Math.floor(milliseconds / 1000));
     const minutes = parseInt(Math.floor(totalSeconds / 60));
@@ -46,4 +49,13 @@ export const millisecondsCalculator = (milliseconds) => {
     else {
         return `${minutes} minute${minutes > 1 && "s"}`;
     }
+}
+
+//Gets array of Weeks
+export const getCurrentWeek = (weekDay) => {
+    const startDay = startOfWeek(weekDay, { weekStartsOn: 1 });
+    const endDay = endOfWeek(weekDay, { weekStartsOn: 1 });
+    const days = eachDayOfInterval({ start: startDay, end: endDay });
+
+    return days;
 }

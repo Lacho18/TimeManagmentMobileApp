@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 import { useTheme } from "../../context/ThemeContext";
-import { GLOBAL_STYLES } from "@/constants/PageStyle";
+import OverViewHeader from "../../components/Overview/OverViewHeader";
 
 export default function Overview() {
   const { theme } = useTheme();
@@ -18,17 +18,23 @@ export default function Overview() {
 
     header: {
       display: "flex",
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
+      gap: 20,
       width: "100%",
+    },
+
+    title: {
+      fontSize: 30,
+      color: theme.text,
+      fontWeight: "bold",
     },
   });
 
   return (
     <View style={styles.page}>
-      <View>
-        <Text>Upcoming</Text>
+      <View style={styles.header}>
+        <Text style={styles.title}>Upcoming</Text>
+
+        <OverViewHeader theme={theme} />
       </View>
     </View>
   );
