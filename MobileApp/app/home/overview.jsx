@@ -9,6 +9,7 @@ import DayOverviewView from "../../components/Overview/DayOverviewView";
 export default function Overview() {
   const { theme } = useTheme();
   const daysAhead = useRef(getGivenNumberOfDays(DAYS_AHEAD_OVERVIEW_VIEW));
+  const currentDay = daysAhead.current.shift();
 
   const styles = StyleSheet.create({
     page: {
@@ -51,8 +52,15 @@ export default function Overview() {
         contentContainerStyle={{ gap: 15 }}
         style={styles.scrollView}
       >
-        {daysAhead.current.map((date) => (
-          <DayOverviewView date={date} />
+        {/*Today*/}
+        {<DayOverviewView date={currentDay} theme={theme} isToday={true} />}
+        {daysAhead.current.map((date, index) => (
+          <DayOverviewView
+            key={index}
+            date={date}
+            theme={theme}
+            isToday={false}
+          />
         ))}
       </ScrollView>
     </View>

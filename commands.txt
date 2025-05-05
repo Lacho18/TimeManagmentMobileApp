@@ -1,4 +1,4 @@
 git add .
-git commit -m "Creating Overview Header"
+git commit -m "Adding basic styling to the overview component page"
 git branch -M main
 git push -u origin main 

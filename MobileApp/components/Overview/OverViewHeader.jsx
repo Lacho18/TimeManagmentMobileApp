@@ -51,7 +51,7 @@ export default function OverViewHeader({ theme }) {
       <Carousel
         loop
         width={screenWidth}
-        height={200}
+        height={90}
         autoPlay={false}
         data={weeksGroups.current}
         scrollAnimationDuration={1000}
