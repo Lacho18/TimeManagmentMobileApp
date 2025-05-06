@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import { useTheme } from "../../context/ThemeContext";
 import OverViewHeader from "../../components/Overview/OverViewHeader";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { DAYS_AHEAD_OVERVIEW_VIEW } from "../../constants/DateConstants";
 import { getGivenNumberOfDays } from "../../utils/dateUtil";
 import DayOverviewView from "../../components/Overview/DayOverviewView";
@@ -45,7 +45,8 @@ export default function Overview() {
     handleScrollViewLayout(index);
 
     //Sets the array of task with the selected one
-    setSelectedDayTasks(fetchedData);
+    //setSelectedDayTasks(fetchedData);
+    setSelectedDayTasks([]);
   }
 
   //Function that send the clicked attribute from the scroll view to the top of the scroll view

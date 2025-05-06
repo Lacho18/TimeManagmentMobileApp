@@ -41,6 +41,18 @@ export default function DayOverviewView({
       height: "auto",
       maxHeight: 450,
     },
+    emptyTasksDiv: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      width: "100%",
+      height: 100,
+    },
+    emptyTasksDivText: {
+      fontSize: 20,
+      color: theme.text,
+      fontWeight: "bold",
+    },
   });
 
   return (
@@ -68,14 +80,22 @@ export default function DayOverviewView({
           }}
           style={styles.tasksDiv}
         >
-          {selectedTasks.map((task) => (
-            <TaskViewComponent
-              key={task.id}
-              theme={theme}
-              task={task}
-              selectTask={() => {}}
-            />
-          ))}
+          {selectedTasks.length === 0 ? (
+            <View style={styles.emptyTasksDiv}>
+              <Text style={styles.emptyTasksDivText}>
+                No tasks for this date
+              </Text>
+            </View>
+          ) : (
+            selectedTasks.map((task) => (
+              <TaskViewComponent
+                key={task.id}
+                theme={theme}
+                task={task}
+                selectTask={() => {}}
+              />
+            ))
+          )}
         </ScrollView>
       )}
     </View>
