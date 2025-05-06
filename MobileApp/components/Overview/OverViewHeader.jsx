@@ -11,7 +11,7 @@ import DayOfWeek from "./DayOfWeek";
 
 const screenWidth = Dimensions.get("window").width - 10;
 
-export default function OverViewHeader({ theme }) {
+export default function OverViewHeader({ theme, selectedDate }) {
   const dateRef = useRef(new Date());
   const weeksGroups = useRef(getGroupWeeksData());
   const [currentMonth, setCurrentMonth] = useState();

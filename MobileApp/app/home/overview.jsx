@@ -34,24 +34,32 @@ export default function Overview() {
 
   //From the selected date by the user finds every task on this date and returns it as an array. If none returns empty array
   async function getSelectedTasks(date, index) {
+    //After completing development remove the Dummy data and return fetch function
     //const fetchedData = await getTaskForGivenDay(date);
     const fetchedData = DUMMY_DATA_TASKS;
 
+    //Sets the state for the selected date
     setSelectedDate(date);
 
+    //Position the selected day on the top of the scroll view
     handleScrollViewLayout(index);
 
+    //Sets the array of task with the selected one
     setSelectedDayTasks(fetchedData);
   }
 
   //Function that send the clicked attribute from the scroll view to the top of the scroll view
   function handleScrollViewLayout(key) {
+    const COMPONENT_FIXED_HEIGHT = 60;
     InteractionManager.runAfterInteractions(() => {
       if (itemsRef.current[key] && scrollViewRef.current) {
         itemsRef.current[key].measureLayout(
           scrollViewRef.current,
           (x, y) => {
-            scrollViewRef.current.scrollTo({ y: 60 * key, animated: true });
+            scrollViewRef.current.scrollTo({
+              y: COMPONENT_FIXED_HEIGHT * key,
+              animated: true,
+            });
           },
           (error) => console.error(error)
         );
