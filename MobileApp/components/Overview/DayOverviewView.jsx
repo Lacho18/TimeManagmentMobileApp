@@ -1,8 +1,24 @@
-import { View, Text, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
+import TaskViewComponent from "../DailyTasks/TaskViewComponent";
 import { MONTHS, WEEK_DAYS_FULL_NAME } from "../../constants/DateConstants";
 
-export default function DayOverviewView({ date, theme, isToday }) {
-  console.log(date);
+export default function DayOverviewView({
+  index,
+  itemsRef,
+  date,
+  theme,
+  isToday,
+  selectedDate,
+  selectedTasks,
+  dateSelectionHandler,
+}) {
+  //console.log(selectedDate.current);
   const styles = StyleSheet.create({
     mainDiv: {
       padding: 7,
@@ -20,18 +36,48 @@ export default function DayOverviewView({ date, theme, isToday }) {
       fontSize: 20,
       color: theme.text,
     },
+    tasksDiv: {
+      paddingVertical: 20,
+      height: "auto",
+      maxHeight: 450,
+    },
   });
 
   return (
     <View style={styles.mainDiv}>
-      <View style={styles.headDiv}>
+      <TouchableOpacity
+        style={styles.headDiv}
+        onPress={() => {
+          dateSelectionHandler(date, index);
+        }}
+        ref={(ref) => (itemsRef.current[index] = ref)}
+      >
         <Text style={styles.text}>
           {date.getDate()} {MONTHS[date.getMonth()]}
         </Text>
         <Text style={styles.text}>.</Text>
         {isToday && <Text style={styles.text}>Today .</Text>}
         <Text style={styles.text}>{WEEK_DAYS_FULL_NAME[date.getDay()]}</Text>
-      </View>
+      </TouchableOpacity>
+      {selectedDate === date && (
+        <ScrollView
+          vertical
+          contentContainerStyle={{
+            gap: 15,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          style={styles.tasksDiv}
+        >
+          {selectedTasks.map((task) => (
+            <TaskViewComponent
+              theme={theme}
+              task={task}
+              selectTask={() => {}}
+            />
+          ))}
+        </ScrollView>
+      )}
     </View>
   );
 }

@@ -36,8 +36,6 @@ export default function OverViewHeader({ theme }) {
     return groups;
   }
 
-  console.log(weeksGroups.current);
-
   const styles = StyleSheet.create({
     mainDiv: {
       display: "flex",
