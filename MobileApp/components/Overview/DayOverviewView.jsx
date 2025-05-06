@@ -44,13 +44,12 @@ export default function DayOverviewView({
   });
 
   return (
-    <View style={styles.mainDiv}>
+    <View style={styles.mainDiv} ref={(ref) => (itemsRef.current[index] = ref)}>
       <TouchableOpacity
         style={styles.headDiv}
         onPress={() => {
           dateSelectionHandler(date, index);
         }}
-        ref={(ref) => (itemsRef.current[index] = ref)}
       >
         <Text style={styles.text}>
           {date.getDate()} {MONTHS[date.getMonth()]}
@@ -71,6 +70,7 @@ export default function DayOverviewView({
         >
           {selectedTasks.map((task) => (
             <TaskViewComponent
+              key={task.id}
               theme={theme}
               task={task}
               selectTask={() => {}}
