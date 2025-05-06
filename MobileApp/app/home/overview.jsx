@@ -21,7 +21,6 @@ export default function Overview() {
   const daysAhead = useRef(getGivenNumberOfDays(DAYS_AHEAD_OVERVIEW_VIEW));
 
   //Follows the selected date from the user
-  //const selectedDate = useRef(null);
   const [selectedDate, setSelectedDate] = useState(null);
 
   //Reference to the scroll view. It is used because when the user click on some date this date to go to the top of the screen
@@ -38,7 +37,6 @@ export default function Overview() {
     //const fetchedData = await getTaskForGivenDay(date);
     const fetchedData = DUMMY_DATA_TASKS;
 
-    //selectedDate.current = date;
     setSelectedDate(date);
 
     handleScrollViewLayout(index);
@@ -95,7 +93,7 @@ export default function Overview() {
       <View style={styles.header}>
         <Text style={styles.title}>Upcoming</Text>
 
-        <OverViewHeader theme={theme} />
+        <OverViewHeader theme={theme} selectedDate={selectedDate} />
       </View>
       <ScrollView
         ref={scrollViewRef}
