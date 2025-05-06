@@ -1,4 +1,4 @@
 git add .
-git commit -m "Adding no tasks Div"
+git commit -m "Adding logic that defines additional styles for selected date on the header"
 git branch -M main
 git push -u origin main 

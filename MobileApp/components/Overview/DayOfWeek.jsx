@@ -1,7 +1,15 @@
 import { StyleSheet, Text, View } from "react-native";
 import { WEEK_DAYS } from "../../constants/DateConstants";
 
-export default function DayOfWeek({ daysFromWeek, theme }) {
+export default function DayOfWeek({ daysFromWeek, theme, selectedDate }) {
+  function isSameDay(date1, date2) {
+    return (
+      date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate()
+    );
+  }
+
   const styles = StyleSheet.create({
     mainDiv: {
       display: "flex",
@@ -27,6 +35,10 @@ export default function DayOfWeek({ daysFromWeek, theme }) {
       color: theme.primary,
       fontWeight: "bold",
     },
+    dayNumberTextSelected: {
+      backgroundColor: "orange",
+      borderRadios: "50%",
+    },
   });
 
   return (
@@ -34,10 +46,26 @@ export default function DayOfWeek({ daysFromWeek, theme }) {
       {daysFromWeek.map((day) => {
         const dayName = WEEK_DAYS[day.getDay()];
         const dayNumber = day.getDate();
+
+        console.log(
+          "----------------------------------------------------------------------------"
+        );
+        console.log(selectedDate === day ? styles.dayNumberTextSelected : null);
+        console.log(
+          "----------------------------------------------------------------------------"
+        );
+
         return (
           <View style={styles.dayView}>
             <Text style={styles.dayNameText}>{dayName}</Text>
-            <Text style={styles.dayNumberText}>{dayNumber}</Text>
+            <Text
+              style={[
+                styles.dayNumberText,
+                isSameDay(selectedDate, day) && styles.dayNumberTextSelected,
+              ]}
+            >
+              {dayNumber}
+            </Text>
           </View>
         );
       })}

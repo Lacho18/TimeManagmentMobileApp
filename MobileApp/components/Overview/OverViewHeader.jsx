@@ -54,7 +54,11 @@ export default function OverViewHeader({ theme, selectedDate }) {
         data={weeksGroups.current}
         scrollAnimationDuration={1000}
         renderItem={({ item, index }) => (
-          <DayOfWeek daysFromWeek={item} theme={theme} />
+          <DayOfWeek
+            daysFromWeek={item}
+            theme={theme}
+            selectedDate={selectedDate}
+          />
         )}
       />
     </View>
