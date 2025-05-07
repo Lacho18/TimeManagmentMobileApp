@@ -55,9 +55,17 @@ export const millisecondsCalculator = (milliseconds) => {
 export const getCurrentWeek = (weekDay) => {
     const startDay = startOfWeek(weekDay, { weekStartsOn: 1 });
     const endDay = endOfWeek(weekDay, { weekStartsOn: 1 });
-    const days = eachDayOfInterval({ start: startDay, end: endDay });
 
-    return days;
+    //If the week is the current one return the days from today to sunday
+    if (isSameWeek(weekDay, new Date(), { weekStartsOn: 1 })) {
+        const today = new Date();
+        const days = eachDayOfInterval({ start: today, end: endDay });
+        return days;
+        //Else return all the days of the week
+    } else {
+        const days = eachDayOfInterval({ start: startDay, end: endDay });
+        return days;
+    }
 }
 
 //Returns arrays of days from today to given number of days ahead

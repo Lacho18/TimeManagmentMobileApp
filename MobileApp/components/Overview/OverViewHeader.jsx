@@ -11,16 +11,19 @@ import DayOfWeek from "./DayOfWeek";
 
 const screenWidth = Dimensions.get("window").width - 10;
 
-export default function OverViewHeader({ theme, selectedDate }) {
-  const dateRef = useRef(new Date());
+export default function OverViewHeader({
+  theme,
+  selectedDate,
+  dateSelectionHandler,
+}) {
   const weeksGroups = useRef(getGroupWeeksData());
   const [currentMonth, setCurrentMonth] = useState();
 
   useEffect(() => {
     setCurrentMonth(
-      `${MONTHS[dateRef.current.getMonth()]} ${dateRef.current.getFullYear()}`
+      `${MONTHS[selectedDate.getMonth()]} ${selectedDate.getFullYear()}`
     );
-  }, [dateRef.current]);
+  }, [selectedDate]);
 
   function getGroupWeeksData() {
     const groups = [];
@@ -58,6 +61,8 @@ export default function OverViewHeader({ theme, selectedDate }) {
             daysFromWeek={item}
             theme={theme}
             selectedDate={selectedDate}
+            pageNumber={index}
+            dateSelectionHandler={dateSelectionHandler}
           />
         )}
       />

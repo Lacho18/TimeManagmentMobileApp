@@ -102,7 +102,11 @@ export default function Overview() {
       <View style={styles.header}>
         <Text style={styles.title}>Upcoming</Text>
 
-        <OverViewHeader theme={theme} selectedDate={selectedDate} />
+        <OverViewHeader
+          theme={theme}
+          selectedDate={selectedDate}
+          dateSelectionHandler={getSelectedTasks}
+        />
       </View>
       <ScrollView
         ref={scrollViewRef}

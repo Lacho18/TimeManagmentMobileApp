@@ -1,8 +1,16 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { WEEK_DAYS } from "../../constants/DateConstants";
 
-export default function DayOfWeek({ daysFromWeek, theme, selectedDate }) {
+export default function DayOfWeek({
+  daysFromWeek,
+  theme,
+  selectedDate,
+  pageNumber,
+  dateSelectionHandler,
+}) {
+  console.log(selectedDate);
   function isSameDay(date1, date2) {
+    if (!date1 || !date2) return false;
     return (
       date1.getFullYear() === date2.getFullYear() &&
       date1.getMonth() === date2.getMonth() &&
@@ -32,40 +40,39 @@ export default function DayOfWeek({ daysFromWeek, theme, selectedDate }) {
     },
     dayNumberText: {
       fontSize: 18,
-      color: theme.primary,
+      color: theme.text,
       fontWeight: "bold",
+      padding: 5,
     },
     dayNumberTextSelected: {
-      backgroundColor: "orange",
-      borderRadios: "50%",
+      backgroundColor: "#f58038",
+      borderRadios: 15,
     },
   });
 
   return (
     <View style={styles.mainDiv}>
-      {daysFromWeek.map((day) => {
+      {daysFromWeek.map((day, index) => {
         const dayName = WEEK_DAYS[day.getDay()];
         const dayNumber = day.getDate();
-
-        console.log(
-          "----------------------------------------------------------------------------"
-        );
-        console.log(selectedDate === day ? styles.dayNumberTextSelected : null);
-        console.log(
-          "----------------------------------------------------------------------------"
-        );
 
         return (
           <View style={styles.dayView}>
             <Text style={styles.dayNameText}>{dayName}</Text>
-            <Text
-              style={[
-                styles.dayNumberText,
-                isSameDay(selectedDate, day) && styles.dayNumberTextSelected,
-              ]}
+            <TouchableOpacity
+              onPress={() => {
+                dateSelectionHandler(day, pageNumber * 7 + index);
+              }}
             >
-              {dayNumber}
-            </Text>
+              <Text
+                style={[
+                  styles.dayNumberText,
+                  isSameDay(selectedDate, day) && styles.dayNumberTextSelected,
+                ]}
+              >
+                {dayNumber}
+              </Text>
+            </TouchableOpacity>
           </View>
         );
       })}
