@@ -17,6 +17,10 @@ export default function OverViewHeader({
   dateSelectionHandler,
 }) {
   const weeksGroups = useRef(getGroupWeeksData());
+
+  //Used from header selector of the dates in order to calculate the correct way the index of the date, so the scroll view can go to the right destination
+  const firstWeekLength = useRef(weeksGroups.current[0].length);
+
   const [currentMonth, setCurrentMonth] = useState();
 
   useEffect(() => {
@@ -63,6 +67,7 @@ export default function OverViewHeader({
             selectedDate={selectedDate}
             pageNumber={index}
             dateSelectionHandler={dateSelectionHandler}
+            firstWeekLength={firstWeekLength.current}
           />
         )}
       />

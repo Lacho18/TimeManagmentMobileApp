@@ -21,7 +21,7 @@ export default function Overview() {
   const daysAhead = useRef(getGivenNumberOfDays(DAYS_AHEAD_OVERVIEW_VIEW));
 
   //Follows the selected date from the user
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   //Reference to the scroll view. It is used because when the user click on some date this date to go to the top of the screen
   const scrollViewRef = useRef(null);
@@ -31,6 +31,7 @@ export default function Overview() {
 
   //State for selected tasks from the selected date
   const [selectedDayTasks, setSelectedDayTasks] = useState(null);
+  console.log(selectedDayTasks);
 
   //From the selected date by the user finds every task on this date and returns it as an array. If none returns empty array
   async function getSelectedTasks(date, index) {
@@ -45,8 +46,8 @@ export default function Overview() {
     handleScrollViewLayout(index);
 
     //Sets the array of task with the selected one
-    //setSelectedDayTasks(fetchedData);
-    setSelectedDayTasks([]);
+    setSelectedDayTasks(fetchedData);
+    //setSelectedDayTasks([]);
   }
 
   //Function that send the clicked attribute from the scroll view to the top of the scroll view

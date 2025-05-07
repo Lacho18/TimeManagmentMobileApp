@@ -1,4 +1,4 @@
-import { eachDayOfInterval, endOfDay, endOfWeek, startOfDay, startOfWeek } from "date-fns";
+import { eachDayOfInterval, endOfDay, endOfWeek, isSameWeek, startOfDay, startOfWeek } from "date-fns";
 
 //Formats the date as a string
 export const formatDate = (date) => {
