@@ -7,6 +7,7 @@ import {
 } from "react-native";
 import TaskViewComponent from "../DailyTasks/TaskViewComponent";
 import { MONTHS, WEEK_DAYS_FULL_NAME } from "../../constants/DateConstants";
+import { equalDates } from "../../utils/dateUtil";
 
 export default function DayOverviewView({
   index,
@@ -70,7 +71,7 @@ export default function DayOverviewView({
         {isToday && <Text style={styles.text}>Today .</Text>}
         <Text style={styles.text}>{WEEK_DAYS_FULL_NAME[date.getDay()]}</Text>
       </TouchableOpacity>
-      {selectedDate === date && (
+      {equalDates(selectedDate, date) && (
         <ScrollView
           vertical
           contentContainerStyle={{

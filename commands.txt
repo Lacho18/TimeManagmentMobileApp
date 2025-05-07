@@ -1,4 +1,4 @@
 git add .
-git commit -m "Modifying get week function"
+git commit -m "Fixing problem with equal dates"
 git branch -M main
 git push -u origin main 

@@ -1,5 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { WEEK_DAYS } from "../../constants/DateConstants";
+import { equalDates } from "../../utils/dateUtil";
 
 export default function DayOfWeek({
   daysFromWeek,
@@ -9,15 +10,6 @@ export default function DayOfWeek({
   dateSelectionHandler,
   firstWeekLength,
 }) {
-  function isSameDay(date1, date2) {
-    if (!date1 || !date2) return false;
-    return (
-      date1.getFullYear() === date2.getFullYear() &&
-      date1.getMonth() === date2.getMonth() &&
-      date1.getDate() === date2.getDate()
-    );
-  }
-
   const styles = StyleSheet.create({
     mainDiv: {
       display: "flex",
@@ -74,7 +66,7 @@ export default function DayOfWeek({
               <Text
                 style={[
                   styles.dayNumberText,
-                  isSameDay(selectedDate, day) && styles.dayNumberTextSelected,
+                  equalDates(selectedDate, day) && styles.dayNumberTextSelected,
                 ]}
               >
                 {dayNumber}
