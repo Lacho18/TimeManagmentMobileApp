@@ -1,4 +1,4 @@
 git add .
-git commit -m "Fixing problem with equal dates"
+git commit -m "Finalizing overview page"
 git branch -M main
 git push -u origin main 

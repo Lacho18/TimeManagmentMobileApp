@@ -30,8 +30,7 @@ export default function Overview() {
   const itemsRef = useRef({});
 
   //State for selected tasks from the selected date
-  const [selectedDayTasks, setSelectedDayTasks] = useState(null);
-  console.log(selectedDayTasks);
+  const [selectedDayTasks, setSelectedDayTasks] = useState(DUMMY_DATA_TASKS);
 
   //From the selected date by the user finds every task on this date and returns it as an array. If none returns empty array
   async function getSelectedTasks(date, index) {
