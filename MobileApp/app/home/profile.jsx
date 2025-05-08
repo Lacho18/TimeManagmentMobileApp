@@ -9,7 +9,7 @@ import ColorThemeSelector from "../../components/ColorThemeSelector";
 import { router } from "expo-router";
 import { useEffect } from "react";
 import { useStressTest } from "../../context/StressTestContext";
-import StressTest from "../../components/StressTest";
+import StressTest from "../testStress/stressTest";
 
 export default function Profile() {
   const { theme } = useTheme();

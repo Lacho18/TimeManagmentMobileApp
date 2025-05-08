@@ -1,8 +1,12 @@
 import { StyleSheet, Text, View } from "react-native";
-import { useTheme } from "../context/ThemeContext";
+import { useTheme } from "../../context/ThemeContext";
+import { useStressTest } from "../../context/StressTestContext";
 
 export default function StressTest() {
   const { theme } = useTheme();
+  const { stressTestQuestions } = useStressTest();
+
+  console.log(stressTestQuestions);
 
   const styles = StyleSheet.create({
     mainDiv: {
