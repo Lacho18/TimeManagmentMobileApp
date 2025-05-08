@@ -90,6 +90,10 @@ export default function Profile() {
           />
           <Text style={styles.buttonText}>Sign out</Text>
         </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonStyle} onPress={() => {}}>
+          <Ionicons name="newspaper" size={28} color={theme.secondary} />
+          <Text style={styles.buttonText}>Make stress test</Text>
+        </TouchableOpacity>
       </View>
       <Text>Profile</Text>
     </View>
