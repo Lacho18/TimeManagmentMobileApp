@@ -1,4 +1,4 @@
 git add .
-git commit -m "Creating stress test"
+git commit -m "Creating context for thew stress test"
 git branch -M main
 git push -u origin main 

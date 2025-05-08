@@ -8,10 +8,13 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import ColorThemeSelector from "../../components/ColorThemeSelector";
 import { router } from "expo-router";
 import { useEffect } from "react";
+import { useStressTest } from "../../context/StressTestContext";
+import StressTest from "../../components/StressTest";
 
 export default function Profile() {
   const { theme } = useTheme();
   const { user, logout, loading } = useUser();
+  const { stressTest, startStressTest, endStressTest } = useStressTest();
 
   //Checks if the data for user is loading or if the user is found. Does not return anything if so.
   if (loading || !user) return null;
@@ -90,12 +93,19 @@ export default function Profile() {
           />
           <Text style={styles.buttonText}>Sign out</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonStyle} onPress={() => {}}>
+        <TouchableOpacity
+          style={styles.buttonStyle}
+          onPress={() => {
+            startStressTest();
+          }}
+        >
           <Ionicons name="newspaper" size={28} color={theme.secondary} />
           <Text style={styles.buttonText}>Make stress test</Text>
         </TouchableOpacity>
       </View>
       <Text>Profile</Text>
+
+      {stressTest && <StressTest />}
     </View>
   );
 }
