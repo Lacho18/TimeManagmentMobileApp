@@ -1,8 +1,12 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
 import { useTheme } from "../../context/ThemeContext";
 import { useStressTest } from "../../context/StressTestContext";
 import SingleAnswerQuestion from "../../components/StressTest/SingleAnswerQuestion";
 import { useEffect, useState } from "react";
+import Carousel from "react-native-reanimated-carousel";
+import BaseQuestionComponent from "../../components/StressTest/BaseQuestionComponent";
+
+const screenWidth = Dimensions.get("window").width - 10;
 
 export default function StressTest() {
   const { theme } = useTheme();
@@ -74,6 +78,18 @@ export default function StressTest() {
       <Text style={styles.progressionText}>
         {index + 1}/{stressTestQuestions.length}
       </Text>
+
+      <Carousel
+        loop
+        width={screenWidth}
+        height={300}
+        autoPlay={false}
+        data={stressTestQuestions}
+        scrollAnimationDuration={1000}
+        renderItem={({ item, index }) => (
+          <BaseQuestionComponent currentQuestion={item} />
+        )}
+      />
       <SingleAnswerQuestion question={stressTestQuestions[0]} theme={theme} />
 
       <View style={styles.progressBarDiv}>
