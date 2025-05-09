@@ -1,8 +1,16 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useTheme } from "../../context/ThemeContext";
 
-export default function SingleAnswerQuestion({ question }) {
+export default function SingleAnswerQuestion({
+  question,
+  answerQuestionHandler,
+  userAnswer,
+}) {
   const { theme } = useTheme();
+
+  function onGivenAnswer(answerIndex) {
+    answerQuestionHandler(answerIndex);
+  }
 
   const styles = StyleSheet.create({
     mainDiv: {
@@ -64,10 +72,15 @@ export default function SingleAnswerQuestion({ question }) {
     <View style={styles.mainDiv}>
       <Text style={styles.questionText}>{question.question}</Text>
       <View style={styles.allAnswersDiv}>
-        {question.answers.map((answer) => (
+        {question.answers.map((answer, index) => (
           <View key={answer.id} style={styles.answerDiv}>
             <Text style={styles.answerText}>{answer}</Text>
-            <Pressable style={styles.answerBox}></Pressable>
+            <Pressable
+              onPress={() => {
+                onGivenAnswer(index);
+              }}
+              style={styles.answerBox}
+            ></Pressable>
           </View>
         ))}
       </View>

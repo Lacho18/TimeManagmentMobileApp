@@ -1,11 +1,37 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, CheckBox } from "react-native";
 import { useTheme } from "../../context/ThemeContext";
-import { CheckBox } from "react-native-web";
 import { useState } from "react";
 
-export default function MultipleAnswerQuestion({ question }) {
+export default function MultipleAnswerQuestion({
+  question,
+  answerQuestionHandler,
+}) {
   const { theme } = useTheme();
   const [selectedAnswers, setSelectedAnswers] = useState([]);
+
+  console.log(selectedAnswers);
+
+  //Handles check box click
+  function selectedAnswerHandler(answerIndex) {
+    //If thew answer is already selected remove it
+    if (selectedAnswers.includes(answerIndex)) {
+      setSelectedAnswers((oldValue) => {
+        let newValue = [...oldValue];
+        const indexToRemove = newValue.indexOf(answerIndex);
+        newValue.splice(indexToRemove, 1);
+
+        return newValue;
+      });
+    }
+    //If the answer is not selected add it
+    else {
+      setSelectedAnswers((oldValue) => {
+        const newValue = [...oldValue, answerIndex];
+
+        return newValue;
+      });
+    }
+  }
 
   const styles = StyleSheet.create({
     mainDiv: {
@@ -64,12 +90,15 @@ export default function MultipleAnswerQuestion({ question }) {
     <View style={styles.mainDiv}>
       <Text style={styles.questionText}>{question.question}</Text>
       <View style={styles.allAnswersDiv}>
-        {question.answers.map((answer) => (
-          <View key={answer.id} style={styles.answerDiv}>
+        {question.answers.map((answer, index) => (
+          <View key={index} style={styles.answerDiv}>
             <Text style={styles.answerText}>{answer}</Text>
             <CheckBox
+              value={selectedAnswers.includes(index)}
+              onValueChange={() => {
+                selectedAnswerHandler(index);
+              }}
               style={styles.checkBox}
-              tintColors={{ true: "#FF8C00", false: "gray" }}
             ></CheckBox>
           </View>
         ))}

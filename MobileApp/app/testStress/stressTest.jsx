@@ -1,8 +1,7 @@
 import { Dimensions, StyleSheet, Text, View } from "react-native";
 import { useTheme } from "../../context/ThemeContext";
 import { useStressTest } from "../../context/StressTestContext";
-import SingleAnswerQuestion from "../../components/StressTest/SingleAnswerQuestion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Carousel from "react-native-reanimated-carousel";
 import BaseQuestionComponent from "../../components/StressTest/BaseQuestionComponent";
 
@@ -11,7 +10,11 @@ const screenWidth = Dimensions.get("window").width - 10;
 export default function StressTest() {
   const { theme } = useTheme();
   const { stressTestQuestions } = useStressTest();
-  const [index, setIndex] = useState(4);
+
+  const carouselRef = useRef(null);
+  const userAnswers = useRef([]);
+
+  const [index, setIndex] = useState(0);
   const [progressPercent, setProgressPercent] = useState(0);
 
   //Calculates the percent of the progression
@@ -23,7 +26,17 @@ export default function StressTest() {
     }
   }, [index]);
 
-  console.log(progressPercent);
+  function answerQuestionHandler(userAnswer) {
+    setIndex((oldValue) => ++oldValue);
+    //carouselRef.current.next();
+    const nextIndex = (index + 1) % stressTestQuestions.length;
+    console.log(index);
+    console.log(nextIndex);
+    carouselRef.current.scrollTo({
+      index: nextIndex,
+      animated: true,
+    });
+  }
 
   const styles = StyleSheet.create({
     mainDiv: {
@@ -80,6 +93,7 @@ export default function StressTest() {
       </Text>
 
       <Carousel
+        ref={carouselRef}
         loop
         width={screenWidth}
         height={500}
@@ -87,7 +101,12 @@ export default function StressTest() {
         data={stressTestQuestions}
         scrollAnimationDuration={1000}
         renderItem={({ item, index }) => (
-          <BaseQuestionComponent currentQuestion={item} />
+          <BaseQuestionComponent
+            currentQuestion={item}
+            currentQuestionIndex={index}
+            answerQuestionHandler={answerQuestionHandler}
+            userAnswer={userAnswers.length > index ? userAnswers[index] : null}
+          />
         )}
       />
 
