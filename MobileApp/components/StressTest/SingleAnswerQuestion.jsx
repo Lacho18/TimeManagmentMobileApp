@@ -7,22 +7,40 @@ export default function SingleAnswerQuestion({ question, theme }) {
       display: "flex",
       gap: 50,
       width: "100%",
+      marginTop: 20,
     },
     questionText: {
       fontSize: 30,
       color: theme.text,
       textAlign: "center",
+      fontWeight: 600,
     },
     allAnswersDiv: {
       display: "flex",
+      alignSelf: "center",
+      width: "85%",
       gap: 20,
     },
     answerDiv: {
       display: "flex",
       flexDirection: "row",
+      width: "100%",
       gap: 20,
+      justifyContent: "flex-end",
       alignItems: "center",
       width: "100%",
+      padding: 12,
+
+      // iOS Shadow
+      shadowColor: "black",
+      shadowOffset: { width: 0, height: 0 }, // No offset
+      shadowOpacity: 1,
+      shadowRadius: 1, // Very small blur
+
+      // Android Shadow
+      elevation: 7,
+
+      borderRadius: 15,
     },
     answerBox: {
       width: 20,
@@ -33,8 +51,9 @@ export default function SingleAnswerQuestion({ question, theme }) {
     },
     answerText: {
       paddingBottom: 5,
-      fontSize: 25,
+      fontSize: 21,
       color: theme.text,
+      textAlign: "left",
     },
   });
 
@@ -44,8 +63,8 @@ export default function SingleAnswerQuestion({ question, theme }) {
       <View style={styles.allAnswersDiv}>
         {question.answers.map((answer) => (
           <View style={styles.answerDiv}>
-            <Pressable style={styles.answerBox}></Pressable>
             <Text style={styles.answerText}>{answer}</Text>
+            <Pressable style={styles.answerBox}></Pressable>
           </View>
         ))}
       </View>
