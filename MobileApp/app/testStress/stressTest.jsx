@@ -1,4 +1,10 @@
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { useTheme } from "../../context/ThemeContext";
 import { useStressTest } from "../../context/StressTestContext";
 import { useEffect, useRef, useState } from "react";
@@ -40,21 +46,22 @@ export default function StressTest() {
     //Stores the user answers
     userAnswers.current[currentQuestionIndex] = userAnswer;
 
-    const nextIndex = (index + 1) % stressTestQuestions.length;
-    setIndex(currentQuestionIndex + 1);
+    const nextIndex = currentQuestionIndex + 1;
 
     if (nextIndex < stressTestQuestions.length) {
+      setIndex(currentQuestionIndex + 1);
       carouselRef.current.scrollTo({
         index: nextIndex,
         animated: true,
       });
-    }
+    } else setProgressPercent(100);
   }
 
   const styles = StyleSheet.create({
     mainDiv: {
       width: "100%",
       height: "100%",
+      overflow: "scroll",
       backgroundColor: theme.background,
       position: "absolute",
       zIndex: 100,
@@ -77,7 +84,7 @@ export default function StressTest() {
     },
     progressBarDiv: {
       width: "100%",
-      height: 250,
+      height: 25,
       display: "flex",
       justifyContent: "center",
     },
@@ -93,6 +100,23 @@ export default function StressTest() {
     },
     forwardProgress: {
       backgroundColor: theme.secondary,
+    },
+    submitButton: {
+      alignSelf: "center",
+      width: 200,
+      height: 100,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: theme.primary,
+      padding: 20,
+      borderRadius: 20,
+    },
+    submitButtonText: {
+      fontSize: 20,
+      fontWeight: "bold",
+      color: theme.text,
+      textAlign: "center",
     },
   });
 
@@ -115,7 +139,9 @@ export default function StressTest() {
         scrollAnimationDuration={1000}
         onSnapToItem={(itemIndex) => {
           setIndex((oldValue) => {
-            if (itemIndex === oldValue - 1 || itemIndex === oldValue + 1) {
+            const diff = Math.abs(itemIndex - oldValue);
+
+            if (diff <= 1) {
               return itemIndex;
             } else {
               return oldValue;
@@ -127,7 +153,7 @@ export default function StressTest() {
             currentQuestion={item}
             currentQuestionIndex={index}
             answerQuestionHandler={answerQuestionHandler}
-            userAnswer={userAnswers[index]}
+            userAnswer={userAnswers.current[index]}
           />
         )}
       />
@@ -140,6 +166,11 @@ export default function StressTest() {
           <View></View>
         </View>
       </View>
+      {!userAnswers.current.includes(null) && (
+        <TouchableOpacity style={styles.submitButton}>
+          <Text style={styles.submitButtonText}>Submit stress test form</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 }

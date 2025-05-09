@@ -9,6 +9,8 @@ export default function SingleAnswerQuestion({
 }) {
   const { theme } = useTheme();
 
+  console.log(userAnswer);
+
   function onGivenAnswer(answerIndex) {
     answerQuestionHandler(answerIndex, currentQuestionIndex);
   }
@@ -60,12 +62,21 @@ export default function SingleAnswerQuestion({
       borderRadius: "50%",
       borderWidth: 1,
       backgroundColor: "white",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
     },
     answerText: {
       paddingBottom: 5,
       fontSize: 21,
       color: theme.text,
       textAlign: "left",
+    },
+    blackDot: {
+      width: 10,
+      height: 10,
+      borderRadius: "50%",
+      backgroundColor: "black",
     },
   });
 
@@ -81,7 +92,11 @@ export default function SingleAnswerQuestion({
                 onGivenAnswer(index);
               }}
               style={styles.answerBox}
-            ></Pressable>
+            >
+              {userAnswer && userAnswer === index && (
+                <View style={styles.blackDot}></View>
+              )}
+            </Pressable>
           </View>
         ))}
       </View>
