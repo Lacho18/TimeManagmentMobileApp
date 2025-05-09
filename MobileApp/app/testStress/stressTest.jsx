@@ -17,6 +17,8 @@ export default function StressTest() {
   const { theme } = useTheme();
   const { stressTestQuestions } = useStressTest();
 
+  console.log(stressTestQuestions);
+
   //Reference to the carousel
   const carouselRef = useRef(null);
   //The user answers stored in an array ref
@@ -31,6 +33,11 @@ export default function StressTest() {
   const [index, setIndex] = useState(0);
   //Percentage value from the current value index. Used for progress bar
   const [progressPercent, setProgressPercent] = useState(0);
+
+  const [activeSwiper, setActiveSwiper] = useState(false);
+
+  console.log("ARE MOLQ TI SAAAAA");
+  console.log(activeSwiper);
 
   //Calculates the percent of the progression
   useEffect(() => {
@@ -140,6 +147,7 @@ export default function StressTest() {
         autoPlay={false}
         data={stressTestQuestions}
         scrollAnimationDuration={1000}
+        enabled={!activeSwiper}
         onSnapToItem={(itemIndex) => {
           setIndex((oldValue) => {
             const diff = Math.abs(itemIndex - oldValue);
@@ -157,6 +165,7 @@ export default function StressTest() {
             currentQuestionIndex={index}
             answerQuestionHandler={answerQuestionHandler}
             userAnswer={userAnswers.current[index]}
+            isSwiperActive={(value) => setActiveSwiper(value)}
           />
         )}
       />

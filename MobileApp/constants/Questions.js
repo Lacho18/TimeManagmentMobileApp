@@ -1,5 +1,5 @@
 export const QUESTIONS = [
-    {
+    /*{
         id: 1,
         type: "singleAnswer",
         question: "What is the capital of France?",
@@ -75,5 +75,11 @@ export const QUESTIONS = [
         question: "Which planets are gas giants?",
         answers: ["Venus", "Jupiter", "Saturn", "Mercury"],
         correctAnswers: [1, 2],
+    },*/
+
+    {
+        id: 12,
+        type: "percentAnswer",
+        question: "How stupid do you think you are?",
     },
 ];
