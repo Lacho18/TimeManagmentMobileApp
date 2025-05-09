@@ -1,8 +1,11 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useTheme } from "../../context/ThemeContext";
+import { CheckBox } from "react-native-web";
+import { useState } from "react";
 
-export default function SingleAnswerQuestion({ question }) {
+export default function MultipleAnswerQuestion({ question }) {
   const { theme } = useTheme();
+  const [selectedAnswers, setSelectedAnswers] = useState([]);
 
   const styles = StyleSheet.create({
     mainDiv: {
@@ -45,18 +48,15 @@ export default function SingleAnswerQuestion({ question }) {
 
       borderRadius: 15,
     },
-    answerBox: {
-      width: 20,
-      height: 20,
-      borderRadius: "50%",
-      borderWidth: 1,
-      backgroundColor: "white",
-    },
     answerText: {
       paddingBottom: 5,
       fontSize: 21,
       color: theme.text,
       textAlign: "left",
+    },
+    checkBox: {
+      width: 20,
+      height: 20,
     },
   });
 
@@ -67,7 +67,10 @@ export default function SingleAnswerQuestion({ question }) {
         {question.answers.map((answer) => (
           <View key={answer.id} style={styles.answerDiv}>
             <Text style={styles.answerText}>{answer}</Text>
-            <Pressable style={styles.answerBox}></Pressable>
+            <CheckBox
+              style={styles.checkBox}
+              tintColors={{ true: "#FF8C00", false: "gray" }}
+            ></CheckBox>
           </View>
         ))}
       </View>
