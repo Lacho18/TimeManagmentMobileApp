@@ -82,7 +82,7 @@ export default function StressTest() {
       <Carousel
         loop
         width={screenWidth}
-        height={300}
+        height={500}
         autoPlay={false}
         data={stressTestQuestions}
         scrollAnimationDuration={1000}
@@ -90,7 +90,6 @@ export default function StressTest() {
           <BaseQuestionComponent currentQuestion={item} />
         )}
       />
-      <SingleAnswerQuestion question={stressTestQuestions[0]} theme={theme} />
 
       <View style={styles.progressBarDiv}>
         <View style={styles.progressBar}>

@@ -1,6 +1,9 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
+import { useTheme } from "../../context/ThemeContext";
 
-export default function SingleAnswerQuestion({ question, theme }) {
+export default function SingleAnswerQuestion({ question }) {
+  const { theme } = useTheme();
+
   const styles = StyleSheet.create({
     mainDiv: {
       alignSelf: "flex-start",
