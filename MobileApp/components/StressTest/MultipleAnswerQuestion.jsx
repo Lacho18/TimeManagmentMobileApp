@@ -15,13 +15,15 @@ export default function MultipleAnswerQuestion({
   userAnswer,
 }) {
   const { theme } = useTheme();
-  const [selectedAnswers, setSelectedAnswers] = useState([]);
+  //If thew user has already answered this question set the answers array to his previous one. Or else set it to null
+  const [selectedAnswers, setSelectedAnswers] = useState(
+    userAnswer ? userAnswer : []
+  );
 
+  //Sends the answers array
   function submitAnswer() {
     answerQuestionHandler(selectedAnswers, currentQuestionIndex);
   }
-
-  console.log(selectedAnswers);
 
   //Handles check box click
   function selectedAnswerHandler(answerIndex) {

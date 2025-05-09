@@ -14,8 +14,10 @@ export default function StressTest() {
   const carouselRef = useRef(null);
   const userAnswers = useRef([]);
 
+  console.log(stressTestQuestions);
+
   //fills the array of answers with nulls
-  while (userAnswers.current.length <= stressTestQuestions.length) {
+  while (userAnswers.current.length < stressTestQuestions.length) {
     userAnswers.current.push(null); // Or use any default value like 'null'
   }
 
@@ -35,19 +37,18 @@ export default function StressTest() {
   }, [index]);
 
   function answerQuestionHandler(userAnswer, currentQuestionIndex) {
-    setIndex(currentQuestionIndex + 1);
-    //carouselRef.current.next();
-
     //Stores the user answers
     userAnswers.current[currentQuestionIndex] = userAnswer;
 
     const nextIndex = (index + 1) % stressTestQuestions.length;
-    console.log(index);
-    console.log(nextIndex);
-    carouselRef.current.scrollTo({
-      index: nextIndex,
-      animated: true,
-    });
+    setIndex(currentQuestionIndex + 1);
+
+    if (nextIndex < stressTestQuestions.length) {
+      carouselRef.current.scrollTo({
+        index: nextIndex,
+        animated: true,
+      });
+    }
   }
 
   const styles = StyleSheet.create({
@@ -106,12 +107,21 @@ export default function StressTest() {
 
       <Carousel
         ref={carouselRef}
-        loop
+        loop={false}
         width={screenWidth}
         height={600}
         autoPlay={false}
         data={stressTestQuestions}
         scrollAnimationDuration={1000}
+        onSnapToItem={(itemIndex) => {
+          setIndex((oldValue) => {
+            if (itemIndex === oldValue - 1 || itemIndex === oldValue + 1) {
+              return itemIndex;
+            } else {
+              return oldValue;
+            }
+          });
+        }}
         renderItem={({ item, index }) => (
           <BaseQuestionComponent
             currentQuestion={item}

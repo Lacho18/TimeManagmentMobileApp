@@ -74,7 +74,7 @@ export default function SingleAnswerQuestion({
       <Text style={styles.questionText}>{question.question}</Text>
       <View style={styles.allAnswersDiv}>
         {question.answers.map((answer, index) => (
-          <View key={answer.id} style={styles.answerDiv}>
+          <View key={index} style={styles.answerDiv}>
             <Text style={styles.answerText}>{answer}</Text>
             <Pressable
               onPress={() => {
