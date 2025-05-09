@@ -12,14 +12,18 @@ export default function BaseQuestionComponent({
     return (
       <SingleAnswerQuestion
         question={currentQuestion}
+        currentQuestionIndex={currentQuestionIndex}
         answerQuestionHandler={answerQuestionHandler}
+        userAnswer={userAnswer}
       />
     );
   } else if (currentQuestion.type === "multipleAnswer") {
     return (
       <MultipleAnswerQuestion
         question={currentQuestion}
+        currentQuestionIndex={currentQuestionIndex}
         answerQuestionHandler={answerQuestionHandler}
+        userAnswer={userAnswer}
       />
     );
   }

@@ -3,13 +3,14 @@ import { useTheme } from "../../context/ThemeContext";
 
 export default function SingleAnswerQuestion({
   question,
+  currentQuestionIndex,
   answerQuestionHandler,
   userAnswer,
 }) {
   const { theme } = useTheme();
 
   function onGivenAnswer(answerIndex) {
-    answerQuestionHandler(answerIndex);
+    answerQuestionHandler(answerIndex, currentQuestionIndex);
   }
 
   const styles = StyleSheet.create({

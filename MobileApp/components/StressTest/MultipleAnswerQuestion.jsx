@@ -1,13 +1,25 @@
-import { StyleSheet, Text, View, CheckBox } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  CheckBox,
+  TouchableOpacity,
+} from "react-native";
 import { useTheme } from "../../context/ThemeContext";
 import { useState } from "react";
 
 export default function MultipleAnswerQuestion({
   question,
+  currentQuestionIndex,
   answerQuestionHandler,
+  userAnswer,
 }) {
   const { theme } = useTheme();
   const [selectedAnswers, setSelectedAnswers] = useState([]);
+
+  function submitAnswer() {
+    answerQuestionHandler(selectedAnswers, currentQuestionIndex);
+  }
 
   console.log(selectedAnswers);
 
@@ -84,6 +96,22 @@ export default function MultipleAnswerQuestion({
       width: 20,
       height: 20,
     },
+    submitButton: {
+      alignSelf: "center",
+      width: 100,
+      height: 50,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: theme.primary,
+      padding: 5,
+      borderRadius: 20,
+    },
+    submitButtonText: {
+      fontSize: 20,
+      fontWeight: "bold",
+      color: theme.text,
+    },
   });
 
   return (
@@ -103,6 +131,9 @@ export default function MultipleAnswerQuestion({
           </View>
         ))}
       </View>
+      <TouchableOpacity style={styles.submitButton} onPress={submitAnswer}>
+        <Text style={styles.submitButtonText}>Submit</Text>
+      </TouchableOpacity>
     </View>
   );
 }

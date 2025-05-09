@@ -1,4 +1,4 @@
 git add .
-git commit -m "Adding swiping menu to the questions"
+git commit -m "Working questions"
 git branch -M main
 git push -u origin main 

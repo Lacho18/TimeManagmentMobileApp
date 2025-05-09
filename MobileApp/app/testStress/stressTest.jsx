@@ -14,8 +14,16 @@ export default function StressTest() {
   const carouselRef = useRef(null);
   const userAnswers = useRef([]);
 
+  //fills the array of answers with nulls
+  while (userAnswers.current.length <= stressTestQuestions.length) {
+    userAnswers.current.push(null); // Or use any default value like 'null'
+  }
+
   const [index, setIndex] = useState(0);
   const [progressPercent, setProgressPercent] = useState(0);
+
+  console.log("User answers");
+  console.log(userAnswers.current);
 
   //Calculates the percent of the progression
   useEffect(() => {
@@ -26,9 +34,13 @@ export default function StressTest() {
     }
   }, [index]);
 
-  function answerQuestionHandler(userAnswer) {
-    setIndex((oldValue) => ++oldValue);
+  function answerQuestionHandler(userAnswer, currentQuestionIndex) {
+    setIndex(currentQuestionIndex + 1);
     //carouselRef.current.next();
+
+    //Stores the user answers
+    userAnswers.current[currentQuestionIndex] = userAnswer;
+
     const nextIndex = (index + 1) % stressTestQuestions.length;
     console.log(index);
     console.log(nextIndex);
@@ -96,7 +108,7 @@ export default function StressTest() {
         ref={carouselRef}
         loop
         width={screenWidth}
-        height={500}
+        height={600}
         autoPlay={false}
         data={stressTestQuestions}
         scrollAnimationDuration={1000}
@@ -105,7 +117,7 @@ export default function StressTest() {
             currentQuestion={item}
             currentQuestionIndex={index}
             answerQuestionHandler={answerQuestionHandler}
-            userAnswer={userAnswers.length > index ? userAnswers[index] : null}
+            userAnswer={userAnswers[index]}
           />
         )}
       />
