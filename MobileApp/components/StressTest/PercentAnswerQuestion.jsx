@@ -10,6 +10,12 @@ export default function PercentAnswerQuestion({
   userAnswer,
   isSwiperActive,
 }) {
+  /*
+        1. Dovurshi tozi vid vuprosi (stilizirane, prashtane na otgovor)
+        2. Napravi go sled submit da se vrushta na poslednata stranica
+        3. Pogledni tova sus subitiqta dali raboti (Ako trqbva dobavi refresh token fynkcionalnost)
+    */
+
   const { theme } = useTheme();
 
   const [sliderValue, setSliderValue] = useState(50);
