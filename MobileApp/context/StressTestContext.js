@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 import { QUESTIONS } from "../constants/Questions";
 
+//The number of questions on the stress test
 const STRESS_TEST_MAX_QUESTIONS_NUMBER = 8;
 
 const StressTestContext = createContext();
@@ -10,9 +11,11 @@ export const StressTestProvider = ({ children }) => {
     const router = useRouter();
     const [stressTestQuestions, setStressTestQuestions] = useState([]);
 
+    //Gets random questions in order to be different every time the user submit a stress test
     useEffect(() => {
         const randomQuestions = [];
         const dataQuestions = [...QUESTIONS];
+        //If the questions are less than the max number of questions
         const maxNumberOfQuestions = QUESTIONS.length < STRESS_TEST_MAX_QUESTIONS_NUMBER ? QUESTIONS.length : STRESS_TEST_MAX_QUESTIONS_NUMBER
 
         for (let i = 0; i < maxNumberOfQuestions; i++) {

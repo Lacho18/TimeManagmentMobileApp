@@ -17,21 +17,20 @@ export default function StressTest() {
   const { theme } = useTheme();
   const { stressTestQuestions } = useStressTest();
 
+  //Reference to the carousel
   const carouselRef = useRef(null);
+  //The user answers stored in an array ref
   const userAnswers = useRef([]);
-
-  console.log(stressTestQuestions);
 
   //fills the array of answers with nulls
   while (userAnswers.current.length < stressTestQuestions.length) {
     userAnswers.current.push(null); // Or use any default value like 'null'
   }
 
+  //Thew current question index
   const [index, setIndex] = useState(0);
+  //Percentage value from the current value index. Used for progress bar
   const [progressPercent, setProgressPercent] = useState(0);
-
-  console.log("User answers");
-  console.log(userAnswers.current);
 
   //Calculates the percent of the progression
   useEffect(() => {
@@ -42,18 +41,22 @@ export default function StressTest() {
     }
   }, [index]);
 
+  //Function that executes every time the user submit answer
   function answerQuestionHandler(userAnswer, currentQuestionIndex) {
     //Stores the user answers
     userAnswers.current[currentQuestionIndex] = userAnswer;
 
+    //Calculates the next index because when answer is given the questions automatically goes forward
     const nextIndex = currentQuestionIndex + 1;
 
+    //If the question is not last update the question
     if (nextIndex < stressTestQuestions.length) {
       setIndex(currentQuestionIndex + 1);
       carouselRef.current.scrollTo({
         index: nextIndex,
         animated: true,
       });
+      //Update the percentage to 100 on the last question submit
     } else setProgressPercent(100);
   }
 

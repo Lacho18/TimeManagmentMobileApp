@@ -8,6 +8,7 @@ export default function BaseQuestionComponent({
   answerQuestionHandler,
   userAnswer,
 }) {
+  //Decides what component to render by the type of the question
   if (currentQuestion.type === "singleAnswer") {
     return (
       <SingleAnswerQuestion

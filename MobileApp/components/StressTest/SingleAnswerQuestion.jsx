@@ -9,8 +9,7 @@ export default function SingleAnswerQuestion({
 }) {
   const { theme } = useTheme();
 
-  console.log(userAnswer);
-
+  //Sends the answer to the upper component
   function onGivenAnswer(answerIndex) {
     answerQuestionHandler(answerIndex, currentQuestionIndex);
   }
