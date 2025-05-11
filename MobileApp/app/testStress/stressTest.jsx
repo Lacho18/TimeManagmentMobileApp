@@ -17,8 +17,6 @@ export default function StressTest() {
   const { theme } = useTheme();
   const { stressTestQuestions } = useStressTest();
 
-  console.log(stressTestQuestions);
-
   //Reference to the carousel
   const carouselRef = useRef(null);
   //The user answers stored in an array ref
@@ -34,10 +32,8 @@ export default function StressTest() {
   //Percentage value from the current value index. Used for progress bar
   const [progressPercent, setProgressPercent] = useState(0);
 
+  //Follows when the carousel to be active. It is only not active when the user uses  Slider on the PercentAnswerQuestion type
   const [activeSwiper, setActiveSwiper] = useState(false);
-
-  console.log("ARE MOLQ TI SAAAAA");
-  console.log(activeSwiper);
 
   //Calculates the percent of the progression
   useEffect(() => {
