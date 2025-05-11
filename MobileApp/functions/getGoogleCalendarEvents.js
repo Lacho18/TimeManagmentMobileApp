@@ -17,7 +17,8 @@ export const getGoogleCalendarEvents = async (token) => {
             }
         );
 
-        return response.items;
+        console.log(response);
+        return response.data.items;
     }
     catch (error) {
         console.error(error);
