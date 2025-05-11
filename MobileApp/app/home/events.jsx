@@ -17,6 +17,8 @@ export default function Events() {
       if (token) {
         setGoogleToken(token);
         const eventsData = await getGoogleCalendarEvents(token);
+
+        setGoogleEvents(eventsData);
       }
     }
 

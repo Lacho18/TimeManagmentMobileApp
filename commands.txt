@@ -1,4 +1,4 @@
 git add .
-git commit -m "Making the stress test submit button to go back to the previous page"
+git commit -m "Getting events from google calendar"
 git branch -M main
 git push -u origin main 
