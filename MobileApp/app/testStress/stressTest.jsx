@@ -10,6 +10,7 @@ import { useStressTest } from "../../context/StressTestContext";
 import { useEffect, useRef, useState } from "react";
 import Carousel from "react-native-reanimated-carousel";
 import BaseQuestionComponent from "../../components/StressTest/BaseQuestionComponent";
+import { router } from "expo-router";
 
 const screenWidth = Dimensions.get("window").width - 10;
 
@@ -61,6 +62,10 @@ export default function StressTest() {
       });
       //Update the percentage to 100 on the last question submit
     } else setProgressPercent(100);
+  }
+
+  function submitStressTestAnswers() {
+    router.back();
   }
 
   const styles = StyleSheet.create({
@@ -175,7 +180,10 @@ export default function StressTest() {
         </View>
       </View>
       {!userAnswers.current.includes(null) && (
-        <TouchableOpacity style={styles.submitButton}>
+        <TouchableOpacity
+          style={styles.submitButton}
+          onPress={submitStressTestAnswers}
+        >
           <Text style={styles.submitButtonText}>Submit stress test form</Text>
         </TouchableOpacity>
       )}
