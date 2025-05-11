@@ -2,7 +2,7 @@ import { Image, Text, TouchableOpacity } from "react-native";
 import { GLOBAL_STYLES } from "@/constants/PageStyle";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
-import { makeRedirectUri } from "expo-auth-session";
+import { exchangeCodeAsync, makeRedirectUri } from "expo-auth-session";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -27,6 +27,9 @@ export default function GoogleAuth({ theme, router }) {
       "https://www.googleapis.com/auth/userinfo.profile",
     ],
     redirectUri: makeRedirectUri({ useProxy: true }),
+    //responseType: "code",
+    //accessType: "offline",
+    //prompt: "consent",
   });
 
   useEffect(() => {
@@ -43,7 +46,18 @@ export default function GoogleAuth({ theme, router }) {
     //If user not found, it means no user has logged in
     if (!user) {
       if (response?.type === "success") {
+        const { code } = response.params;
+        console.log("TYKA SUMMMMMMMMMMMMMMMMMMMMMM");
+        console.log(code);
         setToken(response.authentication.accessToken);
+        /*exchangeCodeForToken(code)
+          .then((tokens) => {
+            AsyncStorage.setItem("@token", tokens.access_token);
+            AsyncStorage.setItem("@refreshToken", tokens.refresh_token);
+            setToken(tokens.access_token);
+            getUserInfo(tokens.access_token);
+          })
+          .catch((err) => console.error(err));*/
         await getUserInfo(response.authentication.accessToken);
       }
     } else {
@@ -76,6 +90,33 @@ export default function GoogleAuth({ theme, router }) {
     } catch (err) {
       console.error(err);
     }
+  }
+
+  async function exchangeCodeForToken(code) {
+    const data = {
+      code,
+      client_id: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID,
+      client_secret: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_SECRET,
+      redirect_uri: makeRedirectUri({ useProxy: true }),
+      grant_type: "authorization_code",
+    };
+
+    const formBody = Object.keys(data)
+      .map(
+        (key) => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`
+      )
+      .join("&");
+
+    const response = await fetch("https://oauth2.googleapis.com/token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: formBody,
+    });
+
+    const tokens = await response.json();
+    return tokens; // { access_token, refresh_token, expires_in, ... }
   }
 
   console.log("USER INFO:");

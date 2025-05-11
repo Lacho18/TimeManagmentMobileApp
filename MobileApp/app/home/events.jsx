@@ -3,10 +3,12 @@ import { useTheme } from "../../context/ThemeContext";
 import { GLOBAL_STYLES } from "@/constants/PageStyle";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getGoogleCalendarEvents } from "../../functions/getGoogleCalendarEvents";
 
 export default function Events() {
   const { theme } = useTheme();
   const [googleToken, setGoogleToken] = useState(null);
+  const [googleEvents, setGoogleEvents] = useState([]);
 
   useEffect(() => {
     async function getGoogleToken() {
@@ -14,6 +16,7 @@ export default function Events() {
 
       if (token) {
         setGoogleToken(token);
+        const eventsData = await getGoogleCalendarEvents(token);
       }
     }
 
