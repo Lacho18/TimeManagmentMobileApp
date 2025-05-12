@@ -41,13 +41,13 @@ export const millisecondsCalculator = (milliseconds) => {
         return `${months} month${months > 1 && "s"}`;
     }
     else if (days > 0) {
-        return `${days} day${days > 1 && "s"} ${hours > 0 && "and " + hours + "hours"}`;
+        return `${days} day${days > 1 ? "s" : ""} ${hours > 0 && "and " + hours + " hours"}`;
     }
     else if (hours > 0) {
-        return `${hours} hour${hours > 1 && "s"} ${minutes > 0 && `and ${minutes} minute${minutes > 1 && "s"}`}`;
+        return `${hours} hour${hours > 1 ? "s" : ""} ${minutes > 0 && `and ${minutes} minute${minutes > 1 && "s"}`}`;
     }
     else {
-        return `${minutes} minute${minutes > 1 && "s"}`;
+        return `${minutes} minute${minutes > 1 ? "s" : ""}`;
     }
 }
 

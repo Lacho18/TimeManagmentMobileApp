@@ -1,10 +1,22 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { formatDate, millisecondsCalculator } from "../../utils/dateUtil";
+
+//Icons
+import AntDesign from "@expo/vector-icons/AntDesign";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
 const MAX_SHORT_DESCRIPTION_LENGTH = 20;
 
 export default function SingleEventBoxView({ event, theme }) {
   const [eventDescription, setEventDescription] = useState("");
+  const startTime = useRef(new Date(event.start.dateTime));
+  const endTime = useRef(new Date(event.end.dateTime));
+
+  const eventDuration = useRef(
+    millisecondsCalculator(endTime.current - startTime.current)
+  );
 
   useEffect(() => {
     if (event.description.length < MAX_SHORT_DESCRIPTION_LENGTH) {
@@ -15,6 +27,10 @@ export default function SingleEventBoxView({ event, theme }) {
       setEventDescription(subString);
     }
   }, []);
+
+  function getFullText() {
+    setEventDescription(event.description);
+  }
 
   const styles = StyleSheet.create({
     mainDiv: {
@@ -34,7 +50,39 @@ export default function SingleEventBoxView({ event, theme }) {
       color: theme.background,
       fontWeight: "bold",
     },
+    descriptionDiv: {
+      display: "flex",
+      flexDirection: "row",
+      width: "100%",
+      flexWrap: "wrap",
+    },
     descriptionText: {
+      fontSize: 15,
+      color: theme.background,
+    },
+    readMoreButton: {
+      alignSelf: "flex-end",
+      backgroundColor: "transparent",
+      marginLeft: 20,
+    },
+    readMoreText: {
+      fontSize: 14,
+      color: theme.background,
+      fontStyle: "italic",
+      textDecorationLine: "underline",
+    },
+    detailsDiv: {
+      display: "flex",
+      gap: 15,
+    },
+    singleDetailDiv: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 15,
+    },
+
+    singleDetailText: {
       fontSize: 15,
       color: theme.background,
     },
@@ -43,17 +91,43 @@ export default function SingleEventBoxView({ event, theme }) {
   return (
     <View style={styles.mainDiv}>
       <Text style={styles.title}>{event.summary}</Text>
-      <View>
+      <View style={styles.descriptionDiv}>
         <Text style={styles.descriptionText}>{eventDescription}</Text>
-        {eventDescription.includes("....") ? (
-          <TouchableOpacity>
-            <Text>Read more</Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity>
-            <Text>Hide</Text>
+        {eventDescription.includes("....") && (
+          <TouchableOpacity style={styles.readMoreButton} onPress={getFullText}>
+            <Text style={styles.readMoreText}>Read more</Text>
           </TouchableOpacity>
         )}
+      </View>
+      <View style={styles.detailsDiv}>
+        <View style={styles.singleDetailDiv}>
+          <AntDesign name="calendar" size={28} color={theme.highlight} />
+          <Text style={styles.singleDetailText}>
+            {formatDate(new Date(event.start.dateTime))}
+          </Text>
+        </View>
+        <View style={styles.singleDetailDiv}>
+          <FontAwesome5
+            name="calendar-times"
+            size={28}
+            color={theme.highlight}
+          />
+          <Text style={styles.singleDetailText}>
+            {formatDate(new Date(event.end.dateTime))}
+          </Text>
+        </View>
+        <View style={styles.singleDetailDiv}>
+          <FontAwesome6
+            name="hourglass-end"
+            size={28}
+            color={theme.highlight}
+          />
+          <Text style={styles.singleDetailText}>{eventDuration.current}</Text>
+        </View>
+        <View style={styles.singleDetailDiv}>
+          <FontAwesome6 name="location-dot" size={28} color={theme.highlight} />
+          <Text style={styles.singleDetailText}>{event.location}</Text>
+        </View>
       </View>
     </View>
   );
