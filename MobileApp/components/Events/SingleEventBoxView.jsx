@@ -35,14 +35,14 @@ export default function SingleEventBoxView({ event, theme }) {
   const styles = StyleSheet.create({
     mainDiv: {
       width: "90%",
-      height: 300,
       borderWidth: 5,
       borderColor: theme.primary,
       borderRadius: 18,
       display: "flex",
       gap: 10,
       backgroundColor: theme.secondary,
-      padding: 10,
+      paddingHorizontal: 10,
+      paddingVertical: 20,
     },
 
     title: {
@@ -55,6 +55,7 @@ export default function SingleEventBoxView({ event, theme }) {
       flexDirection: "row",
       width: "100%",
       flexWrap: "wrap",
+      marginBottom: 15,
     },
     descriptionText: {
       fontSize: 15,
@@ -73,7 +74,7 @@ export default function SingleEventBoxView({ event, theme }) {
     },
     detailsDiv: {
       display: "flex",
-      gap: 15,
+      gap: 25,
     },
     singleDetailDiv: {
       display: "flex",

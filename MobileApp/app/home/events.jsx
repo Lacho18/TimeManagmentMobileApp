@@ -13,7 +13,6 @@ import SingleEventBoxView from "../../components/Events/SingleEventBoxView";
 
 export default function Events() {
   const { theme } = useTheme();
-  const [googleToken, setGoogleToken] = useState(null);
   const [googleEvents, setGoogleEvents] = useState([]);
 
   useEffect(() => {
@@ -21,7 +20,6 @@ export default function Events() {
       const token = await AsyncStorage.getItem("@token");
 
       if (token) {
-        setGoogleToken(token);
         const eventsData = await getGoogleCalendarEvents(token);
 
         setGoogleEvents(eventsData);
@@ -43,7 +41,21 @@ export default function Events() {
       display: "flex",
       justifyContent: "flex-start",
       alignItems: "center",
-      gap: 20,
+      gap: 10,
+    },
+    title: {
+      fontSize: 30,
+      color: theme.text,
+      fontWeight: "bold",
+      alignSelf: "flex-start",
+      marginLeft: 10,
+    },
+    subTitle: {
+      fontSize: 18,
+      color: theme.text,
+      alignSelf: "flex-start",
+      marginLeft: 10,
+      marginBottom: 10,
     },
   });
 
@@ -52,6 +64,8 @@ export default function Events() {
       style={styles.mainDiv}
       contentContainerStyle={styles.tasksContainerStyle}
     >
+      <Text style={styles.title}>Events</Text>
+      <Text style={styles.subTitle}>{googleEvents.length} events</Text>
       {googleEvents.map((event) => (
         <SingleEventBoxView key={event.id} event={event} theme={theme} />
       ))}

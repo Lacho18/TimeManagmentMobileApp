@@ -33,7 +33,7 @@ const colorThemes = {
         primary: "#1F1F1F",
         accent: "#2A2A2A",
         secondary: "#B0B0B0",
-        highlight: "#BB86FC" // Same purple neon used in modern dark themes
+        highlight: "#3A3A3A" // Same purple neon used in modern dark themes
     }
 };
 
