@@ -2,10 +2,29 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useState } from "react";
 
-export default function CalendarBoxView({ calendar, theme }) {
-  const [currentCalendarEvents, setCurrentCalendarEvents] = useState([]);
+import * as Calendar from "expo-calendar";
+import CalendarEventsView from "./CalendarEventsView";
 
-  function getCurrentCalendarEvents() {}
+export default function CalendarBoxView({ calendar, theme }) {
+  const [currentCalendarEvents, setCurrentCalendarEvents] = useState(null);
+
+  async function getCurrentCalendarEvents() {
+    const startDate = new Date();
+    const endDate = new Date();
+
+    startDate.setMonth(startDate.getMonth() - 6);
+    endDate.setMonth(endDate.getMonth() + 6);
+
+    const events = await Calendar.getEventsAsync(
+      [calendar.id],
+      startDate,
+      endDate
+    );
+
+    setCurrentCalendarEvents(events);
+  }
+
+  console.log(currentCalendarEvents);
 
   const styles = StyleSheet.create({
     mainDiv: {
@@ -38,10 +57,23 @@ export default function CalendarBoxView({ calendar, theme }) {
     <View style={styles.mainDiv}>
       <View style={styles.contextDiv}>
         <Text style={styles.calendarName}>{calendar.name}</Text>
-        <TouchableOpacity style={styles.showEventsButton}>
+        <TouchableOpacity
+          style={styles.showEventsButton}
+          onPress={getCurrentCalendarEvents}
+        >
           <AntDesign name="caretdown" size={24} color="black" />
         </TouchableOpacity>
       </View>
+      {currentCalendarEvents &&
+        (currentCalendarEvents.length > 0 ? (
+          <View>
+            <CalendarEventsView events={currentCalendarEvents} theme={theme} />
+          </View>
+        ) : (
+          <View>
+            <Text>No events for this calendar</Text>
+          </View>
+        ))}
     </View>
   );
 }
