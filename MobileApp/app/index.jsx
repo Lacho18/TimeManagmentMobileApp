@@ -6,6 +6,8 @@ import { useRouter } from "expo-router";
 import { useEffect } from "react";
 import GoogleAuth from "../components/GoogleAuth";
 
+import * as Calendar from "expo-calendar";
+
 export default function Index() {
   const { theme, toggleTheme } = useTheme();
   const router = useRouter();
@@ -14,6 +16,13 @@ export default function Index() {
     //Gets the theme before component is loaded
     async function setColorTheme() {
       const savedTheme = await AsyncStorage.getItem("theme");
+
+      //Asks the user that the app will use the calendar of the device
+      const { status } = await Calendar.requestCalendarPermissionsAsync();
+
+      if (status !== "granted") {
+        console.log("Permission to access calendar was denied");
+      }
 
       if (savedTheme) {
         toggleTheme(savedTheme);
@@ -26,9 +35,9 @@ export default function Index() {
       console.log(userId);
 
       if (userId) {
-        //await AsyncStorage.removeItem("@user");
+        await AsyncStorage.removeItem("@user");
 
-        router.push("/home/dailyTasks");
+        //router.push("/home/dailyTasks");
       }
     }
 
