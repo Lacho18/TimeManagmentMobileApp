@@ -6,7 +6,10 @@ import { getGoogleCalendarEvents } from "../../functions/getGoogleCalendarEvents
 import SingleEventBoxView from "../../components/Events/SingleEventBoxView";
 import { useUser } from "../../context/UserContext";
 
+import * as Calendar from "expo-calendar";
+
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import CalendarBoxView from "../../components/Events/CalendarBoxView";
 
 /*
   1. Opravi stilovo eventite
@@ -21,7 +24,8 @@ export default function Events() {
   console.log(user);
 
   const [googleEvents, setGoogleEvents] = useState([]);
-  const [deviceCalendarEvents, setDeviceCalendarEvents] = useState([]);
+  const [deviceCalendars, setDeviceCalendars] = useState([]);
+  const [calendarStatus, setCalendarStatus] = useState("");
 
   useEffect(() => {
     async function getGoogleToken() {
@@ -34,7 +38,18 @@ export default function Events() {
       }
     }
 
+    async function getDeviceCalendarData() {
+      //Gets device calendars
+      const { status } = await Calendar.requestCalendarPermissionsAsync();
+      setCalendarStatus(status);
+
+      const calendars = await Calendar.getCalendarsAsync();
+      setDeviceCalendars(calendars);
+      //console.log("Here are your calendars:", calendars);
+    }
+
     getGoogleToken();
+    getDeviceCalendarData();
   }, []);
 
   console.log(googleEvents);
@@ -83,6 +98,11 @@ export default function Events() {
       fontSize: 18,
       color: theme.text,
     },
+    deviceCalendarsDiv: {
+      width: "90%",
+      display: "flex",
+      gap: 30,
+    },
   });
 
   return (
@@ -107,6 +127,18 @@ export default function Events() {
             <SingleEventBoxView key={event.id} event={event} theme={theme} />
           ))}
         </View>
+      )}
+      {calendarStatus === "granted" ? (
+        <View style={styles.deviceCalendarsDiv}>
+          {deviceCalendars.map((calendar) => (
+            <CalendarBoxView calendar={calendar} theme={theme} />
+          ))}
+        </View>
+      ) : (
+        <Text>
+          In order to see device events data, allow the application to use the
+          device calendar
+        </Text>
       )}
     </ScrollView>
   );
