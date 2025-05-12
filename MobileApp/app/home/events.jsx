@@ -53,7 +53,7 @@ export default function Events() {
       contentContainerStyle={styles.tasksContainerStyle}
     >
       {googleEvents.map((event) => (
-        <SingleEventBoxView event={event} theme={theme} />
+        <SingleEventBoxView key={event.id} event={event} theme={theme} />
       ))}
     </ScrollView>
   );

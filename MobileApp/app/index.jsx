@@ -26,9 +26,9 @@ export default function Index() {
       console.log(userId);
 
       if (userId) {
-        await AsyncStorage.removeItem("@user");
+        //await AsyncStorage.removeItem("@user");
 
-        //router.push("/home/dailyTasks");
+        router.push("/home/dailyTasks");
       }
     }
 
