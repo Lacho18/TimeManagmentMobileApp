@@ -1,4 +1,4 @@
 git add .
-git commit -m "Adding styling to events"
+git commit -m "Adding additional styling to events"
 git branch -M main
 git push -u origin main 
