@@ -60,6 +60,16 @@ export default function EventsMonthView({ month, theme }) {
 
     eventsBoxesDiv: {
       marginTop: 15,
+      display: "flex",
+      gap: 15,
+    },
+
+    eventsBox: {
+      borderWidth: 3,
+      borderColor: theme.secondary,
+      backgroundColor: theme.secondary,
+      padding: 10,
+      display: "flex",
     },
   });
 
@@ -96,9 +106,11 @@ export default function EventsMonthView({ month, theme }) {
           </View>
         ))}
       </View>
-      <View>
-        {month.events.map((event) => (
-          <Text>{event.title}</Text>
+      <View style={styles.eventsBoxesDiv}>
+        {month.events.map((event, index) => (
+          <View key={index} style={styles.eventsBox}>
+            <Text>{event.title}</Text>
+          </View>
         ))}
       </View>
     </ScrollView>
