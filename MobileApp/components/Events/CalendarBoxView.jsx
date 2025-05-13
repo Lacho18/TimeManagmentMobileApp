@@ -22,6 +22,7 @@ export default function CalendarBoxView({
   function handleCloseCalendar() {
     if (currentCalendarEvents !== null) {
       setCurrentCalendarEvents(null);
+      unselectCalendar();
     }
   }
 

@@ -61,7 +61,8 @@ export default function Events() {
     mainDiv: {
       flex: 1,
       backgroundColor: theme.background,
-      paddingVertical: 30,
+      paddingVertical: 50,
+      paddingBottom: 100,
     },
     tasksContainerStyle: {
       display: "flex",
@@ -139,7 +140,7 @@ export default function Events() {
               calendar={calendar}
               theme={theme}
               selectCalendar={() => setSelectedDeviceCalendar(true)}
-              unselectCalendar={() => selectedDeviceCalendar(false)}
+              unselectCalendar={() => setSelectedDeviceCalendar(false)}
             />
           ))}
         </View>

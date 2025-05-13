@@ -14,10 +14,6 @@ import EventsMonthView from "./EventsMonthView";
 
 import Fontisto from "@expo/vector-icons/Fontisto";
 
-/*
-    Ideqta e za meseca da se vishda kato v tradicionen kalendar kato ako ima dni sus subitie te shte svetqt v dryg cvqt i mslko ksto se scrolne shte pishe datata i subitiqta
-*/
-
 export default function CalendarEventsView({
   calendarName,
   events,
@@ -59,10 +55,10 @@ export default function CalendarEventsView({
 
   const styles = StyleSheet.create({
     mainDiv: {
-      position: "fixed",
+      position: "absolute",
       top: "50%",
       left: "50%",
-      transform: "translate(-50%, -75%)",
+      transform: "translate(-50%, -50%)",
       width: "100%",
       height: 400,
       backgroundColor: theme.primary,
