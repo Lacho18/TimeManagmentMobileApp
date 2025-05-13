@@ -30,8 +30,6 @@ export default function CalendarBoxView({
     setCurrentCalendarEvents(events);
   }
 
-  console.log(currentCalendarEvents);
-
   const styles = StyleSheet.create({
     mainDiv: {
       width: "100%",

@@ -3,10 +3,10 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { isSameDay, parseISO } from "date-fns";
 import { ScrollView } from "react-native-gesture-handler";
 import { formatDateMonthName } from "../../utils/dateUtil";
+import { useRef } from "react";
 
 export default function EventsMonthView({ month, theme }) {
-  console.log("EY TYKA GLEDAY MAIKA MY DA EBA");
-  console.log(month.events);
+  const scrollViewRef = useRef(null);
 
   function dayWithEvent(currentDay, events) {
     return events.some((event) =>
@@ -85,7 +85,7 @@ export default function EventsMonthView({ month, theme }) {
   });
 
   return (
-    <ScrollView style={styles.monthContainer}>
+    <ScrollView ref={scrollViewRef} style={styles.monthContainer}>
       <Text style={styles.monthTitle}>{month.title}</Text>
       <View style={styles.weekDays}>
         {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
@@ -109,7 +109,11 @@ export default function EventsMonthView({ month, theme }) {
               dayWithEvent(day, month.events) ? styles.eventDayCell : null,
             ]}
           >
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity
+              onPress={() => {
+                scrollViewRef.current.scrollToEnd();
+              }}
+            >
               <Text style={{ color: theme.background, fontSize: 15 }}>
                 {format(day, "d")}
               </Text>

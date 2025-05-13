@@ -1,4 +1,4 @@
 git add .
-git commit -m "Adding expo calendar to events page"
+git commit -m "Adding scroll to end feature when the calendar date is clicked"
 git branch -M main
 git push -u origin main 
