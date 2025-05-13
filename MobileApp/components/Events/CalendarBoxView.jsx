@@ -27,6 +27,15 @@ export default function CalendarBoxView({
   }
 
   async function getCurrentCalendarEvents() {
+    //This happens if the user has clicked the button that shows the events and there is no events. If he clicks it again it triggers this condition which closes the message
+    if (
+      Array.isArray(currentCalendarEvents) &&
+      currentCalendarEvents.length === 0
+    ) {
+      handleCloseCalendar();
+      return;
+    }
+
     selectCalendar();
     const startDate = new Date();
     const endDate = new Date();
@@ -68,6 +77,21 @@ export default function CalendarBoxView({
       display: "flex",
       alignItems: "flex-end",
     },
+    noEventsTextDiv: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      width: "100%",
+      backgroundColor: theme.secondary,
+      borderWidth: 5,
+      borderColor: theme.accent,
+      borderTopWidth: 0,
+      paddingVertical: 3,
+    },
+    noEventsText: {
+      fontSize: 15,
+      color: "red",
+    },
   });
 
   return (
@@ -92,8 +116,8 @@ export default function CalendarBoxView({
             />
           </View>
         ) : (
-          <View>
-            <Text>No events for this calendar</Text>
+          <View style={styles.noEventsTextDiv}>
+            <Text style={styles.noEventsText}>No events for this calendar</Text>
           </View>
         ))}
     </View>
