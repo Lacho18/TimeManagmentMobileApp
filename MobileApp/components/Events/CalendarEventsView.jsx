@@ -51,8 +51,6 @@ export default function CalendarEventsView({ calendarName, events, theme }) {
     return months;
   }, [events]);
 
-  //console.log(monthData);
-
   const styles = StyleSheet.create({
     mainDiv: {
       position: "fixed",
