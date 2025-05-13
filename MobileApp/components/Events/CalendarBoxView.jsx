@@ -1,4 +1,10 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useState } from "react";
 
@@ -12,6 +18,12 @@ export default function CalendarBoxView({
   unselectCalendar,
 }) {
   const [currentCalendarEvents, setCurrentCalendarEvents] = useState(null);
+
+  function handleCloseCalendar() {
+    if (currentCalendarEvents !== null) {
+      setCurrentCalendarEvents(null);
+    }
+  }
 
   async function getCurrentCalendarEvents() {
     selectCalendar();
@@ -58,7 +70,7 @@ export default function CalendarBoxView({
   });
 
   return (
-    <View style={styles.mainDiv}>
+    <View style={styles.mainDiv} onPress={handleCloseCalendar}>
       <View style={styles.contextDiv}>
         <Text style={styles.calendarName}>{calendar.name}</Text>
         <TouchableOpacity
@@ -75,6 +87,7 @@ export default function CalendarBoxView({
               calendarName={calendar.name}
               events={currentCalendarEvents}
               theme={theme}
+              closeCalendar={() => handleCloseCalendar()}
             />
           </View>
         ) : (

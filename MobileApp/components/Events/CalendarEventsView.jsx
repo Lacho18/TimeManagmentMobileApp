@@ -7,17 +7,23 @@ import {
   isSameMonth,
   parseISO,
 } from "date-fns";
-import { StyleSheet, Text, View } from "react-native";
-import MonthView from "../NewTaskComponents/MonthView";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import EventsMonthView from "./EventsMonthView";
+
+import Fontisto from "@expo/vector-icons/Fontisto";
 
 /*
     Ideqta e za meseca da se vishda kato v tradicionen kalendar kato ako ima dni sus subitie te shte svetqt v dryg cvqt i mslko ksto se scrolne shte pishe datata i subitiqta
 */
 
-export default function CalendarEventsView({ calendarName, events, theme }) {
+export default function CalendarEventsView({
+  calendarName,
+  events,
+  theme,
+  closeCalendar,
+}) {
   const [parentWidth, setParentWidth] = useState(0);
 
   const today = new Date();
@@ -70,6 +76,15 @@ export default function CalendarEventsView({ calendarName, events, theme }) {
     currentMonth: {
       fontSize: 18,
       color: theme.text,
+      marginBottom: 3,
+    },
+
+    closeButton: {
+      position: "absolute",
+      top: 0,
+      right: 0,
+      backgroundColor: "red",
+      padding: 8,
     },
   });
 
@@ -82,6 +97,9 @@ export default function CalendarEventsView({ calendarName, events, theme }) {
       }}
     >
       <Text style={styles.currentMonth}>{calendarName}</Text>
+      <TouchableOpacity style={styles.closeButton} onPress={closeCalendar}>
+        <Fontisto name="close-a" size={20} color="black" />
+      </TouchableOpacity>
       {parentWidth > 0 && (
         <Carousel
           loop={false}
