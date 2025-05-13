@@ -5,10 +5,16 @@ import { useState } from "react";
 import * as Calendar from "expo-calendar";
 import CalendarEventsView from "./CalendarEventsView";
 
-export default function CalendarBoxView({ calendar, theme }) {
+export default function CalendarBoxView({
+  calendar,
+  theme,
+  selectCalendar,
+  unselectCalendar,
+}) {
   const [currentCalendarEvents, setCurrentCalendarEvents] = useState(null);
 
   async function getCurrentCalendarEvents() {
+    selectCalendar();
     const startDate = new Date();
     const endDate = new Date();
 
@@ -67,7 +73,11 @@ export default function CalendarBoxView({ calendar, theme }) {
       {currentCalendarEvents &&
         (currentCalendarEvents.length > 0 ? (
           <View>
-            <CalendarEventsView events={currentCalendarEvents} theme={theme} />
+            <CalendarEventsView
+              calendarName={calendar.name}
+              events={currentCalendarEvents}
+              theme={theme}
+            />
           </View>
         ) : (
           <View>

@@ -27,6 +27,9 @@ export default function Events() {
   const [deviceCalendars, setDeviceCalendars] = useState([]);
   const [calendarStatus, setCalendarStatus] = useState("");
 
+  //Used to stop the scroll view when a calendar has been selected
+  const [selectedDeviceCalendar, setSelectedDeviceCalendar] = useState(false);
+
   useEffect(() => {
     async function getGoogleToken() {
       const token = await AsyncStorage.getItem("@token");
@@ -109,6 +112,7 @@ export default function Events() {
     <ScrollView
       style={styles.mainDiv}
       contentContainerStyle={styles.tasksContainerStyle}
+      scrollEnabled={!selectedDeviceCalendar}
     >
       <Text style={styles.title}>Events</Text>
       <Text style={styles.subTitle}>{googleEvents.length} events</Text>
@@ -131,7 +135,12 @@ export default function Events() {
       {calendarStatus === "granted" ? (
         <View style={styles.deviceCalendarsDiv}>
           {deviceCalendars.map((calendar) => (
-            <CalendarBoxView calendar={calendar} theme={theme} />
+            <CalendarBoxView
+              calendar={calendar}
+              theme={theme}
+              selectCalendar={() => setSelectedDeviceCalendar(true)}
+              unselectCalendar={() => selectedDeviceCalendar(false)}
+            />
           ))}
         </View>
       ) : (
