@@ -2,6 +2,7 @@ import { format } from "date-fns";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { isSameDay, parseISO } from "date-fns";
 import { ScrollView } from "react-native-gesture-handler";
+import { formatDateMonthName } from "../../utils/dateUtil";
 
 export default function EventsMonthView({ month, theme }) {
   console.log("EY TYKA GLEDAY MAIKA MY DA EBA");
@@ -59,7 +60,7 @@ export default function EventsMonthView({ month, theme }) {
     },
 
     eventsBoxesDiv: {
-      marginTop: 15,
+      marginVertical: 25,
       display: "flex",
       gap: 15,
     },
@@ -70,6 +71,16 @@ export default function EventsMonthView({ month, theme }) {
       backgroundColor: theme.secondary,
       padding: 10,
       display: "flex",
+    },
+
+    eventBoxMonthName: {
+      color: theme.background,
+      fontSize: 12,
+    },
+
+    eventBoxEventName: {
+      color: theme.background,
+      fontSize: 15,
     },
   });
 
@@ -109,7 +120,10 @@ export default function EventsMonthView({ month, theme }) {
       <View style={styles.eventsBoxesDiv}>
         {month.events.map((event, index) => (
           <View key={index} style={styles.eventsBox}>
-            <Text>{event.title}</Text>
+            <Text style={styles.eventBoxMonthName}>
+              {formatDateMonthName(new Date(event.startDate), false)}
+            </Text>
+            <Text style={styles.eventBoxEventName}>{event.title}</Text>
           </View>
         ))}
       </View>

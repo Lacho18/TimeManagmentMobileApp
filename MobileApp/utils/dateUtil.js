@@ -13,7 +13,7 @@ export const formatDate = (date) => {
     return `${twoDigits(date.getDate())}.${twoDigits(date.getMonth() + 1)}.${date.getFullYear()} at time ${twoDigits(date.getHours())}:${twoDigits(date.getMinutes())}`;
 }
 
-export const formatDateMonthName = (date) => {
+export const formatDateMonthName = (date, withHours = true) => {
     if (date?.toDate) {
         date = date.toDate();
     }
@@ -22,7 +22,13 @@ export const formatDateMonthName = (date) => {
 
     const twoDigits = (num) => num.toString().padStart(2, '0');
 
-    return `${twoDigits(date.getDate())} ${months[date.getMonth()]} ${twoDigits(date.getHours())}:${twoDigits(date.getMinutes())}`;
+    if (withHours) {
+        return `${twoDigits(date.getDate())} ${months[date.getMonth()]} ${twoDigits(date.getHours())}:${twoDigits(date.getMinutes())}`;
+    }
+    else {
+        return `${twoDigits(date.getDate())} ${months[date.getMonth()]}`;
+    }
+
 }
 
 //Calculates text value from given milliseconds
