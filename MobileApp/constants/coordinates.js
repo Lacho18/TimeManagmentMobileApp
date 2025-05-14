@@ -1,0 +1,2 @@
+export const DEFAULT_MAP_LONGITUDE = 25.4858;
+export const DEFAULT_MAP_LATITUDE = 42.7339;

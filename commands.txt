@@ -1,4 +1,4 @@
 git add .
-git commit -m "Аддинг цоммент то ежентс паге цомпонентс"
+git commit -m "Adding select task location functionality"
 git branch -M main
 git push -u origin main 

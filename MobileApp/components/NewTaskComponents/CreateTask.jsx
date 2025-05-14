@@ -7,7 +7,7 @@ import {
   Dimensions,
   Animated,
   TextInput,
-  CheckBox,
+  //CheckBox,
   ScrollView,
 } from "react-native";
 import Fontisto from "@expo/vector-icons/Fontisto";
@@ -20,6 +20,7 @@ import TimeSelector from "./TimeSelector";
 import TaskDate from "./TaskDate";
 import { dateValidation } from "../../functions/dateValidation";
 import { createTask } from "../../database/taskController";
+import TaskLocation from "./TaskLocation";
 
 const screenHeight = Dimensions.get("window").height;
 
@@ -329,6 +330,8 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
           </View>
         </View>
 
+        <TaskLocation />
+
         <View
           style={{
             flex: 1,
@@ -339,7 +342,7 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
             marginTop: 18,
           }}
         >
-          <CheckBox
+          {/*<CheckBox
             value={newTask.repeating.isRepeating}
             onValueChange={() => {
               setNewTask((oldValue) => ({
@@ -351,7 +354,7 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
               }));
             }}
             tintColors={{ true: "#FF8C00", false: "gray" }}
-          />
+          />*/}
           <Text style={styles.labelText}>
             Do you want the task to repeate every day
           </Text>
