@@ -21,22 +21,31 @@ import MenuOptions from "../../components/DailyTasks/MenuOptions";
 export default function DailyTasks() {
   const { theme } = useTheme();
   const { loading } = useUser();
+
+  //All tasks for the current date
   const [allDailyTasks, setAllDailyTasks] = useState([]);
+
+  //Object for the selected task used in SelectedTask component
   const [selectedTask, setSelectedTask] = useState(null);
 
+  //Reference to the button that visualize the menu
   const menuButtonRef = useRef(null);
+
+  //Position for the menu component. Dynamically positioned based on the device width and height
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
+
+  //Follows whether the menu is visible or not
   const [showMenu, setShowMenu] = useState(false);
 
+  //Describes the last selected filter in order to reverse if the same filter is selected second time
   const lastSelectedFilter = useRef({
     type: "startTime",
     sorting: "ascending",
   });
 
-  console.log(allDailyTasks);
-
   useEffect(() => {
     async function getTodayTasks() {
+      //RETURN AFTER FINISHING THE APP
       //const result = await getTaskForGivenDay(new Date());
 
       const result = DUMMY_DATA_TASKS;

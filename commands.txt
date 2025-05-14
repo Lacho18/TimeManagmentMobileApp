@@ -1,4 +1,4 @@
 git add .
-git commit -m "Adding location visual field to selected task component"
+git commit -m "Adding comments to daily tasks"
 git branch -M main
 git push -u origin main 
