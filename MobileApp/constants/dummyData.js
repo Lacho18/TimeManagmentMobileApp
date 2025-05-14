@@ -12,6 +12,7 @@ export const DUMMY_DATA_TASKS = [
         endTime: null,
         duration: 0,
         durationColor: "",
+        location: "City: Gabrovo, Street: Asen Asenev",
         reminder: null,
         repeating: {
             isRepeating: false,
@@ -31,6 +32,7 @@ export const DUMMY_DATA_TASKS = [
         endTime: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 10, 45),
         duration: 900000,
         durationColor: "#911c8b",
+        location: "City: Sofia, Street: Car Osvoboditel",
         reminder: null,
         repeating: {
             isRepeating: false,
@@ -50,6 +52,7 @@ export const DUMMY_DATA_TASKS = [
         endTime: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 11, 15),
         duration: 1500000,
         durationColor: "#f0f013",
+        location: "City: Svishtov, Street: Mir 1",
         reminder: null,
         repeating: {
             isRepeating: false,

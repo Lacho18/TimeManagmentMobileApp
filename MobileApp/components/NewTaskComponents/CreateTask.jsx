@@ -354,7 +354,14 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
           </Text>
         </TouchableOpacity>
 
-        {locationSelection && <TaskLocation theme={theme} />}
+        {locationSelection && (
+          <TaskLocation
+            theme={theme}
+            locationSelectionHandler={(locatedValue) =>
+              setNewTaskField("location", locatedValue)
+            }
+          />
+        )}
 
         <View
           style={{

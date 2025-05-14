@@ -9,7 +9,7 @@ import {
 
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
-export default function TaskLocation({ theme }) {
+export default function TaskLocation({ theme, locationSelectionHandler }) {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [permissionStatus, setPermissionStatus] = useState("");
   const [locationText, setLocationText] = useState("");
@@ -37,6 +37,9 @@ export default function TaskLocation({ theme }) {
       if (address) {
         const addressText = `City: ${address.city}, Street: ${address.street}`;
         setLocationText(addressText);
+
+        //Sends the address to the new task object
+        locationSelectionHandler(addressText);
 
         console.log("City:", address.city);
         console.log("Street:", address.street);

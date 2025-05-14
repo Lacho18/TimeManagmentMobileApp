@@ -8,6 +8,7 @@ export default taskModel = {
     endTime: null,
     duration: "",
     durationColor: "",
+    location: "",
     reminder: null,
     repeating: {
         isRepeating: false,
