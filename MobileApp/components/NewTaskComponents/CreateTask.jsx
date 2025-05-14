@@ -224,6 +224,7 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
       borderColor: theme.secondary,
       borderRadius: 18,
       backgroundColor: theme.highlight,
+      marginTop: 20,
     },
   });
 
@@ -344,11 +345,16 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
           </View>
         </View>
 
-        <TouchableOpacity style={styles.taskLocationButton}>
-          <Text>Select task location</Text>
+        <TouchableOpacity
+          style={styles.taskLocationButton}
+          onPress={() => setLocationSelection((oldValue) => !oldValue)}
+        >
+          <Text style={{ color: theme.text, fontSize: 15 }}>
+            {locationSelection ? "Clear" : "Select"} task location
+          </Text>
         </TouchableOpacity>
 
-        <TaskLocation />
+        {locationSelection && <TaskLocation theme={theme} />}
 
         <View
           style={{

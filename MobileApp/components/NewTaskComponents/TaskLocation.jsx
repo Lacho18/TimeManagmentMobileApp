@@ -9,9 +9,10 @@ import {
 
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
-export default function TaskLocation() {
+export default function TaskLocation({ theme }) {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [permissionStatus, setPermissionStatus] = useState("");
+  const [locationText, setLocationText] = useState("");
 
   useEffect(() => {
     //If the component is mounted ask for permission to use the device GPS
@@ -34,6 +35,9 @@ export default function TaskLocation() {
       //By selected coordinates gets data for city name, country and street
       const [address] = await Location.reverseGeocodeAsync(coordinate);
       if (address) {
+        const addressText = `City: ${address.city}, Street: ${address.street}`;
+        setLocationText(addressText);
+
         console.log("City:", address.city);
         console.log("Street:", address.street);
         console.log("Full Address:", address);
@@ -44,6 +48,34 @@ export default function TaskLocation() {
   };
 
   console.log(selectedLocation);
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      gap: 20,
+    },
+    label: {
+      position: "absolute",
+      top: 0,
+      left: 20,
+      zIndex: 1,
+      backgroundColor: "white",
+      padding: 10,
+      borderRadius: 10,
+      elevation: 3,
+    },
+    map: {
+      width: "90%",
+      height: 300,
+    },
+    locationTextStyle: {
+      textAlign: "center",
+      fontSize: 18,
+      color: theme.text,
+    },
+  });
 
   if (permissionStatus !== "granted") {
     return (
@@ -72,29 +104,12 @@ export default function TaskLocation() {
       >
         {selectedLocation && <Marker coordinate={selectedLocation} />}
       </MapView>
-      {/*selectedLocation && <Text>{selectedLocation}</Text>*/}
+      {locationText !== "" && (
+        <Text style={styles.locationTextStyle}>
+          Selected location:{" "}
+          <Text style={{ fontWeight: "bold" }}>{locationText}</Text>
+        </Text>
+      )}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  label: {
-    position: "absolute",
-    top: 0,
-    left: 20,
-    zIndex: 1,
-    backgroundColor: "white",
-    padding: 10,
-    borderRadius: 10,
-    elevation: 3,
-  },
-  map: {
-    width: "90%",
-    height: 300,
-  },
-});
