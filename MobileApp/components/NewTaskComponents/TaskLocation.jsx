@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Dimensions } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import { StyleSheet, Text, View, Platform } from "react-native";
+//import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import {
   DEFAULT_MAP_LATITUDE,
@@ -80,6 +80,16 @@ export default function TaskLocation({ theme, locationSelectionHandler }) {
     },
   });
 
+  if (Platform.OS === "web") {
+    return (
+      <View style={styles.container}>
+        <Text>
+          Maps are not supported on web. Please try on a mobile device.
+        </Text>
+      </View>
+    );
+  }
+
   if (permissionStatus !== "granted") {
     return (
       <View>
@@ -92,7 +102,9 @@ export default function TaskLocation({ theme, locationSelectionHandler }) {
     );
   }
 
-  return (
+  return <View>123</View>;
+
+  /*return (
     <View style={styles.container}>
       <Text style={styles.label}>Tap the map to set location:</Text>
       <MapView
@@ -114,5 +126,5 @@ export default function TaskLocation({ theme, locationSelectionHandler }) {
         </Text>
       )}
     </View>
-  );
+  );*/
 }

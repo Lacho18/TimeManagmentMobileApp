@@ -16,6 +16,7 @@ import { TASK_PRIORITIES } from "../../constants/TaskPriority";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Octicons from "@expo/vector-icons/Octicons";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
 export default function SelectedTask({ selectedTask, theme, hideTask }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -230,6 +231,14 @@ export default function SelectedTask({ selectedTask, theme, hideTask }) {
                     color={priorityDescription.backgroundColor}
                   />{" "}
                   Priority - {priorityDescription.textDescription}
+                </Text>
+                <Text style={styles.dateText}>
+                  <FontAwesome6
+                    name="location-dot"
+                    size={24}
+                    color={theme.accent}
+                  />
+                  Location - {selectedTask.location}
                 </Text>
               </BottomSheetView>
             </BottomSheet>
