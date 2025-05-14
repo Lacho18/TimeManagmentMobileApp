@@ -1,4 +1,4 @@
 git add .
-git commit -m "Adding close calendar functionality"
+git commit -m "Аддинг цоммент то ежентс паге цомпонентс"
 git branch -M main
 git push -u origin main 

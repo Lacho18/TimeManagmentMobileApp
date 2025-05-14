@@ -8,29 +8,26 @@ import { useUser } from "../../context/UserContext";
 
 import * as Calendar from "expo-calendar";
 
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import CalendarBoxView from "../../components/Events/CalendarBoxView";
-
-/*
-  1. Opravi stilovo eventite
-  2. Napravi taka che da ne moje da se dobavq zadacha ako se zastupva s druga takava ili sus subitie
-  3. Dobavi opciq za postavqne na locaciq za zadachata
-*/
 
 export default function Events() {
   const { theme } = useTheme();
   const { user } = useUser();
 
-  console.log(user);
-
+  //Events from google calendar
   const [googleEvents, setGoogleEvents] = useState([]);
+
+  //Calendar from the device. Every calendar has events
   const [deviceCalendars, setDeviceCalendars] = useState([]);
+
+  //The status of the device calendar. It should be "granted"
   const [calendarStatus, setCalendarStatus] = useState("");
 
   //Used to stop the scroll view when a calendar has been selected
   const [selectedDeviceCalendar, setSelectedDeviceCalendar] = useState(false);
 
   useEffect(() => {
+    //Gets the google token and if it is valid gets the google calendar events of the user
     async function getGoogleToken() {
       const token = await AsyncStorage.getItem("@token");
 
@@ -41,21 +38,21 @@ export default function Events() {
       }
     }
 
+    //Function that gets the device calendars
     async function getDeviceCalendarData() {
-      //Gets device calendars
       const { status } = await Calendar.requestCalendarPermissionsAsync();
       setCalendarStatus(status);
 
-      const calendars = await Calendar.getCalendarsAsync();
-      setDeviceCalendars(calendars);
-      //console.log("Here are your calendars:", calendars);
+      //Gets device calendars if the permission is granted
+      if (status === "granted") {
+        const calendars = await Calendar.getCalendarsAsync();
+        setDeviceCalendars(calendars);
+      }
     }
 
     getGoogleToken();
     getDeviceCalendarData();
   }, []);
-
-  console.log(googleEvents);
 
   const styles = StyleSheet.create({
     mainDiv: {

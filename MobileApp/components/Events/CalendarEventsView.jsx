@@ -20,6 +20,7 @@ export default function CalendarEventsView({
   theme,
   closeCalendar,
 }) {
+  //The width of the parent component, used from the Carousel
   const [parentWidth, setParentWidth] = useState(0);
 
   const today = new Date();
@@ -33,6 +34,7 @@ export default function CalendarEventsView({
       const end = endOfMonth(startDate);
       const days = eachDayOfInterval({ start, end });
 
+      //Gets just the events for the current month
       const monthEvents = events.filter((event) =>
         isSameMonth(parseISO(event.startDate), start)
       );

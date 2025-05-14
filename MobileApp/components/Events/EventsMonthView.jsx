@@ -6,8 +6,10 @@ import { formatDateMonthName } from "../../utils/dateUtil";
 import { useRef } from "react";
 
 export default function EventsMonthView({ month, theme }) {
+  //Used in order to scroll to the bottom of the scroll view
   const scrollViewRef = useRef(null);
 
+  //Function that checks on a given day if there is an event
   function dayWithEvent(currentDay, events) {
     return events.some((event) =>
       isSameDay(currentDay, parseISO(event.startDate))

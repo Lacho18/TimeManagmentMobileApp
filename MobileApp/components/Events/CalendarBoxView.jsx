@@ -1,10 +1,4 @@
-import {
-  Pressable,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useState } from "react";
 
@@ -19,6 +13,7 @@ export default function CalendarBoxView({
 }) {
   const [currentCalendarEvents, setCurrentCalendarEvents] = useState(null);
 
+  //Closes the calendar menu and returns the scroll function to the scroll view
   function handleCloseCalendar() {
     if (currentCalendarEvents !== null) {
       setCurrentCalendarEvents(null);
@@ -36,13 +31,17 @@ export default function CalendarBoxView({
       return;
     }
 
+    //Stops the scroll view of the parent component
     selectCalendar();
     const startDate = new Date();
     const endDate = new Date();
 
-    startDate.setMonth(startDate.getMonth() - 6);
-    endDate.setMonth(endDate.getMonth() + 6);
+    //Start date now
+    startDate.setMonth(startDate.getMonth());
+    //End date an year ahead
+    endDate.setMonth(endDate.getMonth() + 12);
 
+    //Gets the events of the selected calendar from the start date to the end date
     const events = await Calendar.getEventsAsync(
       [calendar.id],
       startDate,
