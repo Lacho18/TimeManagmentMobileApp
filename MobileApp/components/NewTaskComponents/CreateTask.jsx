@@ -27,7 +27,12 @@ const screenHeight = Dimensions.get("window").height;
 export default function CreateTask({ closeAddTaskMenu, visible }) {
   const { theme } = useTheme();
   const [newTask, setNewTask] = useState({ ...TaskModel });
+
+  //Follows whether to show or not the select date component
   const [dateSelection, setDateSelection] = useState(false);
+
+  //Follows whether to show or not the select location component
+  const [locationSelection, setLocationSelection] = useState(false);
 
   //isSelecting follows whether the menu for time selection is visible. dateType is used to know whether the time is selected for startTime or endTime
   const [timeSelection, setTimeSelection] = useState({
@@ -211,6 +216,15 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
       width: 250,
       textAlign: "center",
     },
+
+    taskLocationButton: {
+      alignSelf: "center",
+      padding: 10,
+      borderWidth: 4,
+      borderColor: theme.secondary,
+      borderRadius: 18,
+      backgroundColor: theme.highlight,
+    },
   });
 
   return (
@@ -329,6 +343,10 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
             />
           </View>
         </View>
+
+        <TouchableOpacity style={styles.taskLocationButton}>
+          <Text>Select task location</Text>
+        </TouchableOpacity>
 
         <TaskLocation />
 
