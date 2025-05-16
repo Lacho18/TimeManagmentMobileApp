@@ -1,7 +1,7 @@
 export function validateEmail(emailInput) {
     //Checks if email field is empty
     if (emailInput === "") {
-        return "You have to insert password in order to continue!";
+        return "You have to insert email in order to continue!";
     }
 
     //Checks if email is at least 7 symbols long
