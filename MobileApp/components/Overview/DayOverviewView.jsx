@@ -23,9 +23,9 @@ export default function DayOverviewView({
   const styles = StyleSheet.create({
     mainDiv: {
       padding: 7,
-      borderTopWidth: 3,
-      borderBottomWidth: 3,
-      borderColor: theme.secondary,
+      borderTopWidth: 2,
+      borderBottomWidth: 2,
+      borderColor: theme.highlight,
     },
     headDiv: {
       display: "flex",

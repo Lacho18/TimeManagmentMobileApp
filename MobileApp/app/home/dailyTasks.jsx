@@ -18,6 +18,12 @@ import { DUMMY_DATA_TASKS } from "../../constants/dummyData";
 import Entypo from "@expo/vector-icons/Entypo";
 import MenuOptions from "../../components/DailyTasks/MenuOptions";
 
+/*
+  1. Dobavi fiksirano vreme koeto da bude mejdy zadachite
+  2. Tova fiksirano vreme da moje da se promenq na profile page
+  3. Da ne e vuzmojno da se dobavq zadacha ako e blizo do dryga takava ili v diapazona na dryga
+*/
+
 export default function DailyTasks() {
   const { theme } = useTheme();
   const { loading } = useUser();

@@ -27,13 +27,21 @@ const colorThemes = {
         secondary: "#7B4F2C",
         highlight: "#C2B280" // Sand / Earthy highlight
     },
+    orange: {
+        text: "#5A3B1F",
+        primary: "#FFBF99",
+        background: "#FFDAB8",
+        accent: "#FFE4C2",
+        secondary: "#FFFFFF",
+        highlight: "#FFF1E2"
+    },
     darkTheme: {
-        background: "#121212",
+        background: "#272725",
         text: "#FFFFFF",
-        primary: "#1F1F1F",
-        accent: "#2A2A2A",
-        secondary: "#B0B0B0",
-        highlight: "#3A3A3A" // Same purple neon used in modern dark themes
+        primary: "#181C14",
+        accent: "#3A3A3A",
+        secondary: "#697565",
+        highlight: "#ECDFCC"
     }
 };
 

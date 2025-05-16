@@ -33,8 +33,8 @@ export const createTask = async (newTask) => {
 
     console.log(newTask);
 
-    if (newTask.title === "" || newTask.description === "") {
-        return "All fields are required!";
+    if (newTask.title === "") {
+        return "Please provide a title for the task";
     }
 
     if (newTask.startTime === null) {
@@ -48,6 +48,7 @@ export const createTask = async (newTask) => {
             throw new Error("No user account fount!");
         }
 
+        //Sets the userId of the task to it's creator
         newTask.userId = userId;
 
         //Calculates the duration of the task
@@ -61,6 +62,8 @@ export const createTask = async (newTask) => {
             //Gets proper color to describe the duration of the task
             newTask.durationColor = durationColorSetter(newTask.duration);
         }
+
+
 
         const taskCollection = collection(db, "Tasks");
 
