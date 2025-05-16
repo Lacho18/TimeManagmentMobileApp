@@ -18,7 +18,10 @@ import { DUMMY_DATA_TASKS } from "../../constants/dummyData";
 import Entypo from "@expo/vector-icons/Entypo";
 import MenuOptions from "../../components/DailyTasks/MenuOptions";
 
-import { taskInterval } from "../../utils/tasksInterval";
+import {
+  featureTasksCompilerTester,
+  taskInterval,
+} from "../../utils/tasksInterval";
 import { exampleTasks } from "../../constants/testDummyData";
 
 /*
@@ -60,13 +63,23 @@ export default function DailyTasks() {
       const result = DUMMY_DATA_TASKS;
 
       //TESTS--------------------------------------------------------------------------------
-      const testTask1 = exampleTasks[0];
-      const testTask2 = exampleTasks[1];
+      const testTask1 = { ...exampleTasks[1] };
+      const testTask2 = { ...exampleTasks[2] };
+
+      console.log(exampleTasks);
       console.log("TYKA GLEDAY BE MAIKAS MY STARA");
 
-      const resultAgain = await taskInterval(testTask1, 600000, testTask2);
+      //const resultAgain = await taskInterval(testTask1, 600000, testTask2);
+      console.log(
+        "---------------------------------------------------------------------------"
+      );
+      console.log(testTask1);
+      console.log(
+        "---------------------------------------------------------------------------"
+      );
+      featureTasksCompilerTester(testTask1, 6000000);
 
-      console.log(resultAgain);
+      //console.log(resultAgain);
       //-------------------------------------------------------------------------------------
 
       if (result.length > 0) {

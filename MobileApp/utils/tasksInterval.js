@@ -1,9 +1,13 @@
 import { collection, query, where, orderBy, limit, getDocs, doc, updateDoc } from "firebase/firestore/lite";
 import { db } from "../firebaseConfig";
+import { exampleTasks } from "../constants/testDummyData";
 
 //Function that manage to set min interval between the new task and closest to it on the past
 export const taskInterval = async (newTask, min_rest_time_between_tasks, previousTask = null) => {
     const tasksCollection = collection(db, "tasks");
+
+    console.log("This is new task: ", newTask);
+    console.log("This is previous task on past: ", previousTask);
 
     let closestTaskOnPast;
 
@@ -21,10 +25,14 @@ export const taskInterval = async (newTask, min_rest_time_between_tasks, previou
         closestTaskOnPast = snapshot.docs[0].data();
     }
     else {
-        let val = newTask;
-        newTask = previousTask;
-        closestTaskOnPast = val;
+        const temp = structuredClone(newTask);
+        newTask = structuredClone(previousTask);
+        closestTaskOnPast = temp;
     }
+
+    console.log("ALOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+    console.log("This is new task: ", newTask);
+    console.log("This is current task on past: ", closestTaskOnPast);
 
     //If there is not task duration
     if (!newTask.endTime) {
@@ -34,6 +42,8 @@ export const taskInterval = async (newTask, min_rest_time_between_tasks, previou
             if (closestTaskOnPast.startTime.getTime() + min_rest_time_between_tasks > newTask.startTime.getTime()) {
                 newTask.startTime = new Date(closestTaskOnPast.startTime.getTime() + min_rest_time_between_tasks);
             }
+
+            console.log("Emi towa trqbva da widq");
 
             return newTask;
         }
@@ -63,7 +73,6 @@ export const taskInterval = async (newTask, min_rest_time_between_tasks, previou
         }
         //If both newTask and closest task have duration
         else {
-            console.log("Tyka li sum");
             //If the new task start time is close to the beginning of the closest task
             if (closestTaskOnPast.startTime.getTime() + min_rest_time_between_tasks > newTask.startTime.getTime()) {
                 newTask.startTime = new Date(closestTaskOnPast.endTime.getTime() + min_rest_time_between_tasks);
@@ -103,7 +112,7 @@ export const featureTasksCompiler = async (currentTask, min_rest_time_between_ta
     const currentFeatureTask = { id: docSnap.id, ...docSnap.data() };
     let modifiableFeatureTask = { ...currentFeatureTask };
 
-    modifiableFeatureTask = taskInterval(modifiableFeatureTask, min_rest_time_between_tasks, currentTask);
+    modifiableFeatureTask = await taskInterval(modifiableFeatureTask, min_rest_time_between_tasks, currentTask);
 
     //If nothing has changed that means the recursion should end
     if (equalObjects(currentFeatureTask, modifiableFeatureTask)) {
@@ -115,6 +124,26 @@ export const featureTasksCompiler = async (currentTask, min_rest_time_between_ta
         await updateDoc(docRef, modifiableFeatureTask);
         await featureTasksCompiler(modifiableFeatureTask, min_rest_time_between_tasks);
     }
+}
+
+export const featureTasksCompilerTester = async (currentTask, min_rest_time_between_tasks, index = 2) => {
+    const currentFeatureTask = exampleTasks[index];
+    let modifiableFeatureTask = { ...currentFeatureTask };
+
+    console.log("This is the current task");
+    console.log(currentTask);
+    console.log("<><><>?<>?<>?<?<>?<>?<?><>?<>?<>?<>?<?<>?<>?<?><?<?><>?<>?><>");
+
+    modifiableFeatureTask = await taskInterval(modifiableFeatureTask, min_rest_time_between_tasks, currentTask);
+    if (equalObjects(currentFeatureTask, modifiableFeatureTask)) {
+        console.log("KRAY");
+        return;
+    }
+    /*else {
+        console.log("Current feature task:", index);
+        console.log(modifiableFeatureTask);
+        await featureTasksCompilerTester(modifiableFeatureTask, min_rest_time_between_tasks, index + 1);
+    }*/
 }
 
 function equalObjects(obj1, obj2) {
