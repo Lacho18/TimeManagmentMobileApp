@@ -30,13 +30,9 @@ export const taskInterval = async (newTask, min_rest_time_between_tasks) => {
         }
         //If the closest task has duration but the new does not
         else {
-            //If the task startTime is inside the nearest task duration
-            if (closestTask.endTime.getTime() > newTask.startTime.getTime()) {
+            //If the task startTime is inside the nearest task duration || OR || If the closest task end time plus the min rest time is bigger that the new task start time
+            if (closestTask.endTime.getTime() > newTask.startTime.getTime() || closestTask.endTime.getTime() + min_rest_time_between_tasks > newTask.startTime.getTime()) {
                 //Sets the start time to be the min rest time after the end time of the closest task
-                newTask.startTime = new Date(closestTask.endTime.getTime() + min_rest_time_between_tasks);
-            }
-            //If the closest task end time plus the min rest time is bigger that the new task start time
-            else if (closestTask.endTime.getTime() + min_rest_time_between_tasks > newTask.startTime.getTime()) {
                 newTask.startTime = new Date(closestTask.endTime.getTime() + min_rest_time_between_tasks);
             }
 
@@ -45,12 +41,11 @@ export const taskInterval = async (newTask, min_rest_time_between_tasks) => {
     }
     //If the new inserted task has duration
     else {
+        //Calculates the duration between start and end time on milliseconds
         const newTaskDurationOnMilliseconds = newTask.endTime.getTime() - newTask.startTime.getTime();
         if (!closestTask.endTime) {
             //If the closest task start time is inside the interval of the new task
             if (closestTask.startTime.getTime() + min_rest_time_between_tasks > newTask.startTime.getTime()) {
-                //Calculates the duration between start and end time on milliseconds
-
                 newTask.startTime = new Date(closestTask.startTime.getTime() + min_rest_time_between_tasks);
                 newTask.endTime = new Date(newTask.startTime.getTime() + newTaskDurationOnMilliseconds);
             }
@@ -74,6 +69,8 @@ export const taskInterval = async (newTask, min_rest_time_between_tasks) => {
                 newTask.startTime = new Date(closestTask.endTime.getTime() + min_rest_time_between_tasks);
                 newTask.endTime = new Date(newTask.startTime.getTime() + newTaskDurationOnMilliseconds);
             }
+
+            return newTask;
         }
     }
 }
