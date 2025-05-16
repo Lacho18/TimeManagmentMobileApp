@@ -1,5 +1,5 @@
-import { collection, query, where, orderBy, limit, getDocs, doc, updateDoc } from "firebase/firestore";
-import { db } from './firebase';
+import { collection, query, where, orderBy, limit, getDocs, doc, updateDoc } from "firebase/firestore/lite";
+import { db } from "../firebaseConfig";
 
 //Function that manage to set min interval between the new task and closest to it on the past
 export const taskInterval = async (newTask, min_rest_time_between_tasks, previousTask = null) => {
@@ -26,13 +26,10 @@ export const taskInterval = async (newTask, min_rest_time_between_tasks, previou
         closestTaskOnPast = val;
     }
 
-    //Gets the closest task
-    //const closestTaskOnPast = snapshot.docs[0].data();
-
     //If there is not task duration
     if (!newTask.endTime) {
         //If bot closest task and new task does not have duration
-        if (!closestTaskOnPast.endTime) {
+        if (closestTaskOnPast.endTime === null) {
             //In case the differences between the tasks is less than the minimum rest time between the tasks
             if (closestTaskOnPast.startTime.getTime() + min_rest_time_between_tasks > newTask.startTime.getTime()) {
                 newTask.startTime = new Date(closestTaskOnPast.startTime.getTime() + min_rest_time_between_tasks);
@@ -66,6 +63,7 @@ export const taskInterval = async (newTask, min_rest_time_between_tasks, previou
         }
         //If both newTask and closest task have duration
         else {
+            console.log("Tyka li sum");
             //If the new task start time is close to the beginning of the closest task
             if (closestTaskOnPast.startTime.getTime() + min_rest_time_between_tasks > newTask.startTime.getTime()) {
                 newTask.startTime = new Date(closestTaskOnPast.endTime.getTime() + min_rest_time_between_tasks);

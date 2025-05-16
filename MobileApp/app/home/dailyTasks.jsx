@@ -18,6 +18,9 @@ import { DUMMY_DATA_TASKS } from "../../constants/dummyData";
 import Entypo from "@expo/vector-icons/Entypo";
 import MenuOptions from "../../components/DailyTasks/MenuOptions";
 
+import { taskInterval } from "../../utils/tasksInterval";
+import { exampleTasks } from "../../constants/testDummyData";
+
 /*
   1. Dobavi fiksirano vreme koeto da bude mejdy zadachite
   2. Tova fiksirano vreme da moje da se promenq na profile page
@@ -55,6 +58,16 @@ export default function DailyTasks() {
       //const result = await getTaskForGivenDay(new Date());
 
       const result = DUMMY_DATA_TASKS;
+
+      //TESTS--------------------------------------------------------------------------------
+      const testTask1 = exampleTasks[0];
+      const testTask2 = exampleTasks[1];
+      console.log("TYKA GLEDAY BE MAIKAS MY STARA");
+
+      const resultAgain = await taskInterval(testTask1, 600000, testTask2);
+
+      console.log(resultAgain);
+      //-------------------------------------------------------------------------------------
 
       if (result.length > 0) {
         setAllDailyTasks(result);
