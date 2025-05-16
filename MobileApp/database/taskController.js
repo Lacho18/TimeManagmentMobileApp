@@ -29,7 +29,7 @@ export const getTaskForGivenDay = async (givenDay) => {
     }
 }
 
-export const createTask = async (newTask) => {
+export const createTask = async (newTask, user) => {
 
     console.log(newTask);
 

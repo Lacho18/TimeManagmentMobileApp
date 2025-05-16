@@ -21,11 +21,16 @@ import TaskDate from "./TaskDate";
 import { dateValidation } from "../../functions/dateValidation";
 import { createTask } from "../../database/taskController";
 import TaskLocation from "./TaskLocation";
+import { useUser } from "../../context/UserContext";
 
 const screenHeight = Dimensions.get("window").height;
 
 export default function CreateTask({ closeAddTaskMenu, visible }) {
   const { theme } = useTheme();
+
+  //Used only on create task function in order to know the user time between tasks
+  const { user } = useUser();
+
   const [newTask, setNewTask] = useState({ ...TaskModel });
 
   //Follows whether to show or not the select date component
@@ -113,7 +118,7 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
 
   //Function that handle task creation
   async function createTaskHandler() {
-    const result = await createTask(newTask);
+    const result = await createTask(newTask, user);
 
     if (result === "Success") {
       closeAddTaskMenu();

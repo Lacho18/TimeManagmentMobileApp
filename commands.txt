@@ -1,4 +1,4 @@
 git add .
-git commit -m "Creating new color theme and modifying colors"
+git commit -m "Adding min rest time between tasks functionality"
 git branch -M main
 git push -u origin main 
