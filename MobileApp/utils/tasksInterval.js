@@ -1,13 +1,11 @@
 import { collection, query, where, orderBy, limit, getDocs, doc, updateDoc } from "firebase/firestore/lite";
 import { db } from "../firebaseConfig";
 import { exampleTasks } from "../constants/testDummyData";
+import { equalDatesWithHours } from "./dateUtil";
 
 //Function that manage to set min interval between the new task and closest to it on the past
 export const taskInterval = async (newTask, min_rest_time_between_tasks, previousTask = null) => {
     const tasksCollection = collection(db, "tasks");
-
-    console.log("This is new task: ", newTask);
-    console.log("This is previous task on past: ", previousTask);
 
     let closestTaskOnPast;
 
@@ -25,9 +23,7 @@ export const taskInterval = async (newTask, min_rest_time_between_tasks, previou
         closestTaskOnPast = snapshot.docs[0].data();
     }
     else {
-        const temp = structuredClone(newTask);
-        newTask = structuredClone(previousTask);
-        closestTaskOnPast = temp;
+        closestTaskOnPast = { ...previousTask };
     }
 
     console.log("ALOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
@@ -64,7 +60,10 @@ export const taskInterval = async (newTask, min_rest_time_between_tasks, previou
         const newTaskDurationOnMilliseconds = newTask.endTime.getTime() - newTask.startTime.getTime();
         if (!closestTaskOnPast.endTime) {
             //If the closest task start time is inside the interval of the new task
+
+            console.log("Neshto aloooo");
             if (closestTaskOnPast.startTime.getTime() + min_rest_time_between_tasks > newTask.startTime.getTime()) {
+                console.log("Ne bi trqbvalo da te vishdam");
                 newTask.startTime = new Date(closestTaskOnPast.startTime.getTime() + min_rest_time_between_tasks);
                 newTask.endTime = new Date(newTask.startTime.getTime() + newTaskDurationOnMilliseconds);
             }
@@ -115,7 +114,7 @@ export const featureTasksCompiler = async (currentTask, min_rest_time_between_ta
     modifiableFeatureTask = await taskInterval(modifiableFeatureTask, min_rest_time_between_tasks, currentTask);
 
     //If nothing has changed that means the recursion should end
-    if (equalObjects(currentFeatureTask, modifiableFeatureTask)) {
+    if (equalDateValuesOfObjects(currentFeatureTask, modifiableFeatureTask)) {
         return;
     }
     //Modifies the document on the database and calls for the next function
@@ -126,16 +125,33 @@ export const featureTasksCompiler = async (currentTask, min_rest_time_between_ta
     }
 }
 
-export const featureTasksCompilerTester = async (currentTask, min_rest_time_between_tasks, index = 2) => {
-    const currentFeatureTask = exampleTasks[index];
-    let modifiableFeatureTask = { ...currentFeatureTask };
+export const featureTasksCompilerTester = async (currentTask, min_rest_time_between_tasks, index = 1) => {
+    const currentFeatureTask = structuredClone(exampleTasks[index]);
+    let modifiableFeatureTask = structuredClone(currentFeatureTask);
 
-    console.log("This is the current task");
+    // Fix Date fields
+    modifiableFeatureTask.startTime = new Date(modifiableFeatureTask.startTime);
+    if (modifiableFeatureTask.endTime) {
+        modifiableFeatureTask.endTime = new Date(modifiableFeatureTask.endTime);
+    }
+
+    /*console.log("This is the current task");
     console.log(currentTask);
     console.log("<><><>?<>?<>?<?<>?<>?<?><>?<>?<>?<>?<?<>?<>?<?><?<?><>?<>?><>");
 
+    console.log("Delta in minutes: ",
+        (modifiableFeatureTask.startTime.getTime() - currentFeatureTask.startTime.getTime()) / 60000);
+
+    console.log("EI MAYKA MY DA EBAAAAA");
+    console.log(modifiableFeatureTask);*/
+
+    console.log("Before", modifiableFeatureTask);
     modifiableFeatureTask = await taskInterval(modifiableFeatureTask, min_rest_time_between_tasks, currentTask);
-    if (equalObjects(currentFeatureTask, modifiableFeatureTask)) {
+    console.log("After: ", modifiableFeatureTask);
+    console.log("After Again: ", currentFeatureTask);
+    console.log(equalDateValuesOfObjects(currentFeatureTask, modifiableFeatureTask));
+
+    if (equalDateValuesOfObjects(currentFeatureTask, modifiableFeatureTask)) {
         console.log("KRAY");
         return;
     }
@@ -146,11 +162,22 @@ export const featureTasksCompilerTester = async (currentTask, min_rest_time_betw
     }*/
 }
 
-function equalObjects(obj1, obj2) {
-    const keys1 = Object.keys(obj1);
-    const keys2 = Object.keys(obj2);
+function equalDateValuesOfObjects(obj1, obj2) {
+    console.log(equalDatesWithHours(obj1.startTime, obj2.startTime));
+    console.log(obj2.startTime);
+    if (equalDatesWithHours(obj1.startTime, obj2.startTime)) {
+        if (obj1.endTime) {
+            if (obj2.endTime) {
+                if (equalDatesWithHours(obj1.endTime, obj2.endTime)) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
-    if (keys1.length !== keys2.length) return false;
-
-    return keys1.every(key => obj2.hasOwnProperty(key) && obj1[key] === obj2[key]);
+    return false;
 }

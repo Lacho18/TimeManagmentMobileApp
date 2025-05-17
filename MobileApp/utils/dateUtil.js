@@ -95,3 +95,15 @@ export const equalDates = (date1, date2) => {
         date1.getDate() === date2.getDate()
     );
 }
+
+//Compare the whole dates to the minutes
+export const equalDatesWithHours = (date1, date2) => {
+    if (!date1 || !date2) return false;
+
+    if (equalDates(date1, date2)) {
+        return (date1.getHours() === date2.getHours() && date1.getMinutes() === date2.getMinutes());
+    }
+    else {
+        return false;
+    }
+}

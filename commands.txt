@@ -1,4 +1,4 @@
 git add .
-git commit -m "Applying tests on task interval function"
+git commit -m "Fixing bugs on the algorithem"
 git branch -M main
 git push -u origin main 
