@@ -144,9 +144,8 @@ export const featureTasksCompilerTester = async (currentTask, min_rest_time_betw
     }
 }
 
+//Function that checks if there are changes on the date objects of the current and past task
 function equalDateValuesOfObjects(obj1, obj2) {
-    console.log(equalDatesWithHours(obj1.startTime, obj2.startTime));
-    console.log(obj2.startTime);
     if (equalDatesWithHours(obj1.startTime, obj2.startTime)) {
         if (obj1.endTime) {
             if (obj2.endTime) {
