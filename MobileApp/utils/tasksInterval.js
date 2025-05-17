@@ -26,10 +26,6 @@ export const taskInterval = async (newTask, min_rest_time_between_tasks, previou
         closestTaskOnPast = { ...previousTask };
     }
 
-    console.log("ALOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-    console.log("This is new task: ", newTask);
-    console.log("This is current task on past: ", closestTaskOnPast);
-
     //If there is not task duration
     if (!newTask.endTime) {
         //If bot closest task and new task does not have duration
@@ -38,8 +34,6 @@ export const taskInterval = async (newTask, min_rest_time_between_tasks, previou
             if (closestTaskOnPast.startTime.getTime() + min_rest_time_between_tasks > newTask.startTime.getTime()) {
                 newTask.startTime = new Date(closestTaskOnPast.startTime.getTime() + min_rest_time_between_tasks);
             }
-
-            console.log("Emi towa trqbva da widq");
 
             return newTask;
         }
@@ -60,10 +54,7 @@ export const taskInterval = async (newTask, min_rest_time_between_tasks, previou
         const newTaskDurationOnMilliseconds = newTask.endTime.getTime() - newTask.startTime.getTime();
         if (!closestTaskOnPast.endTime) {
             //If the closest task start time is inside the interval of the new task
-
-            console.log("Neshto aloooo");
             if (closestTaskOnPast.startTime.getTime() + min_rest_time_between_tasks > newTask.startTime.getTime()) {
-                console.log("Ne bi trqbvalo da te vishdam");
                 newTask.startTime = new Date(closestTaskOnPast.startTime.getTime() + min_rest_time_between_tasks);
                 newTask.endTime = new Date(newTask.startTime.getTime() + newTaskDurationOnMilliseconds);
             }
@@ -125,7 +116,12 @@ export const featureTasksCompiler = async (currentTask, min_rest_time_between_ta
     }
 }
 
+//Function for testing the featureTasksCompiler function without requests to the database
 export const featureTasksCompilerTester = async (currentTask, min_rest_time_between_tasks, index = 1) => {
+    if (exampleTasks.length <= index) {
+        console.log("END");
+        return;
+    }
     const currentFeatureTask = structuredClone(exampleTasks[index]);
     let modifiableFeatureTask = structuredClone(currentFeatureTask);
 
@@ -135,31 +131,17 @@ export const featureTasksCompilerTester = async (currentTask, min_rest_time_betw
         modifiableFeatureTask.endTime = new Date(modifiableFeatureTask.endTime);
     }
 
-    /*console.log("This is the current task");
-    console.log(currentTask);
-    console.log("<><><>?<>?<>?<?<>?<>?<?><>?<>?<>?<>?<?<>?<>?<?><?<?><>?<>?><>");
-
-    console.log("Delta in minutes: ",
-        (modifiableFeatureTask.startTime.getTime() - currentFeatureTask.startTime.getTime()) / 60000);
-
-    console.log("EI MAYKA MY DA EBAAAAA");
-    console.log(modifiableFeatureTask);*/
-
-    console.log("Before", modifiableFeatureTask);
     modifiableFeatureTask = await taskInterval(modifiableFeatureTask, min_rest_time_between_tasks, currentTask);
-    console.log("After: ", modifiableFeatureTask);
-    console.log("After Again: ", currentFeatureTask);
-    console.log(equalDateValuesOfObjects(currentFeatureTask, modifiableFeatureTask));
 
     if (equalDateValuesOfObjects(currentFeatureTask, modifiableFeatureTask)) {
-        console.log("KRAY");
+        console.log("END");
         return;
     }
-    /*else {
+    else {
         console.log("Current feature task:", index);
         console.log(modifiableFeatureTask);
         await featureTasksCompilerTester(modifiableFeatureTask, min_rest_time_between_tasks, index + 1);
-    }*/
+    }
 }
 
 function equalDateValuesOfObjects(obj1, obj2) {

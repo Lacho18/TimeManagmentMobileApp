@@ -1,4 +1,4 @@
 git add .
-git commit -m "Fixing bugs on the algorithem"
+git commit -m "Finilizing dummy data tests"
 git branch -M main
 git push -u origin main 

@@ -1,5 +1,7 @@
 const now = new Date();
 
+//Data for testing the automatic rest interval of the tasks
+
 export const exampleTasks = [
     {
         id: "task1",
@@ -27,8 +29,8 @@ export const exampleTasks = [
         description: "Daily sync meeting",
         priority: 1,
         stressLevel: 2,
-        startTime: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 30),
-        endTime: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 40),
+        startTime: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 5),
+        endTime: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 20),
         duration: 15 * 60 * 1000,
         durationColor: "#911c8b",
         location: "City: Sofia, Street: Vitosha Blvd",
@@ -46,8 +48,8 @@ export const exampleTasks = [
         description: "1234567890",
         priority: 1,
         stressLevel: 4,
-        startTime: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 10, 30),
-        endTime: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 10, 45),
+        startTime: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 30),
+        endTime: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 10, 55),
         duration: 15 * 60 * 1000,
         durationColor: "#911c8b",
         location: "City: Sofia, Street: Car Osvoboditel",
