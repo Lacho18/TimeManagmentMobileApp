@@ -1,4 +1,4 @@
 git add .
-git commit -m "Removing test components"
+git commit -m "Adding component that allow the users to set the min rest time"
 git branch -M main
 git push -u origin main 

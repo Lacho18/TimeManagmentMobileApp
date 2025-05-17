@@ -1,20 +1,31 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { useTheme } from "../../context/ThemeContext";
 import { useUser } from "../../context/UserContext";
 
 //icons
 import Ionicons from "@expo/vector-icons/Ionicons";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 import ColorThemeSelector from "../../components/ColorThemeSelector";
 import { router } from "expo-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useStressTest } from "../../context/StressTestContext";
 import StressTest from "../testStress/stressTest";
+import MinRestTime from "../../components/Profile/MinRestTime";
 
 export default function Profile() {
   const { theme } = useTheme();
   const { user, logout, loading } = useUser();
   const { stressTest, startStressTest, endStressTest } = useStressTest();
+
+  const [minTimeRest, setMinTimeRest] = useState(false);
 
   //Checks if the data for user is loading or if the user is found. Does not return anything if so.
   if (loading || !user) return null;
@@ -75,7 +86,14 @@ export default function Profile() {
   });
 
   return (
-    <View style={{ ...styles.page, backgroundColor: theme.background }}>
+    <Pressable
+      style={{ ...styles.page, backgroundColor: theme.background }}
+      onPress={() => {
+        if (minTimeRest) {
+          setMinTimeRest(false);
+        }
+      }}
+    >
       <View style={styles.headerDiv}>
         <Image style={styles.profileImage} source={{ uri: user.image }} />
         <Text style={styles.titleText}>{user.name}</Text>
@@ -102,10 +120,27 @@ export default function Profile() {
           <Ionicons name="newspaper" size={28} color={theme.secondary} />
           <Text style={styles.buttonText}>Make stress test</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.buttonStyle}
+          onPress={() => {
+            setMinTimeRest((oldValue) => !oldValue);
+          }}
+        >
+          <MaterialIcons name="restore" size={28} color={theme.secondary} />
+          <Text style={styles.buttonText}>
+            Set minimum rest time between tasks
+          </Text>
+        </TouchableOpacity>
       </View>
       <Text>Profile</Text>
 
       {stressTest && <StressTest />}
-    </View>
+      {minTimeRest && (
+        <MinRestTime
+          theme={theme}
+          currentMinTime={user.preferences.min_rest_time_between_tasks}
+        />
+      )}
+    </Pressable>
   );
 }
