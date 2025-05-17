@@ -62,26 +62,6 @@ export default function DailyTasks() {
 
       const result = DUMMY_DATA_TASKS;
 
-      //TESTS--------------------------------------------------------------------------------
-      const testTask1 = { ...exampleTasks[0] };
-      const testTask2 = { ...exampleTasks[1] };
-
-      console.log(exampleTasks);
-      console.log("TYKA GLEDAY BE MAIKAS MY STARA");
-
-      //const resultAgain = await taskInterval(testTask1, 600000, testTask2);
-      console.log(
-        "---------------------------------------------------------------------------"
-      );
-      console.log(testTask1);
-      console.log(
-        "---------------------------------------------------------------------------"
-      );
-      featureTasksCompilerTester(testTask1, 600000);
-
-      //console.log(resultAgain);
-      //-------------------------------------------------------------------------------------
-
       if (result.length > 0) {
         setAllDailyTasks(result);
       }
