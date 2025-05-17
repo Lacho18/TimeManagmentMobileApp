@@ -79,7 +79,10 @@ export default function MaxTasks({
         maximumTrackTintColor={theme.highlight}
         thumbTintColor={theme.secondary}
       />
-      <Text style={styles.mainText}>Current value: {currentMaxTasks}</Text>
+      <Text style={styles.mainText}>
+        Current value:{" "}
+        <Text style={{ fontWeight: "bold" }}>{currentMaxTasks}</Text>
+      </Text>
       <TouchableOpacity
         style={styles.submitButton}
         onPress={updateUUserMaxTasks}

@@ -43,6 +43,16 @@ export default function Profile() {
     router.replace("/");
   }
 
+  function closeWindows() {
+    if (minTimeRest) {
+      setMinTimeRest(false);
+    }
+
+    if (maxTasks) {
+      setMaxTasks(false);
+    }
+  }
+
   const styles = StyleSheet.create({
     page: {
       flex: 1,
@@ -96,11 +106,7 @@ export default function Profile() {
   return (
     <Pressable
       style={{ ...styles.page, backgroundColor: theme.background }}
-      onPress={() => {
-        if (minTimeRest) {
-          setMinTimeRest(false);
-        }
-      }}
+      onPress={closeWindows}
     >
       <View style={styles.headerDiv}>
         <Image style={styles.profileImage} source={{ uri: user.image }} />

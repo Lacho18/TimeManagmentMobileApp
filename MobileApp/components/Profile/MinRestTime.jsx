@@ -102,7 +102,10 @@ export default function MinRestTime({
         maximumTrackTintColor={theme.highlight}
         thumbTintColor={theme.secondary}
       />
-      <Text style={styles.mainText}>Current time: {calculateHours()}</Text>
+      <Text style={styles.mainText}>
+        Current time:{" "}
+        <Text style={{ fontWeight: "bold" }}>{calculateHours()}</Text>
+      </Text>
       <TouchableOpacity
         style={styles.submitButton}
         onPress={updateUserMinRestTime}
