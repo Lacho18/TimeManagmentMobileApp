@@ -1,9 +1,18 @@
 import Slider from "@react-native-community/slider";
 import { useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { doc, updateDoc } from "firebase/firestore/lite";
+import { db } from "../../firebaseConfig";
 
-export default function MinRestTime({ theme, currentMinTime }) {
+export default function MinRestTime({
+  theme,
+  currentMinTime,
+  userId,
+  closeWindow,
+}) {
   const [minutes, setMinutes] = useState(currentMinTime / 60 / 1000);
+
+  console.log(userId);
 
   function calculateHours() {
     let minutesCopy = minutes;
@@ -22,6 +31,23 @@ export default function MinRestTime({ theme, currentMinTime }) {
         hoursCounter == 1 ? "" : "s"
       } and ${minutesCopy} minutes`;
     }
+  }
+
+  function updateUserMinRestTime() {
+    const millisecondsMinRestTime = minutes * 60 * 1000;
+
+    try {
+      const docRef = doc(db, "Users", userId);
+
+      updateDoc(docRef, {
+        "preferences.min_rest_time_between_tasks":
+          millisecondsMinRestTime.toString(),
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
+
+    closeWindow();
   }
 
   const styles = StyleSheet.create({
@@ -67,7 +93,7 @@ export default function MinRestTime({ theme, currentMinTime }) {
       </Text>
       <Slider
         style={{ width: "100%", height: 40 }}
-        minimumValue={1}
+        minimumValue={0}
         maximumValue={360}
         step={1}
         value={minutes}
@@ -77,7 +103,10 @@ export default function MinRestTime({ theme, currentMinTime }) {
         thumbTintColor={theme.secondary}
       />
       <Text style={styles.mainText}>Current time: {calculateHours()}</Text>
-      <TouchableOpacity style={styles.submitButton}>
+      <TouchableOpacity
+        style={styles.submitButton}
+        onPress={updateUserMinRestTime}
+      >
         <Text style={styles.mainText}>Set new time</Text>
       </TouchableOpacity>
     </View>

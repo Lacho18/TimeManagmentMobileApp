@@ -25,6 +25,8 @@ export default function Profile() {
   const { user, logout, loading } = useUser();
   const { stressTest, startStressTest, endStressTest } = useStressTest();
 
+  console.log(user);
+
   const [minTimeRest, setMinTimeRest] = useState(false);
 
   //Checks if the data for user is loading or if the user is found. Does not return anything if so.
@@ -131,6 +133,10 @@ export default function Profile() {
             Set minimum rest time between tasks
           </Text>
         </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonStyle} onPress={() => {}}>
+          <MaterialIcons name="restore" size={28} color={theme.secondary} />
+          <Text style={styles.buttonText}>Set max number of daily tasks</Text>
+        </TouchableOpacity>
       </View>
       <Text>Profile</Text>
 
@@ -139,6 +145,10 @@ export default function Profile() {
         <MinRestTime
           theme={theme}
           currentMinTime={user.preferences.min_rest_time_between_tasks}
+          userId={user.id}
+          closeWindow={() => {
+            setMinTimeRest(false);
+          }}
         />
       )}
     </Pressable>

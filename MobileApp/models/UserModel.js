@@ -6,7 +6,8 @@ export default userModel = {
     preferences: {
         notification_time: "08:00",
         notification_sound: "",
-        min_rest_time_between_tasks: "300000",              //5 minutes
+        min_rest_time_between_tasks: "300000",
+        maxNumberOfTasks: 10,
         theme: "purple"
     },
     google_sync: false,
