@@ -12,6 +12,7 @@ import { useUser } from "../../context/UserContext";
 //icons
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 
 import ColorThemeSelector from "../../components/ColorThemeSelector";
 import { router } from "expo-router";
@@ -19,6 +20,7 @@ import { useEffect, useState } from "react";
 import { useStressTest } from "../../context/StressTestContext";
 import StressTest from "../testStress/stressTest";
 import MinRestTime from "../../components/Profile/MinRestTime";
+import MaxTasks from "../../components/Profile/MaxTasks";
 
 export default function Profile() {
   const { theme } = useTheme();
@@ -27,7 +29,11 @@ export default function Profile() {
 
   console.log(user);
 
+  //Follows whether to visualize the MinRestTime component which changes the min rest time
   const [minTimeRest, setMinTimeRest] = useState(false);
+
+  //Follows whether to visualize the MaxTasks component which changes the daily max tasks
+  const [maxTasks, setMaxTasks] = useState(false);
 
   //Checks if the data for user is loading or if the user is found. Does not return anything if so.
   if (loading || !user) return null;
@@ -133,8 +139,13 @@ export default function Profile() {
             Set minimum rest time between tasks
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonStyle} onPress={() => {}}>
-          <MaterialIcons name="restore" size={28} color={theme.secondary} />
+        <TouchableOpacity
+          style={styles.buttonStyle}
+          onPress={() => {
+            setMaxTasks((oldValue) => !oldValue);
+          }}
+        >
+          <FontAwesome5 name="tasks" size={28} color={theme.secondary} />
           <Text style={styles.buttonText}>Set max number of daily tasks</Text>
         </TouchableOpacity>
       </View>
@@ -148,6 +159,16 @@ export default function Profile() {
           userId={user.id}
           closeWindow={() => {
             setMinTimeRest(false);
+          }}
+        />
+      )}
+      {maxTasks && (
+        <MaxTasks
+          theme={theme}
+          userCurrentMaxTasks={user.preferences.maxNumberOfTasks}
+          userId={user.id}
+          closeWindow={() => {
+            setMaxTasks(false);
           }}
         />
       )}

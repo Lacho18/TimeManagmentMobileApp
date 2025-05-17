@@ -1,4 +1,4 @@
 git add .
-git commit -m "Making possible for the user to set min rest time between tasks"
+git commit -m "Making possible for the user to set max number of tasks"
 git branch -M main
 git push -u origin main 
