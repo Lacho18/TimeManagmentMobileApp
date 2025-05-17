@@ -3,23 +3,20 @@ import { db } from "../firebaseConfig";
 import { exampleTasks } from "../constants/testDummyData";
 import { equalDatesWithHours } from "./dateUtil";
 
+//taskInterval is used to modify the inserted new task by the closest on the past. After that the recursive function is called featureTasksCompiler which
+//modifies every task after the inserted one if this is necessary. It finds out whether to do it if the current task has changed
+
 //Function that manage to set min interval between the new task and closest to it on the past
 export const taskInterval = async (newTask, min_rest_time_between_tasks, previousTask = null) => {
     const tasksCollection = collection(db, "Tasks");
 
-    console.log(min_rest_time_between_tasks);
-
     let closestTaskOnPast;
 
     if (previousTask === null) {
-        console.log("ARE Shonshi");
         //Gets the closest task on the past
         const q = query(tasksCollection, where("startTime", "<", Timestamp.fromDate(newTask.startTime)), orderBy("startTime", "asc"));
 
         const snapshot = await getDocs(q);
-
-        console.log(Timestamp.fromDate(newTask.startTime));
-        console.log(snapshot);
 
         //In case this is the first task or there is not task more on the past than this one
         if (snapshot.empty) {
@@ -33,7 +30,6 @@ export const taskInterval = async (newTask, min_rest_time_between_tasks, previou
         if (closestTaskOnPast.endTime) {
             closestTaskOnPast.endTime = closestTaskOnPast.endTime.toDate();
         }
-        console.log("closestTaskOnPast ", closestTaskOnPast);
     }
     else {
         closestTaskOnPast = { ...previousTask };
@@ -105,9 +101,6 @@ export const featureTasksCompiler = async (currentTask, min_rest_time_between_ta
 
     const snapshot = await getDocs(q);
 
-    console.log("Manqk are molq ti sa");
-    console.log(snapshot);
-
     //In case this is the first task or there is not task more on the feature than this one
     if (snapshot.empty) {
         return;
@@ -117,17 +110,15 @@ export const featureTasksCompiler = async (currentTask, min_rest_time_between_ta
     const docSnap = snapshot.docs[0];
 
     const currentFeatureTask = { id: docSnap.id, ...docSnap.data() };
+
     currentFeatureTask.startTime = currentFeatureTask.startTime.toDate();
     if (currentFeatureTask.endTime) {
         currentFeatureTask.endTime = currentFeatureTask.endTime.toDate();
     }
-    console.log("currentFeatureTask", currentFeatureTask);
+
     let modifiableFeatureTask = { ...currentFeatureTask };
-    console.log("modifiableFeatureTask", modifiableFeatureTask);
 
     modifiableFeatureTask = await taskInterval(modifiableFeatureTask, min_rest_time_between_tasks, currentTask);
-
-    console.log("After changes modifiableFeatureTask ", modifiableFeatureTask);
 
     //If nothing has changed that means the recursion should end
     if (equalDateValuesOfObjects(currentFeatureTask, modifiableFeatureTask)) {

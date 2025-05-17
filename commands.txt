@@ -1,4 +1,4 @@
 git add .
-git commit -m "Making test on the database"
+git commit -m "Removing test components"
 git branch -M main
 git push -u origin main 
