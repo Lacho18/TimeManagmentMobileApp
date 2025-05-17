@@ -1,26 +1,39 @@
-import { collection, query, where, orderBy, limit, getDocs, doc, updateDoc } from "firebase/firestore/lite";
+import { collection, query, where, orderBy, limit, getDocs, doc, updateDoc, Timestamp } from "firebase/firestore/lite";
 import { db } from "../firebaseConfig";
 import { exampleTasks } from "../constants/testDummyData";
 import { equalDatesWithHours } from "./dateUtil";
 
 //Function that manage to set min interval between the new task and closest to it on the past
 export const taskInterval = async (newTask, min_rest_time_between_tasks, previousTask = null) => {
-    const tasksCollection = collection(db, "tasks");
+    const tasksCollection = collection(db, "Tasks");
+
+    console.log(min_rest_time_between_tasks);
 
     let closestTaskOnPast;
 
     if (previousTask === null) {
+        console.log("ARE Shonshi");
         //Gets the closest task on the past
-        const q = query(tasksCollection, where("startTime", "<", newTask.startTime), orderBy("startTime", "desc"), limit(1));
+        const q = query(tasksCollection, where("startTime", "<", Timestamp.fromDate(newTask.startTime)), orderBy("startTime", "asc"));
 
         const snapshot = await getDocs(q);
+
+        console.log(Timestamp.fromDate(newTask.startTime));
+        console.log(snapshot);
 
         //In case this is the first task or there is not task more on the past than this one
         if (snapshot.empty) {
             return newTask;
         }
+        const tasks = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
-        closestTaskOnPast = snapshot.docs[0].data();
+        //closestTaskOnPast = snapshot.docs[0].data();
+        closestTaskOnPast = tasks[tasks.length - 1];
+        closestTaskOnPast.startTime = closestTaskOnPast.startTime.toDate();
+        if (closestTaskOnPast.endTime) {
+            closestTaskOnPast.endTime = closestTaskOnPast.endTime.toDate();
+        }
+        console.log("closestTaskOnPast ", closestTaskOnPast);
     }
     else {
         closestTaskOnPast = { ...previousTask };
@@ -85,24 +98,36 @@ export const taskInterval = async (newTask, min_rest_time_between_tasks, previou
 }
 
 export const featureTasksCompiler = async (currentTask, min_rest_time_between_tasks) => {
-    const tasksCollection = collection(db, "tasks");
+    const tasksCollection = collection(db, "Tasks");
 
     //Gets the closest task on the feature
-    const q = query(tasksCollection, where("startTime", ">", currentTask.startTime), orderBy("startTime", "asc"), limit(1));
+    const q = query(tasksCollection, where("startTime", ">", Timestamp.fromDate(currentTask.startTime)), orderBy("startTime", "asc"), limit(1));
 
     const snapshot = await getDocs(q);
 
+    console.log("Manqk are molq ti sa");
+    console.log(snapshot);
+
     //In case this is the first task or there is not task more on the feature than this one
     if (snapshot.empty) {
-        return currentTask;
+        return;
     }
 
     //Gets the current feature task and modifiable copy of it
     const docSnap = snapshot.docs[0];
+
     const currentFeatureTask = { id: docSnap.id, ...docSnap.data() };
+    currentFeatureTask.startTime = currentFeatureTask.startTime.toDate();
+    if (currentFeatureTask.endTime) {
+        currentFeatureTask.endTime = currentFeatureTask.endTime.toDate();
+    }
+    console.log("currentFeatureTask", currentFeatureTask);
     let modifiableFeatureTask = { ...currentFeatureTask };
+    console.log("modifiableFeatureTask", modifiableFeatureTask);
 
     modifiableFeatureTask = await taskInterval(modifiableFeatureTask, min_rest_time_between_tasks, currentTask);
+
+    console.log("After changes modifiableFeatureTask ", modifiableFeatureTask);
 
     //If nothing has changed that means the recursion should end
     if (equalDateValuesOfObjects(currentFeatureTask, modifiableFeatureTask)) {
@@ -110,7 +135,7 @@ export const featureTasksCompiler = async (currentTask, min_rest_time_between_ta
     }
     //Modifies the document on the database and calls for the next function
     else {
-        const docRef = doc(db, "tasks", modifiableFeatureTask.id);
+        const docRef = doc(db, "Tasks", modifiableFeatureTask.id);
         await updateDoc(docRef, modifiableFeatureTask);
         await featureTasksCompiler(modifiableFeatureTask, min_rest_time_between_tasks);
     }

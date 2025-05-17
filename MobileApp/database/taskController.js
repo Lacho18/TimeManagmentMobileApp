@@ -3,6 +3,7 @@ import { db } from "../firebaseConfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { millisecondsCalculator } from "../utils/dateUtil";
 import { durationColorSetter } from "../utils/durationColorUtil";
+import { featureTasksCompiler, taskInterval } from "../utils/tasksInterval";
 
 export const getTaskForGivenDay = async (givenDay) => {
     const startOfDay = new Date(givenDay.getFullYear(), givenDay.getMonth(), givenDay.getDate(), 0, 0, 0);
@@ -63,7 +64,13 @@ export const createTask = async (newTask, user) => {
             newTask.durationColor = durationColorSetter(newTask.duration);
         }
 
+        console.log("The new task before ", newTask);
 
+        //Add min rest time between tasks if necessary
+        //Adjusts the time of the inserted task by the closest on the past
+        newTask = await taskInterval(newTask, user.preferences.min_rest_time_between_tasks);
+        //Adjust every feature task until there are no more on there are not more changes needed
+        await featureTasksCompiler(newTask, user.preferences.min_rest_time_between_tasks);
 
         const taskCollection = collection(db, "Tasks");
 
