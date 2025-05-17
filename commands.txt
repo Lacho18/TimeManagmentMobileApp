@@ -1,4 +1,4 @@
 git add .
-git commit -m "Making possible for the user to set max number of tasks"
+git commit -m "Making function that checks if the user goes over his limit for tasks"
 git branch -M main
 git push -u origin main 

@@ -10,7 +10,9 @@ export default function MaxTasks({
   userId,
   closeWindow,
 }) {
-  const [currentMaxTasks, setCurrentMaxTasks] = useState(userCurrentMaxTasks);
+  const [currentMaxTasks, setCurrentMaxTasks] = useState(
+    userCurrentMaxTasks ? userCurrentMaxTasks : 1
+  );
 
   function updateUUserMaxTasks() {
     try {
@@ -25,6 +27,8 @@ export default function MaxTasks({
 
     closeWindow();
   }
+
+  console.log("Ehooooo");
 
   const styles = StyleSheet.create({
     mainDiv: {
