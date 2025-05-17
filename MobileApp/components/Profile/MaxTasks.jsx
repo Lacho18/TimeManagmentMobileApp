@@ -28,8 +28,6 @@ export default function MaxTasks({
     closeWindow();
   }
 
-  console.log("Ehooooo");
-
   const styles = StyleSheet.create({
     mainDiv: {
       width: "90%",

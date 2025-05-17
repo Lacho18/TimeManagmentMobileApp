@@ -1,4 +1,4 @@
 git add .
-git commit -m "Making function that checks if the user goes over his limit for tasks"
+git commit -m "Adding comments"
 git branch -M main
 git push -u origin main 
