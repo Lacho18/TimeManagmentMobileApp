@@ -14,7 +14,7 @@ export default function MaxTasks({
     userCurrentMaxTasks ? Number(userCurrentMaxTasks) : 1
   );
 
-  function updateUUserMaxTasks() {
+  function updateUserMaxTasks() {
     try {
       const docRef = doc(db, "Users", userId);
 
@@ -87,7 +87,7 @@ export default function MaxTasks({
       </Text>
       <TouchableOpacity
         style={styles.submitButton}
-        onPress={updateUUserMaxTasks}
+        onPress={updateUserMaxTasks}
       >
         <Text style={styles.mainText}>Set new time</Text>
       </TouchableOpacity>

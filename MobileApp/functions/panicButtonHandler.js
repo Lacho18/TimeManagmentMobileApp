@@ -11,7 +11,7 @@
 import { collection, getDocs, query, Timestamp, where, updateDoc, doc } from "firebase/firestore/lite";
 import { db } from "../firebaseConfig";
 import { MAX_NUMBER_OF_DELAYED_TASK } from "../constants/MaxNumberDelayedTasks";
-import { deleteTask } from "../database/taskController";
+import { deleteTask, getTaskForGivenDay } from "../database/taskController";
 import { MAX_PRIORITY_LEVEL } from "../constants/TaskPriority";
 
 export const panicButtonHandler = async (userId, userStartTimeOfTheDay, userMinRestTime) => {
@@ -51,18 +51,6 @@ export const panicButtonHandler = async (userId, userStartTimeOfTheDay, userMinR
         return diffA - diffB;
     });
 
-    console.log("<><><><><><><><><><><><><><><><><><><><><><>");
-    //JUST FOR TEST PURPOSES
-    tasks.forEach(task => {
-        console.log(task.startTime);
-        if (task.endTime) {
-            console.log(task.endTime);
-        }
-        else {
-            console.log(task.endTime);
-        }
-    });
-
     //The user value of start of the day is stored in format "hours:minutes". Here the date value of this is get
     const startTimeForTomorrow = getDateFromStartTime(userStartTimeOfTheDay);
 
@@ -86,27 +74,28 @@ export const panicButtonHandler = async (userId, userStartTimeOfTheDay, userMinR
         }
     });
 
-    console.log("<><><><><><><><><><><><><><><><><><><><><><>");
-    console.log("<><><><><><><><><><><><><><><><><><><><><><>");
-    console.log("<><><><><><><><><><><><><><><><><><><><><><>");
-    console.log("<><><><><><><><><><><><><><><><><><><><><><>");
-    console.log("<><><><><><><><><><><><><><><><><><><><><><>");
-    console.log("<><><><><><><><><><><><><><><><><><><><><><>");
 
-    //JUST FOR TEST PURPOSES
-    tasks.forEach(task => {
-        console.log(task.startTime);
-        if (task.endTime) {
-            console.log(task.endTime);
-        }
-        else {
-            console.log(task.endTime);
-        }
-    });
 
     console.log("<><><><><><><><><><><><><><><><><><><><><><>");
 
+    //The value in milliseconds of the duration of time that is taken from delayed tasks
+    const fullTimeForDelayedTasks = tasks[tasks.length - 1].endTime ?
+        tasks[tasks.length - 1].endTime.getTime() - startTimeForTomorrow :
+        tasks[tasks.length - 1].startTime.getTime() - startTimeForTomorrow;
 
+
+
+    const tomorrowUpdatedTasks = await getEveryTaskForTomorrow(fullTimeForDelayedTasks, startTimeForTomorrow, userMinRestTime)
+
+    console.log(tomorrowUpdatedTasks);
+
+
+    ///////////////////////////////////////////
+    /*const tasksOnDelayedInterval = await getTasksInDelayedInterval(fullTimeForDelayedTasks, startTimeForTomorrow);
+
+    if (tasksOnDelayedInterval.length > 0) {
+
+    }*/
 
 
     console.log("Panic button was pressed");
@@ -146,6 +135,113 @@ async function getTasksWithLowAndMediumPriority(currentDay, userId) {
     }
 }
 
+//If there are tasks on the delayed duration gets them
+async function getTasksInDelayedInterval(delayedInterval, startTimeForTomorrow) {
+    const endTime = new Date(startTimeForTomorrow.getTime() + delayedInterval);
+
+    const beginTimeStamp = Timestamp.fromDate(startTimeForTomorrow);
+    const endTimeStamp = Timestamp.fromDate(endTime);
+
+    const q = query(collection(db, "Tasks"),
+        where("startTime", ">=", beginTimeStamp),
+        where("startTime", "<=", endTimeStamp));
+
+    const snapshot = await getDocs(q);
+
+    if (snapshot.empty) {
+        return [];
+    }
+    else {
+        const tasks = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        return tasks;
+    }
+}
+
+async function getEveryTaskForTomorrow(delayedInterval, startTimeForTomorrow, minRestTime) {
+    const endDurationTime = new Date(startTimeForTomorrow.getTime() + delayedInterval);
+
+    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+    console.log(endDurationTime);
+
+    //Every task for tomorrow without the delayed
+    let everyTask = await getTaskForGivenDay(startTimeForTomorrow);
+
+    everyTask = everyTask.map(task => {
+        if (task.endTime) {
+            return { ...task, endTime: task.endTime.toDate() }
+        }
+        return { ...task };
+    })
+
+    console.log(everyTask);
+
+    //Only the tasks that are in the delayed interval
+    const tasksInsideDelayedDuration = everyTask.filter(task => {
+        task.startTime = task.startTime.toDate();
+
+        return task.startTime <= endDurationTime;
+    });
+
+    if (tasksInsideDelayedDuration.length > 0) {
+        let prevDuration = 0;
+        let prevEndTime = new Date();;
+
+        everyTask = everyTask.map((task, index) => {
+            const taskCopy = { ...task };
+
+            let taskDuration = 0;
+            let durationToNextTask = 0;
+
+            if (taskCopy.endTime) {
+                taskDuration = taskCopy.endTime.getTime() - taskCopy.startTime.getTime();
+
+                if (index + 1 < everyTask.length) {
+                    durationToNextTask = everyTask[index + 1].startTime.getTime() - taskCopy.endTime.getTime();
+                }
+            }
+            else {
+                if (index + 1 < everyTask.length) {
+                    durationToNextTask = everyTask[index + 1].startTime.getTime() - taskCopy.startTime.getTime();
+                }
+            }
+
+            if (index == 0) {
+                taskCopy.startTime = new Date(endDurationTime.getTime() + minRestTime);
+                if (taskDuration != 0) {
+                    taskCopy.endTime = new Date(taskCopy.startTime.getTime() + taskDuration);
+                    prevEndTime = new Date(taskCopy.endTime);
+                }
+                else {
+                    prevEndTime = new Date(taskCopy.startTime);
+                }
+
+                prevDuration = durationToNextTask;
+            }
+            else {
+                taskCopy.startTime = new Date(prevEndTime.getTime() + prevDuration);
+
+                if (taskDuration != 0) {
+                    taskCopy.endTime = new Date(taskCopy.startTime.getTime() + taskDuration);
+                    prevEndTime = new Date(taskCopy.endTime);
+                }
+                else {
+                    prevEndTime = new Date(taskCopy.startTime);
+                }
+
+                prevDuration = durationToNextTask;
+
+            }
+
+            return taskCopy;
+        });
+
+        return everyTask;
+    }
+    else {
+        return [];
+    }
+}
+
 //Gets the start time of the day as date object
 //The start time is stored on the database on format "hours:minutes"
 function getDateFromStartTime(userStartTimeOfTheDay) {
@@ -176,7 +272,9 @@ function modifyDelayedTasksStartAndEndTime(startTime, currentTask) {
     return currentTask;
 }
 
+function updateTaskTimes(currentTask, featureTask, endOfDuration) {
 
+}
 
 
 async function addDelayedFieldToAllTasks() {
