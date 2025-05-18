@@ -4,7 +4,7 @@ export default userModel = {
     name: "",
     image: "",
     preferences: {
-        notification_time: "08:00",
+        dayStartTime: "08:00",
         notification_sound: "",
         min_rest_time_between_tasks: "300000",
         maxNumberOfTasks: 10,
