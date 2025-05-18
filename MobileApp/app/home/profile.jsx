@@ -21,6 +21,7 @@ import { useStressTest } from "../../context/StressTestContext";
 import StressTest from "../testStress/stressTest";
 import MinRestTime from "../../components/Profile/MinRestTime";
 import MaxTasks from "../../components/Profile/MaxTasks";
+import PanicButton from "../../components/Profile/PanicButton";
 
 export default function Profile() {
   const { theme } = useTheme();
@@ -155,6 +156,7 @@ export default function Profile() {
           <Text style={styles.buttonText}>Set max number of daily tasks</Text>
         </TouchableOpacity>
       </View>
+
       <Text>Profile</Text>
 
       {stressTest && <StressTest />}
@@ -178,6 +180,8 @@ export default function Profile() {
           }}
         />
       )}
+
+      <PanicButton onPress={() => {}} theme={theme} />
     </Pressable>
   );
 }

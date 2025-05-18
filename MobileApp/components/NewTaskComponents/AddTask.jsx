@@ -13,7 +13,7 @@ export default function AddTask({ showAddTaskMenu }) {
       justifyContent: "center",
       alignItems: "center",
       backgroundColor: "red",
-      left: "75%",
+      left: "80%",
       top: "80%",
       zIndex: 30,
     },
