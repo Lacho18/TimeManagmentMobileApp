@@ -63,8 +63,10 @@ export const panicButtonHandler = async (userId, userStartTimeOfTheDay, userMinR
         }
     });
 
+    //The user value of start of the day is stored in format "hours:minutes". Here the date value of this is get
     const startTimeForTomorrow = getDateFromStartTime(userStartTimeOfTheDay);
 
+    //Modifies the tasks start and end time by the beginning of the day and the min rest time of the user
     tasks = tasks.map((task, index) => {
         if (index == 0) {
             return modifyDelayedTasksStartAndEndTime(startTimeForTomorrow, task);
@@ -103,6 +105,8 @@ export const panicButtonHandler = async (userId, userStartTimeOfTheDay, userMinR
     });
 
     console.log("<><><><><><><><><><><><><><><><><><><><><><>");
+
+
 
 
     console.log("Panic button was pressed");
@@ -163,7 +167,7 @@ function modifyDelayedTasksStartAndEndTime(startTime, currentTask) {
         const currentTaskDuration = currentTask.endTime.getTime() - currentTask.startTime.getTime();
 
         currentTask.startTime = startTime;
-        currentTask.endTime = new Date(startTime + currentTaskDuration);
+        currentTask.endTime = new Date(startTime.getTime() + currentTaskDuration);
     }
     else {
         currentTask.startTime = startTime;
