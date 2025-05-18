@@ -40,6 +40,19 @@ export const panicButtonHandler = async (userId) => {
         tasksForDelete.forEach(async (task) => await deleteTask(task));
     }
 
+    //Sorts the task by their start time
+    tasks = tasks.sort((a, b) => {
+        const dateA = a.startTime.toDate();
+        const dateB = b.startTime.toDate();
+
+        const diffA = Math.abs(dateA - today);
+        const diffB = Math.abs(dateB - today);
+
+        return diffA - diffB;
+    })
+
+    const startTimeForTomorrow = getDateFromStartTime(userStartTimeOfTheDay);
+
     console.log("Panic button was pressed");
     console.log(tasks);
 }
@@ -91,6 +104,24 @@ function getDateFromStartTime(userStartTimeOfTheDay) {
 
     return tomorrowStartTime;
 }
+
+//Modifies the start time of every delayed task
+function modifyDelayedTasksStartAndEndTime(startTime, currentTask) {
+    if (currentTask.endTime) {
+        const currentTaskDuration = currentTask.endTime.getTime() - currentTask.startTime.getTime();
+
+        currentTask.startTime = startTime;
+        currentTask.endTime = new Date(startTime + currentTaskDuration);
+    }
+    else {
+        currentTask.startTime = startTime;
+    }
+
+    return currentTask;
+}
+
+
+
 
 async function addDelayedFieldToAllTasks() {
     const tasksCollection = collection(db, "Tasks");
