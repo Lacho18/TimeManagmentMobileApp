@@ -10,6 +10,7 @@ export default taskModel = {
     durationColor: "",
     location: "",
     reminder: null,
+    isDelayed: false,
     repeating: {
         isRepeating: false,
         repeatInterval: null

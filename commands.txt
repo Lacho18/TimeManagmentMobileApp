@@ -1,4 +1,4 @@
 git add .
-git commit -m "Starting to create the functionality of the panic button"
+git commit -m "Making steps on panic button functionality"
 git branch -M main
 git push -u origin main 
