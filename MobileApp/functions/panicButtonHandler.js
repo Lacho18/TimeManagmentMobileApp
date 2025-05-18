@@ -85,21 +85,22 @@ export const panicButtonHandler = async (userId, userStartTimeOfTheDay, userMinR
 
 
 
-    const tomorrowUpdatedTasks = await getEveryTaskForTomorrow(fullTimeForDelayedTasks, startTimeForTomorrow, userMinRestTime)
+    const tomorrowUpdatedTasks = await getEveryTaskForTomorrow(fullTimeForDelayedTasks, startTimeForTomorrow, userMinRestTime);
 
     console.log(tomorrowUpdatedTasks);
 
+    const everyTaskThatHasChanged = [...tasks, ...tomorrowUpdatedTasks];
 
-    ///////////////////////////////////////////
-    /*const tasksOnDelayedInterval = await getTasksInDelayedInterval(fullTimeForDelayedTasks, startTimeForTomorrow);
+    everyTaskThatHasChanged.forEach(async (task) => {
+        const docRef = doc(db, "Tasks", task.id);
 
-    if (tasksOnDelayedInterval.length > 0) {
-
-    }*/
-
+        await updateDoc(docRef, task);
+    });
 
     console.log("Panic button was pressed");
     console.log(tasks);
+
+    return;
 }
 
 //Function that finds and returns the tasks with low and medium priority for the current day
@@ -135,29 +136,9 @@ async function getTasksWithLowAndMediumPriority(currentDay, userId) {
     }
 }
 
-//If there are tasks on the delayed duration gets them
-async function getTasksInDelayedInterval(delayedInterval, startTimeForTomorrow) {
-    const endTime = new Date(startTimeForTomorrow.getTime() + delayedInterval);
-
-    const beginTimeStamp = Timestamp.fromDate(startTimeForTomorrow);
-    const endTimeStamp = Timestamp.fromDate(endTime);
-
-    const q = query(collection(db, "Tasks"),
-        where("startTime", ">=", beginTimeStamp),
-        where("startTime", "<=", endTimeStamp));
-
-    const snapshot = await getDocs(q);
-
-    if (snapshot.empty) {
-        return [];
-    }
-    else {
-        const tasks = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        return tasks;
-    }
-}
-
 //Do tyka si stignal. Fynciqta raboti no q testvay s poveche zadachi. Ostava samo da updaitnesh vsichko v bazata. Drygoto sa vizualni promeni
+
+//Function that makes the necessary modifications on the tasks of the tomorrow day 
 async function getEveryTaskForTomorrow(delayedInterval, startTimeForTomorrow, minRestTime) {
     const endDurationTime = new Date(startTimeForTomorrow.getTime() + delayedInterval);
 
@@ -167,6 +148,7 @@ async function getEveryTaskForTomorrow(delayedInterval, startTimeForTomorrow, mi
     //Every task for tomorrow without the delayed
     let everyTask = await getTaskForGivenDay(startTimeForTomorrow);
 
+    //Changes the endTime field to javascript date object
     everyTask = everyTask.map(task => {
         if (task.endTime) {
             return { ...task, endTime: task.endTime.toDate() }
@@ -183,32 +165,47 @@ async function getEveryTaskForTomorrow(delayedInterval, startTimeForTomorrow, mi
         return task.startTime <= endDurationTime;
     });
 
+    //If there are none tasks on the delayed interval no changes are needed.
     if (tasksInsideDelayedDuration.length > 0) {
+        //On the map function this will store the interval between the previous and current task
         let prevDuration = 0;
+        //On the map function this will store the end time of the previous task
         let prevEndTime = new Date();
 
+        //Maps through every task
         everyTask = everyTask.map((task, index) => {
+            //Makes copy of the task in order to modify the copy
             const taskCopy = { ...task };
 
+            //Will store the duration of the current task
             let taskDuration = 0;
+            //Will store the time interval to the next task
             let durationToNextTask = 0;
 
+            //Not every task has end time
             if (taskCopy.endTime) {
+                //Calculates the duration
                 taskDuration = taskCopy.endTime.getTime() - taskCopy.startTime.getTime();
 
+                //If there are more tasks ahead, calculates the time interval to the next one
                 if (index + 1 < everyTask.length) {
                     durationToNextTask = everyTask[index + 1].startTime.getTime() - taskCopy.endTime.getTime();
                 }
             }
             else {
+                //If there are more tasks ahead, calculates the time interval to the next one
                 if (index + 1 < everyTask.length) {
                     durationToNextTask = everyTask[index + 1].startTime.getTime() - taskCopy.startTime.getTime();
                 }
             }
 
+            //in case this is the first task
             if (index == 0) {
+                //Sets the start time to minUserRestTime after the end of the delayed task interval
                 taskCopy.startTime = new Date(endDurationTime.getTime() + minRestTime);
+                //If the current task has end time
                 if (taskDuration != 0) {
+                    //Sets the end time of the task according to it's duration and sets the previous end time 
                     taskCopy.endTime = new Date(taskCopy.startTime.getTime() + taskDuration);
                     prevEndTime = new Date(taskCopy.endTime);
                 }
@@ -218,6 +215,7 @@ async function getEveryTaskForTomorrow(delayedInterval, startTimeForTomorrow, mi
 
                 prevDuration = durationToNextTask;
             }
+            //Every task after the first one
             else {
                 //Checks if the previous task has not passed the next on the line
                 if (!(taskCopy.startTime.getTime() < prevEndTime.getTime() + minRestTime)) {
@@ -227,8 +225,11 @@ async function getEveryTaskForTomorrow(delayedInterval, startTimeForTomorrow, mi
                     }
                 }
 
+                //This is when the next tasks has to change according to the previous one
+                //According to the tasks interval between them sets the current task start time, in order to keep the same distance between the two tasks
                 taskCopy.startTime = new Date(prevEndTime.getTime() + prevDuration);
 
+                //If the task has end time change it too
                 if (taskDuration != 0) {
                     taskCopy.endTime = new Date(taskCopy.startTime.getTime() + taskDuration);
                     prevEndTime = new Date(taskCopy.endTime);
@@ -244,9 +245,11 @@ async function getEveryTaskForTomorrow(delayedInterval, startTimeForTomorrow, mi
             return taskCopy;
         });
 
+        //If there are even one change return all tasks
         return everyTask;
     }
     else {
+        //Returns nothing if nothing has changed
         return [];
     }
 }
@@ -279,10 +282,6 @@ function modifyDelayedTasksStartAndEndTime(startTime, currentTask) {
     }
 
     return currentTask;
-}
-
-function updateTaskTimes(currentTask, featureTask, endOfDuration) {
-
 }
 
 
