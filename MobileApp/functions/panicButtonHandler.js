@@ -14,10 +14,10 @@ import { MAX_NUMBER_OF_DELAYED_TASK } from "../constants/MaxNumberDelayedTasks";
 import { deleteTask } from "../database/taskController";
 import { MAX_PRIORITY_LEVEL } from "../constants/TaskPriority";
 
-export const panicButtonHandler = async (userId) => {
+export const panicButtonHandler = async (userId, userStartTimeOfTheDay, userMinRestTime) => {
     const today = new Date();
 
-    const tasks = await getTasksWithLowAndMediumPriority(today, userId, userStartTimeOfTheDay);
+    let tasks = await getTasksWithLowAndMediumPriority(today, userId);
 
     //Updates every necessary field for the delayed task
     tasks = tasks.map(task => {
@@ -26,6 +26,9 @@ export const panicButtonHandler = async (userId) => {
         task.delayed.isDelayed = true;
         task.delayed.delayedTimes = oldTaskValue.delayed.delayedTimes + 1;
 
+        task.startTime = task.startTime.toDate();
+        task.endTime = task.endTime ? task.endTime.toDate() : null;
+
         return { ...task, priority: oldTaskValue.priority + 1, }
     });
 
@@ -33,25 +36,74 @@ export const panicButtonHandler = async (userId) => {
     const tasksForDelete = tasks.filter(task => task.delayed.delayedTimes > MAX_NUMBER_OF_DELAYED_TASK);
 
     //If there are remove them from the array of tasks
-    if (tasksForDelete.length > 0) {
+    /*if (tasksForDelete.length > 0) {
         tasks = tasks.filter(task => task.delayed.delayedTimes <= MAX_NUMBER_OF_DELAYED_TASK);
 
         //Removes every tasks which is delayed more than the system limit
         tasksForDelete.forEach(async (task) => await deleteTask(task));
-    }
+    }*/
 
     //Sorts the task by their start time
     tasks = tasks.sort((a, b) => {
-        const dateA = a.startTime.toDate();
-        const dateB = b.startTime.toDate();
-
-        const diffA = Math.abs(dateA - today);
-        const diffB = Math.abs(dateB - today);
+        const diffA = Math.abs(a - today);
+        const diffB = Math.abs(b - today);
 
         return diffA - diffB;
-    })
+    });
+
+    console.log("<><><><><><><><><><><><><><><><><><><><><><>");
+    //JUST FOR TEST PURPOSES
+    tasks.forEach(task => {
+        console.log(task.startTime);
+        if (task.endTime) {
+            console.log(task.endTime);
+        }
+        else {
+            console.log(task.endTime);
+        }
+    });
 
     const startTimeForTomorrow = getDateFromStartTime(userStartTimeOfTheDay);
+
+    tasks = tasks.map((task, index) => {
+        if (index == 0) {
+            return modifyDelayedTasksStartAndEndTime(startTimeForTomorrow, task);
+        }
+
+        const previousTask = tasks[index - 1];
+
+        if (previousTask.endTime) {
+            const startTimeForCurrentTask = new Date(previousTask.endTime.getTime() + Number(userMinRestTime));
+
+            return modifyDelayedTasksStartAndEndTime(startTimeForCurrentTask, task);
+        }
+        else {
+            const startTimeForCurrentTask = new Date(previousTask.startTime.getTime() + Number(userMinRestTime));
+
+            return modifyDelayedTasksStartAndEndTime(startTimeForCurrentTask, task);
+        }
+    });
+
+    console.log("<><><><><><><><><><><><><><><><><><><><><><>");
+    console.log("<><><><><><><><><><><><><><><><><><><><><><>");
+    console.log("<><><><><><><><><><><><><><><><><><><><><><>");
+    console.log("<><><><><><><><><><><><><><><><><><><><><><>");
+    console.log("<><><><><><><><><><><><><><><><><><><><><><>");
+    console.log("<><><><><><><><><><><><><><><><><><><><><><>");
+
+    //JUST FOR TEST PURPOSES
+    tasks.forEach(task => {
+        console.log(task.startTime);
+        if (task.endTime) {
+            console.log(task.endTime);
+        }
+        else {
+            console.log(task.endTime);
+        }
+    });
+
+    console.log("<><><><><><><><><><><><><><><><><><><><><><>");
+
 
     console.log("Panic button was pressed");
     console.log(tasks);

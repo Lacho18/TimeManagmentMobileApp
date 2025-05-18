@@ -3,8 +3,16 @@ import { Animated, Pressable, StyleSheet, View, Text } from "react-native";
 import { BlurView } from "expo-blur";
 import { panicButtonHandler } from "../../functions/panicButtonHandler";
 
-export default function CalmPanicButton({ theme, userId }) {
+export default function CalmPanicButton({
+  theme,
+  userId,
+  userStartTimeOfTheDay,
+  userMinRestTime,
+}) {
   const pulseAnim = useRef(new Animated.Value(1)).current;
+
+  console.log(userId);
+  console.log(userStartTimeOfTheDay);
 
   useEffect(() => {
     Animated.loop(
@@ -24,7 +32,7 @@ export default function CalmPanicButton({ theme, userId }) {
   }, []);
 
   async function panicButtonPress() {
-    await panicButtonHandler(userId);
+    await panicButtonHandler(userId, userStartTimeOfTheDay, userMinRestTime);
   }
 
   const SIZE = 85;

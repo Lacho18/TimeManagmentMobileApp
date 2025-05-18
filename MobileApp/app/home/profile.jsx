@@ -181,7 +181,12 @@ export default function Profile() {
         />
       )}
 
-      <PanicButton theme={theme} userId={user.id} />
+      <PanicButton
+        theme={theme}
+        userId={user.id}
+        userStartTimeOfTheDay={user.preferences.dayStartTime}
+        userMinRestTime={user.preferences.min_rest_time_between_tasks}
+      />
     </Pressable>
   );
 }
