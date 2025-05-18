@@ -157,6 +157,7 @@ async function getTasksInDelayedInterval(delayedInterval, startTimeForTomorrow) 
     }
 }
 
+//Do tyka si stignal. Fynciqta raboti no q testvay s poveche zadachi. Ostava samo da updaitnesh vsichko v bazata. Drygoto sa vizualni promeni
 async function getEveryTaskForTomorrow(delayedInterval, startTimeForTomorrow, minRestTime) {
     const endDurationTime = new Date(startTimeForTomorrow.getTime() + delayedInterval);
 
@@ -184,7 +185,7 @@ async function getEveryTaskForTomorrow(delayedInterval, startTimeForTomorrow, mi
 
     if (tasksInsideDelayedDuration.length > 0) {
         let prevDuration = 0;
-        let prevEndTime = new Date();;
+        let prevEndTime = new Date();
 
         everyTask = everyTask.map((task, index) => {
             const taskCopy = { ...task };
@@ -218,6 +219,14 @@ async function getEveryTaskForTomorrow(delayedInterval, startTimeForTomorrow, mi
                 prevDuration = durationToNextTask;
             }
             else {
+                //Checks if the previous task has not passed the next on the line
+                if (!(taskCopy.startTime.getTime() < prevEndTime.getTime() + minRestTime)) {
+                    //This is in case the current task is ahead of the current one and will not be a pain not to change
+                    if (prevEndTime.getTime() + minRestTime < taskCopy.startTime.getTime()) {
+                        return taskCopy;
+                    }
+                }
+
                 taskCopy.startTime = new Date(prevEndTime.getTime() + prevDuration);
 
                 if (taskDuration != 0) {
