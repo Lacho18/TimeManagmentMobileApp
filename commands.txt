@@ -1,4 +1,4 @@
 git add .
-git commit -m "Making test of the panic button"
+git commit -m "Finalizing panic button"
 git branch -M main
 git push -u origin main 

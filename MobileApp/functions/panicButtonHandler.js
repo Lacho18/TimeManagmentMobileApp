@@ -36,12 +36,12 @@ export const panicButtonHandler = async (userId, userStartTimeOfTheDay, userMinR
     const tasksForDelete = tasks.filter(task => task.delayed.delayedTimes > MAX_NUMBER_OF_DELAYED_TASK);
 
     //If there are remove them from the array of tasks
-    /*if (tasksForDelete.length > 0) {
+    if (tasksForDelete.length > 0) {
         tasks = tasks.filter(task => task.delayed.delayedTimes <= MAX_NUMBER_OF_DELAYED_TASK);
 
         //Removes every tasks which is delayed more than the system limit
         tasksForDelete.forEach(async (task) => await deleteTask(task));
-    }*/
+    }
 
     //Sorts the task by their start time
     tasks = tasks.sort((a, b) => {
@@ -74,20 +74,12 @@ export const panicButtonHandler = async (userId, userStartTimeOfTheDay, userMinR
         }
     });
 
-
-
-    console.log("<><><><><><><><><><><><><><><><><><><><><><>");
-
     //The value in milliseconds of the duration of time that is taken from delayed tasks
     const fullTimeForDelayedTasks = tasks[tasks.length - 1].endTime ?
         tasks[tasks.length - 1].endTime.getTime() - startTimeForTomorrow :
         tasks[tasks.length - 1].startTime.getTime() - startTimeForTomorrow;
 
-
-
     const tomorrowUpdatedTasks = await getEveryTaskForTomorrow(fullTimeForDelayedTasks, startTimeForTomorrow, userMinRestTime);
-
-    console.log(tomorrowUpdatedTasks);
 
     const everyTaskThatHasChanged = [...tasks, ...tomorrowUpdatedTasks];
 
@@ -96,9 +88,6 @@ export const panicButtonHandler = async (userId, userStartTimeOfTheDay, userMinR
 
         await updateDoc(docRef, task);
     });
-
-    console.log("Panic button was pressed");
-    console.log(tasks);
 
     return;
 }
@@ -136,14 +125,9 @@ async function getTasksWithLowAndMediumPriority(currentDay, userId) {
     }
 }
 
-//Do tyka si stignal. Fynciqta raboti no q testvay s poveche zadachi. Ostava samo da updaitnesh vsichko v bazata. Drygoto sa vizualni promeni
-
 //Function that makes the necessary modifications on the tasks of the tomorrow day 
 async function getEveryTaskForTomorrow(delayedInterval, startTimeForTomorrow, minRestTime) {
     const endDurationTime = new Date(startTimeForTomorrow.getTime() + delayedInterval);
-
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-    console.log(endDurationTime);
 
     //Every task for tomorrow without the delayed
     let everyTask = await getTaskForGivenDay(startTimeForTomorrow);
@@ -154,9 +138,7 @@ async function getEveryTaskForTomorrow(delayedInterval, startTimeForTomorrow, mi
             return { ...task, endTime: task.endTime.toDate() }
         }
         return { ...task };
-    })
-
-    console.log(everyTask);
+    });
 
     //Only the tasks that are in the delayed interval
     const tasksInsideDelayedDuration = everyTask.filter(task => {
@@ -237,9 +219,7 @@ async function getEveryTaskForTomorrow(delayedInterval, startTimeForTomorrow, mi
                 else {
                     prevEndTime = new Date(taskCopy.startTime);
                 }
-
                 prevDuration = durationToNextTask;
-
             }
 
             return taskCopy;
@@ -285,6 +265,8 @@ function modifyDelayedTasksStartAndEndTime(startTime, currentTask) {
 }
 
 
+
+//Function used for modifying the database
 async function addDelayedFieldToAllTasks() {
     const tasksCollection = collection(db, "Tasks");
 
@@ -292,8 +274,6 @@ async function addDelayedFieldToAllTasks() {
         const snapshot = await getDocs(tasksCollection);
 
         const updates = snapshot.docs.map(async (document) => {
-            console.log("E tyka");
-            console.log(document);
             const docRef = doc(db, "Tasks", document.id);
             await updateDoc(docRef, {
                 delayed: {
@@ -304,7 +284,6 @@ async function addDelayedFieldToAllTasks() {
         });
 
         await Promise.all(updates);
-        console.log("All tasks updated with delayed field.");
     } catch (error) {
         console.error("Error updating tasks:", error);
     }
