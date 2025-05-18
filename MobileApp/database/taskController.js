@@ -1,10 +1,11 @@
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore/lite";
+import { addDoc, collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore/lite";
 import { db } from "../firebaseConfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { millisecondsCalculator } from "../utils/dateUtil";
 import { durationColorSetter } from "../utils/durationColorUtil";
 import { featureTasksCompiler, taskInterval } from "../utils/tasksInterval";
 import { checkForMaxTasksOverflow } from "../utils/maxTasksUtil";
+import { MAX_NUMBER_OF_DELAYED_TASK } from "../constants/MaxNumberDelayedTasks";
 
 export const getTaskForGivenDay = async (givenDay) => {
     const startOfDay = new Date(givenDay.getFullYear(), givenDay.getMonth(), givenDay.getDate(), 0, 0, 0);
@@ -89,5 +90,27 @@ export const createTask = async (newTask, user) => {
         console.error(err.message);
 
         return err.message;
+    }
+}
+
+export const deleteTask = async (taskObject) => {
+
+    try {
+        const docRef = doc(db, "Tasks", taskObject.id);
+
+        //Create proper notifications and logs
+        if (taskObject.completed) {
+            //Create notification and log for completed task
+        }
+        else if (taskObject.delayed.delayedTimes > MAX_NUMBER_OF_DELAYED_TASK) {
+            //In this case the task is removed because too many days has been delayed
+        }
+
+
+        await deleteDoc(docRef);
+    }
+    catch (err) {
+        console.error(err.message);
+
     }
 }

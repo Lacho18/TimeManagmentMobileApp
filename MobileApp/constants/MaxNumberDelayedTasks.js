@@ -1,0 +1,1 @@
+export const MAX_NUMBER_OF_DELAYED_TASK = 3;

@@ -1,3 +1,5 @@
+export const MAX_PRIORITY_LEVEL = 4;
+
 export const TASK_PRIORITIES = [
     {
         priorityValue: 1,

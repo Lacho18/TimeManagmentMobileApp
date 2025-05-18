@@ -181,7 +181,7 @@ export default function Profile() {
         />
       )}
 
-      <PanicButton onPress={() => {}} theme={theme} />
+      <PanicButton theme={theme} userId={user.id} />
     </Pressable>
   );
 }

@@ -1,8 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import { Animated, Pressable, StyleSheet, View, Text } from "react-native";
 import { BlurView } from "expo-blur";
+import { panicButtonHandler } from "../../functions/panicButtonHandler";
 
-export default function CalmPanicButton({ onPress, theme }) {
+export default function CalmPanicButton({ theme, userId }) {
   const pulseAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
@@ -21,6 +22,10 @@ export default function CalmPanicButton({ onPress, theme }) {
       ])
     ).start();
   }, []);
+
+  async function panicButtonPress() {
+    await panicButtonHandler(userId);
+  }
 
   const SIZE = 85;
 
@@ -88,7 +93,7 @@ export default function CalmPanicButton({ onPress, theme }) {
       >
         <View style={styles.middleGlow} />
         <BlurView intensity={150} style={styles.blurWrapper}>
-          <Pressable onPress={onPress} style={styles.button}>
+          <Pressable onPress={panicButtonPress} style={styles.button}>
             <Text style={styles.text}>Panic button</Text>
           </Pressable>
         </BlurView>

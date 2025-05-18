@@ -11,7 +11,7 @@ export default function MaxTasks({
   closeWindow,
 }) {
   const [currentMaxTasks, setCurrentMaxTasks] = useState(
-    userCurrentMaxTasks ? userCurrentMaxTasks : 1
+    userCurrentMaxTasks ? Number(userCurrentMaxTasks) : 1
   );
 
   function updateUUserMaxTasks() {
@@ -19,7 +19,7 @@ export default function MaxTasks({
       const docRef = doc(db, "Users", userId);
 
       updateDoc(docRef, {
-        "preferences.maxNumberOfTasks": currentMaxTasks.toString(),
+        "preferences.maxNumberOfTasks": currentMaxTasks,
       });
     } catch (error) {
       console.error(error.message);
