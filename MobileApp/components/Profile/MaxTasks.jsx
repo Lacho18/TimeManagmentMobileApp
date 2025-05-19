@@ -27,6 +27,8 @@ export default function MaxTasks({
       console.error(error.message);
     }
 
+    changeUserPreferences("maxNumberOfTasks", currentMaxTasks);
+
     closeWindow();
   }
 

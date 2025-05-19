@@ -1,7 +1,5 @@
-import Slider from "@react-native-community/slider";
 import { useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
-import { Picker } from "@react-native-picker/picker";
 import { doc, updateDoc } from "firebase/firestore/lite";
 import { db } from "../../firebaseConfig";
 import TimeSelector from "../NewTaskComponents/TimeSelector";
@@ -29,9 +27,13 @@ export default function DayStartTime({
   }
 
   function updateUserStartTime() {
-    const docRef = doc(db, "Users", userId);
+    try {
+      const docRef = doc(db, "Users", userId);
 
-    updateDoc(docRef, { "preferences.dayStartTime": currentStartTime });
+      updateDoc(docRef, { "preferences.dayStartTime": currentStartTime });
+    } catch (error) {
+      console.error(error.message);
+    }
 
     changeUserPreferences("dayStartTime", currentStartTime);
 

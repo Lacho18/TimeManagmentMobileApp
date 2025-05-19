@@ -49,6 +49,11 @@ export default function MinRestTime({
       console.error(error.message);
     }
 
+    changeUserPreferences(
+      "min_rest_time_between_tasks",
+      millisecondsMinRestTime.toString()
+    );
+
     closeWindow();
   }
 

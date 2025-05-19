@@ -1,4 +1,4 @@
 git add .
-git commit -m "Making component from where the user can change the start time of the day"
+git commit -m "Finalize the DayStartTime component and making fixes on user context"
 git branch -M main
 git push -u origin main 
