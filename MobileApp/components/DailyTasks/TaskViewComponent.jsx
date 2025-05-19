@@ -7,8 +7,11 @@ import {
 } from "../../utils/dateUtil";
 
 import Octicons from "@expo/vector-icons/Octicons";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 export default function TaskViewComponent({ theme, task, selectTask }) {
+  console.log("Tyka gleday");
+  console.log(task);
   const stressColors = STRESS_LEVELS.find(
     (indexValue) => indexValue.stressValue === task.stressLevel
   );
@@ -30,6 +33,7 @@ export default function TaskViewComponent({ theme, task, selectTask }) {
       flexDirection: "row",
       alignItems: "center",
       paddingHorizontal: 7,
+      opacity: task.delayed.isDelayed ? 0.8 : 1,
       gap: 10,
     },
 
@@ -53,6 +57,19 @@ export default function TaskViewComponent({ theme, task, selectTask }) {
       color: stressColors.textColor,
       fontWeight: 400,
     },
+
+    delayedText: {
+      fontSize: 15,
+      color: theme.text,
+      position: "absolute",
+      right: 10,
+      top: 5,
+    },
+
+    delayButton: {
+      position: "absolute",
+      right: 10,
+    },
   });
 
   return (
@@ -62,6 +79,9 @@ export default function TaskViewComponent({ theme, task, selectTask }) {
         selectTask(task);
       }}
     >
+      {task.delayed.isDelayed && (
+        <Text style={styles.delayedText}>delayed</Text>
+      )}
       <TouchableOpacity style={styles.completeTaskButton}></TouchableOpacity>
       <View>
         <Text style={styles.title}>{task.title}</Text>
@@ -87,6 +107,9 @@ export default function TaskViewComponent({ theme, task, selectTask }) {
           </View>
         )}
       </View>
+      <TouchableOpacity style={styles.delayButton}>
+        <AntDesign name="stepforward" size={28} color={theme.secondary} />
+      </TouchableOpacity>
     </TouchableOpacity>
   );
 }

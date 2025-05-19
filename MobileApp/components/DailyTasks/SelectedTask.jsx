@@ -121,6 +121,14 @@ export default function SelectedTask({ selectedTask, theme, hideTask }) {
       color: theme.background,
       fontWeight: 500,
     },
+
+    delayedText: {
+      fontSize: 18,
+      color: theme.text,
+      position: "absolute",
+      right: 10,
+      top: 10,
+    },
   });
 
   if (!isModalVisible) return null;
@@ -151,6 +159,9 @@ export default function SelectedTask({ selectedTask, theme, hideTask }) {
               }}
             >
               <BottomSheetView style={styles.contentContainer}>
+                {selectedTask.delayed.isDelayed && (
+                  <Text style={styles.delayedText}>delayed</Text>
+                )}
                 <Text style={styles.title}>{selectedTask.title}</Text>
                 {selectedTask.description !== "" && (
                   <Text style={styles.description}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Animated, Pressable, StyleSheet, View, Text } from "react-native";
 import { BlurView } from "expo-blur";
 import { panicButtonHandler } from "../../functions/panicButtonHandler";
@@ -9,10 +9,13 @@ export default function CalmPanicButton({
   userStartTimeOfTheDay,
   userMinRestTime,
 }) {
-  const pulseAnim = useRef(new Animated.Value(1)).current;
+  /*
+    1. Napravi zadachite ako sa delayed da se vishdat po razlichen nachin
+    2. Dobavi byton koyto da pravi delay na jelana zadacha z edno natiskane
+    3. Shte trqqbva kolekciq za logove (Izpulnena zadacha, otlojena zadacha i takiva)
+  */
 
-  console.log(userId);
-  console.log(userStartTimeOfTheDay);
+  const pulseAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
     Animated.loop(

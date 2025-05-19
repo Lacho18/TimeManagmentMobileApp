@@ -18,6 +18,10 @@ export const DUMMY_DATA_TASKS = [
             isRepeating: false,
             repeatInterval: null
         },
+        delayed: {
+            isDelayed: true,
+            delayedTimes: 1,
+        },
         completed: false,
     },
 
@@ -38,6 +42,10 @@ export const DUMMY_DATA_TASKS = [
             isRepeating: false,
             repeatInterval: null
         },
+        delayed: {
+            isDelayed: false,
+            delayedTimes: 0,
+        },
         completed: false,
     },
 
@@ -57,6 +65,10 @@ export const DUMMY_DATA_TASKS = [
         repeating: {
             isRepeating: false,
             repeatInterval: null
+        },
+        delayed: {
+            isDelayed: true,
+            delayedTimes: 2,
         },
         completed: false,
     }
