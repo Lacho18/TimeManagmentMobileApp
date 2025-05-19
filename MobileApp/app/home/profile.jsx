@@ -55,6 +55,10 @@ export default function Profile() {
     if (maxTasks) {
       setMaxTasks(false);
     }
+
+    if (startTime) {
+      setStartTime(false);
+    }
   }
 
   const styles = StyleSheet.create({

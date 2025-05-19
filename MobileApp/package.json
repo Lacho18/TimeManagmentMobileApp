@@ -51,7 +51,8 @@
     "react-native-webview": "13.12.5",
     "expo-calendar": "~14.0.6",
     "react-native-maps": "1.18.0",
-    "expo-location": "~18.0.10"
+    "expo-location": "~18.0.10",
+    "@react-native-picker/picker": "2.9.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
