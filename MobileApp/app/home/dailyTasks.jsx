@@ -9,11 +9,7 @@ import {
 import { useTheme } from "../../context/ThemeContext";
 import { useUser } from "../../context/UserContext";
 import { useEffect, useRef, useState } from "react";
-import {
-  delayTask,
-  deleteEveryTask,
-  getTaskForGivenDay,
-} from "../../database/taskController";
+import { delayTask, getTaskForGivenDay } from "../../database/taskController";
 import TaskViewComponent from "../../components/DailyTasks/TaskViewComponent";
 import SelectedTask from "../../components/DailyTasks/SelectedTask";
 
@@ -28,12 +24,7 @@ export default function DailyTasks() {
   const { theme } = useTheme();
   const { loading } = useUser();
   const { user } = useUser();
-  const {
-    isQuestionActive,
-    questionData,
-    closeQuestionMenu,
-    formQuestionStructure,
-  } = useQuestion();
+  const { isQuestionActive, questionData, closeQuestionMenu } = useQuestion();
 
   //All tasks for the current date
   const [allDailyTasks, setAllDailyTasks] = useState([]);

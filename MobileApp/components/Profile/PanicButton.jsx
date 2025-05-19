@@ -10,9 +10,11 @@ export default function CalmPanicButton({
   userMinRestTime,
 }) {
   /*
-    1. Napravi zadachite ako sa delayed da se vishdat po razlichen nachin
-    2. Dobavi byton koyto da pravi delay na jelana zadacha z edno natiskane
-    3. Shte trqqbva kolekciq za logove (Izpulnena zadacha, otlojena zadacha i takiva)
+    1. Obmisli ideqta za logovete (koga i v kakwi obstoqtelsta shte prisustvat)
+    2. Napravi gi da sa na otdelna stranica kato pri stress testa
+    3. Napravi kolekciq. Izmisli im modela
+    4. Dobavi dopulnitelni funcii koito suzdavat log na nyjnite mesta
+    5. Stranicata da se dostupva ot menu butona v daily tasks i chrez buton v profile
   */
 
   const pulseAnim = useRef(new Animated.Value(1)).current;
