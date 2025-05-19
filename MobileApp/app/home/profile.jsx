@@ -22,23 +22,17 @@ import StressTest from "../testStress/stressTest";
 import MinRestTime from "../../components/Profile/MinRestTime";
 import MaxTasks from "../../components/Profile/MaxTasks";
 import PanicButton from "../../components/Profile/PanicButton";
-import { delayTask } from "../../database/taskController";
 
 export default function Profile() {
   const { theme } = useTheme();
   const { user, logout, loading } = useUser();
   const { stressTest, startStressTest, endStressTest } = useStressTest();
 
-  console.log(user);
-
   //Follows whether to visualize the MinRestTime component which changes the min rest time
   const [minTimeRest, setMinTimeRest] = useState(false);
 
   //Follows whether to visualize the MaxTasks component which changes the daily max tasks
   const [maxTasks, setMaxTasks] = useState(false);
-
-  //Mahni go posle
-  //delayTask("LFaMtScUxYnFFPeLo7tH", user);
 
   //Checks if the data for user is loading or if the user is found. Does not return anything if so.
   if (loading || !user) return null;

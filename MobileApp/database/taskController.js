@@ -138,14 +138,6 @@ export const delayTask = async (taskId, user) => {
 
         updateDoc(docRef, task);
     });
-
-    console.log("Updated Task:", task);
-
-    // 6. Optionally update Firestore
-    // await updateDoc(docRef, {
-    //   startTime: task.startTime,
-    //   endTime: task.endTime
-    // });
 };
 
 export const deleteTask = async (taskObject) => {
