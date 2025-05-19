@@ -95,34 +95,58 @@ export const createTask = async (newTask, user) => {
 }
 
 export const delayTask = async (taskId, user) => {
-    console.log("Niggassssssss");
-    console.log(taskId);
-    //Getting the task
+    if (!user) return;
+
+    // 1. Get the task from Firestore
     const docRef = doc(db, "Tasks", taskId);
     const docSnap = await getDoc(docRef);
 
-    const task = { id: docSnap.id, ...docSnap.data() };
-    if (task.endTime) {
-        task.endTime = task.endTime.toDate();
+    if (!docSnap.exists()) {
+        console.error("Task not found");
+        return;
     }
 
-    /*
-        TESTVAY GO TOVA
-    */
+    // 2. Extract and convert timestamps
+    const data = docSnap.data();
+    const task = {
+        id: docSnap.id,
+        ...data,
+        startTime: data.startTime?.toDate(),
+        endTime: data.endTime?.toDate() || null,
+    };
 
-    const taskDuration = task.endTime ? task.endTime.getTime() + user.preferences.min_rest_time_between_tasks : user.preferences.min_rest_time_between_tasks;
+    // 3. Calculate task duration + rest time
+    let taskDuration = Number(user.preferences.min_rest_time_between_tasks);
+    if (task.startTime && task.endTime) {
+        const originalDuration = task.endTime.getTime() - task.startTime.getTime();
+        taskDuration = originalDuration + Number(user.preferences.min_rest_time_between_tasks);
+    }
 
+    // 4. Compute new start time (next day at user-preferred start)
     const userStartTime = getDateFromStartTime(user.preferences.dayStartTime);
 
-    await getEveryTaskForTomorrow(taskDuration, userStartTime, user.preferences.min_rest_time_between_tasks);
-
+    // 5. Set new task times
     task.startTime = userStartTime;
-    if (task.endTime) {
-        task.endTime = new Date(userStartTime.getTime() + taskDuration);
-    }
+    task.endTime = new Date(userStartTime.getTime() + taskDuration);
 
-    await updateDoc(docRef, task);
-}
+    const allUpdatedTasks = await getEveryTaskForTomorrow(taskDuration, userStartTime, Number(user.preferences.min_rest_time_between_tasks));
+
+    allUpdatedTasks.unshift(task);
+
+    allUpdatedTasks.forEach(task => {
+        const docRef = doc(db, "Tasks", task.id);
+
+        updateDoc(docRef, task);
+    });
+
+    console.log("Updated Task:", task);
+
+    // 6. Optionally update Firestore
+    // await updateDoc(docRef, {
+    //   startTime: task.startTime,
+    //   endTime: task.endTime
+    // });
+};
 
 export const deleteTask = async (taskObject) => {
 
@@ -144,4 +168,12 @@ export const deleteTask = async (taskObject) => {
         console.error(err.message);
 
     }
+}
+
+export const deleteEveryTask = async () => {
+    const querySnapshot = await getDocs(collection(db, "Tasks"));
+
+    querySnapshot.docs.map((docSnap) =>
+        deleteDoc(doc(db, "Tasks", docSnap.id))
+    );
 }

@@ -147,6 +147,9 @@ export async function getEveryTaskForTomorrow(delayedInterval, startTimeForTomor
         return task.startTime <= endDurationTime;
     });
 
+    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+    console.log(tasksInsideDelayedDuration);
+
     //If there are none tasks on the delayed interval no changes are needed.
     if (tasksInsideDelayedDuration.length > 0) {
         //On the map function this will store the interval between the previous and current task
@@ -224,6 +227,8 @@ export async function getEveryTaskForTomorrow(delayedInterval, startTimeForTomor
 
             return taskCopy;
         });
+
+        console.log(everyTask);
 
         //If there are even one change return all tasks
         return everyTask;

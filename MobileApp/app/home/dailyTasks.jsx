@@ -9,7 +9,11 @@ import {
 import { useTheme } from "../../context/ThemeContext";
 import { useUser } from "../../context/UserContext";
 import { useEffect, useRef, useState } from "react";
-import { delayTask, getTaskForGivenDay } from "../../database/taskController";
+import {
+  delayTask,
+  deleteEveryTask,
+  getTaskForGivenDay,
+} from "../../database/taskController";
 import TaskViewComponent from "../../components/DailyTasks/TaskViewComponent";
 import SelectedTask from "../../components/DailyTasks/SelectedTask";
 
