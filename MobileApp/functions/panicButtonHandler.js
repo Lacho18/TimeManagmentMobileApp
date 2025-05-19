@@ -126,7 +126,7 @@ async function getTasksWithLowAndMediumPriority(currentDay, userId) {
 }
 
 //Function that makes the necessary modifications on the tasks of the tomorrow day 
-async function getEveryTaskForTomorrow(delayedInterval, startTimeForTomorrow, minRestTime) {
+export async function getEveryTaskForTomorrow(delayedInterval, startTimeForTomorrow, minRestTime) {
     const endDurationTime = new Date(startTimeForTomorrow.getTime() + delayedInterval);
 
     //Every task for tomorrow without the delayed
@@ -236,7 +236,7 @@ async function getEveryTaskForTomorrow(delayedInterval, startTimeForTomorrow, mi
 
 //Gets the start time of the day as date object
 //The start time is stored on the database on format "hours:minutes"
-function getDateFromStartTime(userStartTimeOfTheDay) {
+export function getDateFromStartTime(userStartTimeOfTheDay) {
     const splitTime = userStartTimeOfTheDay.split(":");
     const startHour = Number(splitTime[0]);
     const startMinutes = Number(splitTime[1]);

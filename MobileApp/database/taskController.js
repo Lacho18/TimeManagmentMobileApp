@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore/lite";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc, where } from "firebase/firestore/lite";
 import { db } from "../firebaseConfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { millisecondsCalculator } from "../utils/dateUtil";
@@ -6,6 +6,7 @@ import { durationColorSetter } from "../utils/durationColorUtil";
 import { featureTasksCompiler, taskInterval } from "../utils/tasksInterval";
 import { checkForMaxTasksOverflow } from "../utils/maxTasksUtil";
 import { MAX_NUMBER_OF_DELAYED_TASK } from "../constants/MaxNumberDelayedTasks";
+import { getDateFromStartTime, getEveryTaskForTomorrow } from "../functions/panicButtonHandler";
 
 export const getTaskForGivenDay = async (givenDay) => {
     const startOfDay = new Date(givenDay.getFullYear(), givenDay.getMonth(), givenDay.getDate(), 0, 0, 0);
@@ -93,9 +94,34 @@ export const createTask = async (newTask, user) => {
     }
 }
 
-export const delayTask = async (taskId) => {
+export const delayTask = async (taskId, user) => {
     console.log("Niggassssssss");
     console.log(taskId);
+    //Getting the task
+    const docRef = doc(db, "Tasks", taskId);
+    const docSnap = await getDoc(docRef);
+
+    const task = { id: docSnap.id, ...docSnap.data() };
+    if (task.endTime) {
+        task.endTime = task.endTime.toDate();
+    }
+
+    /*
+        TESTVAY GO TOVA
+    */
+
+    const taskDuration = task.endTime ? task.endTime.getTime() + user.preferences.min_rest_time_between_tasks : user.preferences.min_rest_time_between_tasks;
+
+    const userStartTime = getDateFromStartTime(user.preferences.dayStartTime);
+
+    await getEveryTaskForTomorrow(taskDuration, userStartTime, user.preferences.min_rest_time_between_tasks);
+
+    task.startTime = userStartTime;
+    if (task.endTime) {
+        task.endTime = new Date(userStartTime.getTime() + taskDuration);
+    }
+
+    await updateDoc(docRef, task);
 }
 
 export const deleteTask = async (taskObject) => {
