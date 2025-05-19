@@ -23,12 +23,16 @@ export default function TaskViewComponent({ theme, task, selectTask }) {
 
   const taskDuration = millisecondsCalculator(task.duration);
 
+  //Shows question menu for delaying the task
   function delayButtonHandler() {
+    //Sets the question data
     formQuestionStructure({
       question: "Do you want to delay task : ",
       subQuestionData: task.title,
+      id: task.id,
     });
 
+    //Opens the question menu
     openQuestionMenu();
   }
 

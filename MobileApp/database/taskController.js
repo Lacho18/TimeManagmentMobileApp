@@ -93,6 +93,11 @@ export const createTask = async (newTask, user) => {
     }
 }
 
+export const delayTask = async (taskId) => {
+    console.log("Niggassssssss");
+    console.log(taskId);
+}
+
 export const deleteTask = async (taskObject) => {
 
     try {

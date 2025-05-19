@@ -9,6 +9,7 @@ export const QuestionProvider = ({ children }) => {
     const [questionData, setQuestionData] = useState({
         question: "",
         subQuestionData: "",
+        id: "",
     });
 
     function openQuestionMenu() {

@@ -9,7 +9,7 @@ import {
 import { useTheme } from "../../context/ThemeContext";
 import { useUser } from "../../context/UserContext";
 import { useEffect, useRef, useState } from "react";
-import { getTaskForGivenDay } from "../../database/taskController";
+import { delayTask, getTaskForGivenDay } from "../../database/taskController";
 import TaskViewComponent from "../../components/DailyTasks/TaskViewComponent";
 import SelectedTask from "../../components/DailyTasks/SelectedTask";
 
@@ -227,7 +227,10 @@ export default function DailyTasks() {
         <QuestionComponent
           theme={theme}
           questionData={questionData}
-          onYesAnswer={1}
+          onYesAnswer={async (tasksId) => {
+            await delayTask(tasksId);
+            closeQuestionMenu();
+          }}
           onNoAnswer={() => closeQuestionMenu()}
         />
       )}

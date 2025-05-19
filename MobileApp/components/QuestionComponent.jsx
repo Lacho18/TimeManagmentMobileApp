@@ -65,6 +65,7 @@ export default function QuestionComponent({
       <View style={styles.buttonsDiv}>
         <TouchableOpacity
           style={{ ...styles.buttonStructure, backgroundColor: "#77dd77" }}
+          onPress={() => onYesAnswer(questionData.id)}
         >
           <Text style={styles.buttonText}>Yes</Text>
         </TouchableOpacity>
