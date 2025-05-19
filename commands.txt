@@ -1,4 +1,4 @@
 git add .
-git commit -m "Finilize tests for delay task function"
+git commit -m "Making component from where the user can change the start time of the day"
 git branch -M main
 git push -u origin main 

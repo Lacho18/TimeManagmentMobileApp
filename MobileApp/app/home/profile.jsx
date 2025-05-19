@@ -13,6 +13,7 @@ import { useUser } from "../../context/UserContext";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 import ColorThemeSelector from "../../components/ColorThemeSelector";
 import { router } from "expo-router";
@@ -22,6 +23,7 @@ import StressTest from "../testStress/stressTest";
 import MinRestTime from "../../components/Profile/MinRestTime";
 import MaxTasks from "../../components/Profile/MaxTasks";
 import PanicButton from "../../components/Profile/PanicButton";
+import DayStartTime from "../../components/Profile/DayStartTime";
 
 export default function Profile() {
   const { theme } = useTheme();
@@ -33,6 +35,9 @@ export default function Profile() {
 
   //Follows whether to visualize the MaxTasks component which changes the daily max tasks
   const [maxTasks, setMaxTasks] = useState(false);
+
+  //Follows whether to visualize the DayStartTime component which changes start of the day time
+  const [startTime, setStartTime] = useState(false);
 
   //Checks if the data for user is loading or if the user is found. Does not return anything if so.
   if (loading || !user) return null;
@@ -153,6 +158,19 @@ export default function Profile() {
           <FontAwesome5 name="tasks" size={28} color={theme.secondary} />
           <Text style={styles.buttonText}>Set max number of daily tasks</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.buttonStyle}
+          onPress={() => {
+            setStartTime((oldValue) => !oldValue);
+          }}
+        >
+          <MaterialCommunityIcons
+            name="calendar-start"
+            size={28}
+            color={theme.secondary}
+          />
+          <Text style={styles.buttonText}>Set start of the day</Text>
+        </TouchableOpacity>
       </View>
 
       <Text>Profile</Text>
@@ -176,6 +194,14 @@ export default function Profile() {
           closeWindow={() => {
             setMaxTasks(false);
           }}
+        />
+      )}
+      {startTime && (
+        <DayStartTime
+          theme={theme}
+          userCurrentStartTime={user.preferences.dayStartTime}
+          userId={user.id}
+          closeWindow={() => setStartTime(false)}
         />
       )}
 
