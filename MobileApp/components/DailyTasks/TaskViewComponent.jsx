@@ -8,10 +8,10 @@ import {
 
 import Octicons from "@expo/vector-icons/Octicons";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { useState } from "react";
+import QuestionComponent from "../QuestionComponent";
 
 export default function TaskViewComponent({ theme, task, selectTask }) {
-  console.log("Tyka gleday");
-  console.log(task);
   const stressColors = STRESS_LEVELS.find(
     (indexValue) => indexValue.stressValue === task.stressLevel
   );
@@ -19,7 +19,19 @@ export default function TaskViewComponent({ theme, task, selectTask }) {
     (indexValue) => indexValue.priorityValue === task.priority
   );
 
+  const [isQuestionActive, setIsQuestionActive] = useState(false);
+
   const taskDuration = millisecondsCalculator(task.duration);
+
+  //Handles the no answer of the question
+  function noQuestionAnswer() {
+    setIsQuestionActive(false);
+  }
+
+  //Handles the yes answer of the question
+  function yesQuestionAnswer() {
+    console.log("Upiiiiii");
+  }
 
   const styles = StyleSheet.create({
     mainDiv: {
@@ -107,9 +119,22 @@ export default function TaskViewComponent({ theme, task, selectTask }) {
           </View>
         )}
       </View>
-      <TouchableOpacity style={styles.delayButton}>
+      <TouchableOpacity
+        style={styles.delayButton}
+        onPress={() => setIsQuestionActive(true)}
+      >
         <AntDesign name="stepforward" size={28} color={theme.secondary} />
       </TouchableOpacity>
+
+      {isQuestionActive && (
+        <QuestionComponent
+          theme={theme}
+          question={"Do you want to delay task "}
+          subQuestionData={task.title}
+          onYesAnswer={yesQuestionAnswer}
+          onNoAnswer={noQuestionAnswer}
+        />
+      )}
     </TouchableOpacity>
   );
 }
