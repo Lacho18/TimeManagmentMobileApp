@@ -37,6 +37,18 @@ export const UserProvider = ({ children }) => {
         loadUser();
     }, []);
 
+    function changeUserPreferences(field, value) {
+        setUser(oldValue => {
+            const newValue = { ...oldValue };
+            const preferences = { ...newValue.preferences };
+            preferences[field] = value;
+
+            newValue.preferences = preferences;
+
+            return newValue;
+        });
+    }
+
     //Function that log outs the user from its account
     const logout = async () => {
         await AsyncStorage.removeItem("@user");
@@ -44,7 +56,7 @@ export const UserProvider = ({ children }) => {
     }
 
     return (
-        <UserContext.Provider value={{ user, logout, loading }}>
+        <UserContext.Provider value={{ user, logout, loading, changeUserPreferences }}>
             {children}
         </UserContext.Provider>
     );

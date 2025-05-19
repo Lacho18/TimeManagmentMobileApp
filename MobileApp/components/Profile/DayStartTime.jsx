@@ -6,6 +6,7 @@ import { doc, updateDoc } from "firebase/firestore/lite";
 import { db } from "../../firebaseConfig";
 import TimeSelector from "../NewTaskComponents/TimeSelector";
 import { getDateFromStartTime } from "../../functions/panicButtonHandler";
+import { useUser } from "../../context/UserContext";
 
 export default function DayStartTime({
   theme,
@@ -13,6 +14,7 @@ export default function DayStartTime({
   userId,
   closeWindow,
 }) {
+  const { changeUserPreferences } = useUser();
   const [currentStartTime, setCurrentStartTime] =
     useState(userCurrentStartTime);
   const [timeSetter, setTimeSetter] = useState(false);
@@ -24,6 +26,16 @@ export default function DayStartTime({
       ).padStart(2, "0")}`
     );
     setTimeSetter(false);
+  }
+
+  function updateUserStartTime() {
+    const docRef = doc(db, "Users", userId);
+
+    updateDoc(docRef, { "preferences.dayStartTime": currentStartTime });
+
+    changeUserPreferences("dayStartTime", currentStartTime);
+
+    closeWindow();
   }
 
   const styles = StyleSheet.create({
@@ -107,7 +119,10 @@ export default function DayStartTime({
             </TouchableOpacity>
 
             {currentStartTime !== userCurrentStartTime && (
-              <TouchableOpacity style={styles.submitButton} onPress={() => {}}>
+              <TouchableOpacity
+                style={styles.submitButton}
+                onPress={updateUserStartTime}
+              >
                 <Text style={styles.mainText}>Set new time</Text>
               </TouchableOpacity>
             )}

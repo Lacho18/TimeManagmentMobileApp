@@ -3,6 +3,7 @@ import { useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { doc, updateDoc } from "firebase/firestore/lite";
 import { db } from "../../firebaseConfig";
+import { useUser } from "../../context/UserContext";
 
 export default function MinRestTime({
   theme,
@@ -10,6 +11,7 @@ export default function MinRestTime({
   userId,
   closeWindow,
 }) {
+  const { changeUserPreferences } = useUser();
   const [minutes, setMinutes] = useState(currentMinTime / 60 / 1000);
 
   console.log(userId);
