@@ -29,12 +29,8 @@ export const QuestionProvider = ({ children }) => {
         setIsQuestionActive(false);
     }
 
-    function noQuestionAnswer() {
-        setIsQuestionActive(false);
-    }
-
     return (
-        <QuestionContext.Provider value={{ isQuestionActive, questionData, openQuestionMenu, closeQuestionMenu, formQuestionStructure, yesQuestionAnswer, noQuestionAnswer }}>
+        <QuestionContext.Provider value={{ isQuestionActive, questionData, openQuestionMenu, closeQuestionMenu, formQuestionStructure, yesQuestionAnswer }}>
             {children}
         </QuestionContext.Provider>
     );

@@ -224,7 +224,12 @@ export default function DailyTasks() {
       )}
 
       {isQuestionActive && (
-        <QuestionComponent theme={theme} questionData={questionData} />
+        <QuestionComponent
+          theme={theme}
+          questionData={questionData}
+          onYesAnswer={1}
+          onNoAnswer={() => closeQuestionMenu()}
+        />
       )}
     </Pressable>
   );
