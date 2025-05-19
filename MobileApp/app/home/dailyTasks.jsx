@@ -18,11 +18,17 @@ import { DUMMY_DATA_TASKS } from "../../constants/dummyData";
 import Entypo from "@expo/vector-icons/Entypo";
 import MenuOptions from "../../components/DailyTasks/MenuOptions";
 import { useQuestion } from "../../context/QuestionContext";
+import QuestionComponent from "../../components/QuestionComponent";
 
 export default function DailyTasks() {
   const { theme } = useTheme();
   const { loading } = useUser();
-  const { isQuestionActive } = useQuestion();
+  const {
+    isQuestionActive,
+    questionData,
+    closeQuestionMenu,
+    formQuestionStructure,
+  } = useQuestion();
 
   //All tasks for the current date
   const [allDailyTasks, setAllDailyTasks] = useState([]);
@@ -76,6 +82,10 @@ export default function DailyTasks() {
 
     if (showMenu) {
       setShowMenu(false);
+    }
+
+    if (isQuestionActive) {
+      closeQuestionMenu();
     }
   }
 
@@ -211,6 +221,10 @@ export default function DailyTasks() {
             setSelectedTask(null);
           }}
         />
+      )}
+
+      {isQuestionActive && (
+        <QuestionComponent theme={theme} questionData={questionData} />
       )}
     </Pressable>
   );

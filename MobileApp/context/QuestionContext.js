@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 const QuestionContext = createContext();
 
@@ -9,9 +9,19 @@ export const QuestionProvider = ({ children }) => {
     const [questionData, setQuestionData] = useState({
         question: "",
         subQuestionData: "",
-        onYesAnswer: () => { },
-        onNoAnswer: () => { }
     });
+
+    function openQuestionMenu() {
+        setIsQuestionActive(true);
+    }
+
+    function closeQuestionMenu() {
+        setIsQuestionActive(false);
+    }
+
+    function formQuestionStructure(data) {
+        setQuestionData(data);
+    }
 
     function yesQuestionAnswer(answerHandler) {
         answerHandler();
@@ -24,7 +34,7 @@ export const QuestionProvider = ({ children }) => {
     }
 
     return (
-        <QuestionContext.Provider value={{ isQuestionActive, questionData, yesQuestionAnswer, noQuestionAnswer }}>
+        <QuestionContext.Provider value={{ isQuestionActive, questionData, openQuestionMenu, closeQuestionMenu, formQuestionStructure, yesQuestionAnswer, noQuestionAnswer }}>
             {children}
         </QuestionContext.Provider>
     );

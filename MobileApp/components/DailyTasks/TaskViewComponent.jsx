@@ -9,9 +9,11 @@ import {
 import Octicons from "@expo/vector-icons/Octicons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useState } from "react";
-import QuestionComponent from "../QuestionComponent";
+import { useQuestion } from "../../context/QuestionContext";
 
 export default function TaskViewComponent({ theme, task, selectTask }) {
+  const { openQuestionMenu, formQuestionStructure } = useQuestion();
+
   const stressColors = STRESS_LEVELS.find(
     (indexValue) => indexValue.stressValue === task.stressLevel
   );
@@ -19,18 +21,15 @@ export default function TaskViewComponent({ theme, task, selectTask }) {
     (indexValue) => indexValue.priorityValue === task.priority
   );
 
-  const [isQuestionActive, setIsQuestionActive] = useState(false);
-
   const taskDuration = millisecondsCalculator(task.duration);
 
-  //Handles the no answer of the question
-  function noQuestionAnswer() {
-    setIsQuestionActive(false);
-  }
+  function delayButtonHandler() {
+    formQuestionStructure({
+      question: "Do you want to delay task : ",
+      subQuestionData: task.title,
+    });
 
-  //Handles the yes answer of the question
-  function yesQuestionAnswer() {
-    console.log("Upiiiiii");
+    openQuestionMenu();
   }
 
   const styles = StyleSheet.create({
@@ -119,22 +118,9 @@ export default function TaskViewComponent({ theme, task, selectTask }) {
           </View>
         )}
       </View>
-      <TouchableOpacity
-        style={styles.delayButton}
-        onPress={() => setIsQuestionActive(true)}
-      >
+      <TouchableOpacity style={styles.delayButton} onPress={delayButtonHandler}>
         <AntDesign name="stepforward" size={28} color={theme.secondary} />
       </TouchableOpacity>
-
-      {isQuestionActive && (
-        <QuestionComponent
-          theme={theme}
-          question={"Do you want to delay task "}
-          subQuestionData={task.title}
-          onYesAnswer={yesQuestionAnswer}
-          onNoAnswer={noQuestionAnswer}
-        />
-      )}
     </TouchableOpacity>
   );
 }

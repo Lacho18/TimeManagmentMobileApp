@@ -2,11 +2,11 @@ import { StyleSheet, Text, View } from "react-native";
 
 export default function QuestionComponent({
   theme,
-  question,
-  subQuestionData,
+  questionData,
   onYesAnswer,
   onNoAnswer,
 }) {
+  console.log(questionData);
   const styles = StyleSheet.create({
     mainDiv: {
       position: "absolute",
@@ -17,16 +17,26 @@ export default function QuestionComponent({
       transform: "translate(-50%, -50%)",
       borderWidth: 5,
       borderColor: theme.secondary,
-      backgroundColor: theme.background,
+      borderRadius: 18,
+      backgroundColor: theme.primary,
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
+      padding: 15,
+    },
+
+    questionText: {
+      fontSize: 18,
+      color: theme.text,
+      textAlign: "center",
     },
   });
 
   return (
     <View style={styles.mainDiv}>
-      <Text>123</Text>
+      <Text style={styles.questionText}>
+        {questionData.question} <Text style={{fontWeight: "bold"}}>{questionData.subQuestionData}</Text>
+      </Text>
     </View>
   );
 }
