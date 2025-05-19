@@ -27,6 +27,7 @@ import QuestionComponent from "../../components/QuestionComponent";
 export default function DailyTasks() {
   const { theme } = useTheme();
   const { loading } = useUser();
+  const { user } = useUser();
   const {
     isQuestionActive,
     questionData,
@@ -232,7 +233,7 @@ export default function DailyTasks() {
           theme={theme}
           questionData={questionData}
           onYesAnswer={async (tasksId) => {
-            await delayTask(tasksId);
+            await delayTask(tasksId, user);
             closeQuestionMenu();
           }}
           onNoAnswer={() => closeQuestionMenu()}
