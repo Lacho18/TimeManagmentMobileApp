@@ -10,6 +10,7 @@ import "../../utils/dateUtil";
 import { UserProvider } from "../../context/UserContext";
 import { StressTestProvider } from "../../context/StressTestContext";
 import { ThemeProvider } from "../../context/ThemeContext";
+import { QuestionProvider } from "../../context/QuestionContext";
 
 export default function RootLayout() {
   //Manage whether the add task menu is visible or not
@@ -25,17 +26,19 @@ export default function RootLayout() {
     <UserProvider>
       <ThemeProvider>
         <StressTestProvider>
-          <Stack screenOptions={{ headerShown: false }}></Stack>
+          <QuestionProvider>
+            <Stack screenOptions={{ headerShown: false }}></Stack>
 
-          <AddTask showAddTaskMenu={showAddTaskMenu} />
-          {showAddTask && (
-            <CreateTask
-              closeAddTaskMenu={closeAddTaskMenu}
-              visible={showAddTask}
-            />
-          )}
+            <AddTask showAddTaskMenu={showAddTaskMenu} />
+            {showAddTask && (
+              <CreateTask
+                closeAddTaskMenu={closeAddTaskMenu}
+                visible={showAddTask}
+              />
+            )}
 
-          <Navigation />
+            <Navigation />
+          </QuestionProvider>
         </StressTestProvider>
       </ThemeProvider>
     </UserProvider>

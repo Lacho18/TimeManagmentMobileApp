@@ -17,10 +17,12 @@ import { DUMMY_DATA_TASKS } from "../../constants/dummyData";
 
 import Entypo from "@expo/vector-icons/Entypo";
 import MenuOptions from "../../components/DailyTasks/MenuOptions";
+import { useQuestion } from "../../context/QuestionContext";
 
 export default function DailyTasks() {
   const { theme } = useTheme();
   const { loading } = useUser();
+  const { isQuestionActive } = useQuestion();
 
   //All tasks for the current date
   const [allDailyTasks, setAllDailyTasks] = useState([]);
