@@ -14,6 +14,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import Feather from "@expo/vector-icons/Feather";
 
 import ColorThemeSelector from "../../components/ColorThemeSelector";
 import { router } from "expo-router";
@@ -174,6 +175,15 @@ export default function Profile() {
             color={theme.secondary}
           />
           <Text style={styles.buttonText}>Set start of the day</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.buttonStyle}
+          onPress={() => {
+            router.push("/logs/logsView");
+          }}
+        >
+          <Feather name="activity" size={28} color={theme.secondary} />
+          <Text style={styles.buttonText}>Activity logs</Text>
         </TouchableOpacity>
       </View>
 

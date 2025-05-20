@@ -140,6 +140,7 @@ export default function DailyTasks() {
     console.log(completedTask);
 
     //Deletes and creates log for completed task
+    //RETURN AFTER TESTING
     //deleteTask(completedTask, user.id);
   }
 

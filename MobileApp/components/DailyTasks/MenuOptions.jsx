@@ -16,6 +16,8 @@ import { useEffect, useRef, useState } from "react";
 
 import { router } from "expo-router";
 
+import Feather from "@expo/vector-icons/Feather";
+
 export default function MenuOptions({
   theme,
   topPosition,
@@ -24,11 +26,11 @@ export default function MenuOptions({
   sortingTasksHandler,
 }) {
   const COMPONENT_WIDTH = 230;
-  const COMPONENT_HEIGHT = 280;
+  const COMPONENT_HEIGHT = 310;
 
   const [menuVisible, setMenuVisible] = useState(false);
-  const scaleAnim = useRef(new Animated.Value(0)).current; // starts small
-  const opacityAnim = useRef(new Animated.Value(0)).current; // starts invisible
+  const scaleAnim = useRef(new Animated.Value(0)).current;
+  const opacityAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     setMenuVisible(true);
@@ -180,8 +182,12 @@ export default function MenuOptions({
         lastSelectedFilter={lastSelectedFilter}
         sortingTasksHandler={sortingTasksHandler}
       />
-      <TouchableOpacity onPress={() => router.push("/logs/logsView")}>
-        <Text>Activity logs</Text>
+      <TouchableOpacity
+        style={styles.buttonStyle}
+        onPress={() => router.push("/logs/logsView")}
+      >
+        <Feather name="activity" size={28} color={theme.secondary} />
+        <Text style={styles.buttonText}>Activity logs</Text>
       </TouchableOpacity>
     </Animated.View>
   );
