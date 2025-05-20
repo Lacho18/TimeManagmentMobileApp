@@ -26,8 +26,7 @@ import QuestionComponent from "../../components/QuestionComponent";
 
 export default function DailyTasks() {
   const { theme } = useTheme();
-  const { loading } = useUser();
-  const { user } = useUser();
+  const { user, loading } = useUser();
   const { isQuestionActive, questionData, closeQuestionMenu } = useQuestion();
 
   //All tasks for the current date

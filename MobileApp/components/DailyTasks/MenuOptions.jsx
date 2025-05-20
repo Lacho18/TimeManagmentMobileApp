@@ -14,11 +14,7 @@ import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import SortButton from "./SortButton";
 import { useEffect, useRef, useState } from "react";
 
-/*
-    Napravi go da se poqvqva s animaciq
-    Napravi sortiraniqta v dailyTasks
-    Dobavi activity logs
-*/
+import { router } from "expo-router";
 
 export default function MenuOptions({
   theme,
@@ -184,6 +180,9 @@ export default function MenuOptions({
         lastSelectedFilter={lastSelectedFilter}
         sortingTasksHandler={sortingTasksHandler}
       />
+      <TouchableOpacity onPress={() => router.push("/logs/logsView")}>
+        <Text>Activity logs</Text>
+      </TouchableOpacity>
     </Animated.View>
   );
 }
