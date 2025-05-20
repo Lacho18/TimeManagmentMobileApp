@@ -20,6 +20,7 @@ import { useRef, useState } from "react";
 import { useQuestion } from "../../context/QuestionContext";
 
 const screenWidth = Dimensions.get("window").width;
+const ANIMATION_INTERVAL = 1500;
 
 export default function TaskViewComponent({
   theme,
@@ -44,7 +45,7 @@ export default function TaskViewComponent({
 
     Animated.timing(slideAnim, {
       toValue: 1,
-      duration: 1500,
+      duration: ANIMATION_INTERVAL,
       easing: Easing.out(Easing.ease),
       useNativeDriver: false,
     }).start();
@@ -84,8 +85,13 @@ export default function TaskViewComponent({
   }
 
   function onCompleteTaskButtonPress() {
+    //Starts animation for completing task
     handlePress();
-    //onCompleteTask(task.id);
+
+    //After the animation end delete the task and mark it as complete
+    setTimeout(() => {
+      onCompleteTask(task.id);
+    }, ANIMATION_INTERVAL);
   }
 
   const styles = StyleSheet.create({
@@ -154,12 +160,12 @@ export default function TaskViewComponent({
             top: 0,
             left: 0,
             height: "100%",
-            width: "100%",
+            width: "95%",
             backgroundColor: animatedBackgroundColor,
             borderWidth: 2,
             borderColor: animatedBorder,
             borderRadius: 10,
-            opacity: 0.2, // Faint highlight
+            opacity: 0.5, // Faint highlight
             transform: [{ translateX: overlayTranslate }],
             zIndex: 1,
             borderRadius: 10,
