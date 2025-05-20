@@ -1,4 +1,4 @@
 git add .
-git commit -m "Finalize the DayStartTime component and making fixes on user context"
+git commit -m "Creating logs model"
 git branch -M main
 git push -u origin main 
