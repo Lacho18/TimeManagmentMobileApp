@@ -32,6 +32,9 @@ export const formatDateMonthName = (date, withHours = true) => {
 }
 
 export const formatHoursFromDate = (date) => {
+    if (date?.toDate) {
+        date = date.toDate();
+    }
 
     return `${String(date.getHours()).padStart(2, "0")}:${String(
         date.getMinutes()

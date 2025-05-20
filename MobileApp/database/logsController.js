@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, getDocs, query, where } from "firebase/firestore/lite"
+import { addDoc, collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore/lite"
 import { db } from "../firebaseConfig"
 import LogModel from "../models/LogModel";
 
@@ -32,7 +32,10 @@ export const createLog = async (logMessage, userId) => {
 }
 
 export const deleteLog = async (logId) => {
-    const docRef = doc(db, "Logs", logId);
-
-    await deleteDoc(docRef)
+    try {
+        const docRef = doc(db, "Logs", logId);
+        await deleteDoc(docRef);
+    } catch (err) {
+        throw new Error("Firestore delete failed: " + err.message);
+    }
 }

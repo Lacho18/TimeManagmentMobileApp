@@ -8,7 +8,7 @@ import {
 import { useUser } from "../../context/UserContext";
 import { useTheme } from "../../context/ThemeContext";
 import { useEffect, useState } from "react";
-import { createLog, getLogs } from "../../database/logsController";
+import { createLog, deleteLog, getLogs } from "../../database/logsController";
 
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
@@ -22,43 +22,7 @@ export default function LogsView() {
 
   const [logs, setLogs] = useState([]);
 
-  const logsDummyData = [
-    {
-      userId: user.id,
-      message: "Completed task: Test task from 01.03.2025    1",
-      createdAt: new Date(),
-    },
-    {
-      userId: user.id,
-      message: "Completed task: Test task from 01.03.2025    2",
-      createdAt: new Date(),
-    },
-    {
-      userId: user.id,
-      message: "Completed task: Test task from 01.03.2025    3",
-      createdAt: new Date(),
-    },
-    {
-      userId: user.id,
-      message: "Completed task: Test task from 01.03.2025    4",
-      createdAt: new Date(),
-    },
-    {
-      userId: user.id,
-      message: "Completed task: Test task from 01.03.2025    5",
-      createdAt: new Date(),
-    },
-    {
-      userId: user.id,
-      message: "Completed task: Test task from 01.03.2025    6",
-      createdAt: new Date(),
-    },
-    {
-      userId: user.id,
-      message: "Completed task: Test task from 01.03.2025    7",
-      createdAt: new Date(),
-    },
-  ];
+  console.log(logs);
 
   useEffect(() => {
     async function getLogsUseEffect() {
@@ -74,7 +38,9 @@ export default function LogsView() {
 
   //Deletes the log
   function removeLogHandler(logId) {
-    setLogs((oldValue) => oldValue.filter((_, index) => index !== logId));
+    setLogs((oldValue) => oldValue.filter((log) => log.id !== logId));
+
+    deleteLog(logId);
   }
 
   const styles = StyleSheet.create({

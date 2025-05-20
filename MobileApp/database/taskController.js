@@ -7,7 +7,6 @@ import { featureTasksCompiler, taskInterval } from "../utils/tasksInterval";
 import { checkForMaxTasksOverflow } from "../utils/maxTasksUtil";
 import { MAX_NUMBER_OF_DELAYED_TASK } from "../constants/MaxNumberDelayedTasks";
 import { getDateFromStartTime, getEveryTaskForTomorrow } from "../functions/panicButtonHandler";
-import LogModel from "../models/LogModel";
 import { createLog } from "./logsController";
 
 export const getTaskForGivenDay = async (givenDay) => {
@@ -149,7 +148,7 @@ export const deleteTask = async (taskObject, userId) => {
 
         //Create proper notifications and logs
         if (taskObject.completed) {
-            await createLog(`Completed task: ${taskObject.title} from ${formatDateMonthName(taskObject.startTime, false)}`, userId);
+            await createLog(`Completed task: ${taskObject.title}}`, userId);
         }
         else if (taskObject.delayed.delayedTimes > MAX_NUMBER_OF_DELAYED_TASK) {
             //In this case the task is removed because too many days has been delayed

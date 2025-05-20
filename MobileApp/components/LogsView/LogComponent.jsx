@@ -24,7 +24,7 @@ export default function LogComponent({ log, theme, user, removeLog }) {
         nativeEvent.translationX > SWIPE_THRESHOLD ||
         nativeEvent.translationX < -SWIPE_THRESHOLD
       ) {
-        removeLog(0);
+        removeLog(log.id);
       }
 
       // Reset position

@@ -1,4 +1,4 @@
 git add .
-git commit -m "Styling logs page"
+git commit -m "Finalize logs functionality"
 git branch -M main
 git push -u origin main 
