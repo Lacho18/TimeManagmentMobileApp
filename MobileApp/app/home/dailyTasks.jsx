@@ -141,7 +141,7 @@ export default function DailyTasks() {
     console.log(completedTask);
 
     //Deletes and creates log for completed task
-    //deleteTask(completedTask);
+    //deleteTask(completedTask, user.id);
   }
 
   const styles = StyleSheet.create({

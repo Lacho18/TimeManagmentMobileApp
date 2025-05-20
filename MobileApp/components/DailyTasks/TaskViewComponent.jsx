@@ -40,6 +40,7 @@ export default function TaskViewComponent({
 
   const taskDuration = millisecondsCalculator(task.duration);
 
+  //Starts the animation which is ANIMATION_INTERVAL milliseconds long
   const handlePress = () => {
     slideAnim.setValue(0);
 
@@ -49,8 +50,6 @@ export default function TaskViewComponent({
       easing: Easing.out(Easing.ease),
       useNativeDriver: false,
     }).start();
-
-    //selectTask(task);
   };
 
   const overlayTranslate = slideAnim.interpolate({
@@ -58,6 +57,7 @@ export default function TaskViewComponent({
     outputRange: [-screenWidth, screenWidth], // slides across entire width
   });
 
+  //The colors that describes the transition of the background on complete task
   const animatedBackgroundColor = slideAnim.interpolate({
     inputRange: [0, 1],
     outputRange: [
