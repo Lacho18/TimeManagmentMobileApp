@@ -8,7 +8,7 @@ import {
 import { useUser } from "../../context/UserContext";
 import { useTheme } from "../../context/ThemeContext";
 import { useEffect, useState } from "react";
-import { getLogs } from "../../database/logsController";
+import { createLog, getLogs } from "../../database/logsController";
 
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
@@ -22,6 +22,44 @@ export default function LogsView() {
 
   const [logs, setLogs] = useState([]);
 
+  const logsDummyData = [
+    {
+      userId: user.id,
+      message: "Completed task: Test task from 01.03.2025    1",
+      createdAt: new Date(),
+    },
+    {
+      userId: user.id,
+      message: "Completed task: Test task from 01.03.2025    2",
+      createdAt: new Date(),
+    },
+    {
+      userId: user.id,
+      message: "Completed task: Test task from 01.03.2025    3",
+      createdAt: new Date(),
+    },
+    {
+      userId: user.id,
+      message: "Completed task: Test task from 01.03.2025    4",
+      createdAt: new Date(),
+    },
+    {
+      userId: user.id,
+      message: "Completed task: Test task from 01.03.2025    5",
+      createdAt: new Date(),
+    },
+    {
+      userId: user.id,
+      message: "Completed task: Test task from 01.03.2025    6",
+      createdAt: new Date(),
+    },
+    {
+      userId: user.id,
+      message: "Completed task: Test task from 01.03.2025    7",
+      createdAt: new Date(),
+    },
+  ];
+
   useEffect(() => {
     async function getLogsUseEffect() {
       const response = await getLogs(user.id);
@@ -31,20 +69,11 @@ export default function LogsView() {
       }
     }
 
-    //getLogsUseEffect();
-
-    //Just for tests. Delete after
-    setLogs(
-      Array.from({ length: 20 }, (_, i) => ({
-        userId: `user_${i + 1}`,
-        message: `Log message ${i + 1}`,
-        createdAt: new Date(Date.now() - i * 3600 * 1000),
-      }))
-    );
+    getLogsUseEffect();
   }, []);
 
+  //Deletes the log
   function removeLogHandler(logId) {
-    console.log("AAAAAAAAAA Negri");
     setLogs((oldValue) => oldValue.filter((_, index) => index !== logId));
   }
 

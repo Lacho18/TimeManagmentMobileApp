@@ -13,7 +13,7 @@ export const getLogs = async (userId) => {
         return [];
     }
 
-    const result = snapshot.map(doc => {
+    const result = snapshot.docs.map(doc => {
         return { id: doc.id, ...doc.data() };
     })
 

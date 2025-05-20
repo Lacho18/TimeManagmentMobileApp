@@ -12,13 +12,14 @@ export default function LogComponent({ log, theme, user, removeLog }) {
   const translateX = useRef(new Animated.Value(0)).current;
 
   const onGestureEvent = Animated.event(
+    // Map the horizontal drag (translationX) from gesture to the translateX animated value
     [{ nativeEvent: { translationX: translateX } }],
-    { useNativeDriver: true }
+    { useNativeDriver: true } // Use native driver for smoother performance
   );
 
-  const onHandlerStateChange = ({ nativeEvent }) => {
+  //Detects whether the user has swiped the log over the limit which deletes it
+  function onHandlerStateChange({ nativeEvent }) {
     if (nativeEvent.state === 5) {
-      // 5 = State.END
       if (
         nativeEvent.translationX > SWIPE_THRESHOLD ||
         nativeEvent.translationX < -SWIPE_THRESHOLD
@@ -32,7 +33,7 @@ export default function LogComponent({ log, theme, user, removeLog }) {
         useNativeDriver: true,
       }).start();
     }
-  };
+  }
 
   const styles = StyleSheet.create({
     mainDiv: {
@@ -56,7 +57,7 @@ export default function LogComponent({ log, theme, user, removeLog }) {
     userImage: {
       width: 50,
       height: 50,
-      borderRadius: 25, // must be number, not string
+      borderRadius: 25,
     },
     messageText: {
       fontSize: 18,
