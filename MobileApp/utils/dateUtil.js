@@ -31,6 +31,13 @@ export const formatDateMonthName = (date, withHours = true) => {
 
 }
 
+export const formatHoursFromDate = (date) => {
+
+    return `${String(date.getHours()).padStart(2, "0")}:${String(
+        date.getMinutes()
+    ).padStart(2, "0")}`
+}
+
 //Calculates text value from given milliseconds
 export const millisecondsCalculator = (milliseconds) => {
     const totalSeconds = parseInt(Math.floor(milliseconds / 1000));
