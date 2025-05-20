@@ -33,6 +33,7 @@ export default function LogsView() {
 
     //getLogsUseEffect();
 
+    //Just for tests. Delete after
     setLogs(
       Array.from({ length: 20 }, (_, i) => ({
         userId: `user_${i + 1}`,
@@ -41,6 +42,11 @@ export default function LogsView() {
       }))
     );
   }, []);
+
+  function removeLogHandler(logId) {
+    console.log("AAAAAAAAAA Negri");
+    setLogs((oldValue) => oldValue.filter((_, index) => index !== logId));
+  }
 
   const styles = StyleSheet.create({
     page: {
@@ -117,7 +123,12 @@ export default function LogsView() {
 
       <View style={styles.viewsDiv}>
         {logs.map((log) => (
-          <LogComponent log={log} theme={theme} user={user} />
+          <LogComponent
+            log={log}
+            theme={theme}
+            user={user}
+            removeLog={removeLogHandler}
+          />
         ))}
       </View>
     </ScrollView>
