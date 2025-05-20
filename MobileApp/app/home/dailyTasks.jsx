@@ -9,7 +9,11 @@ import {
 import { useTheme } from "../../context/ThemeContext";
 import { useUser } from "../../context/UserContext";
 import { useEffect, useRef, useState } from "react";
-import { delayTask, getTaskForGivenDay } from "../../database/taskController";
+import {
+  delayTask,
+  deleteTask,
+  getTaskForGivenDay,
+} from "../../database/taskController";
 import TaskViewComponent from "../../components/DailyTasks/TaskViewComponent";
 import SelectedTask from "../../components/DailyTasks/SelectedTask";
 
@@ -117,6 +121,29 @@ export default function DailyTasks() {
     setAllDailyTasks(todayTasks);
   }
 
+  function completeTaskHandler(taskId) {
+    let completedTask;
+
+    //Remove the task from the state
+    setAllDailyTasks((allTasks) => {
+      const allTasksCopy = [...allTasks];
+      const selectedTaskIndex = allTasksCopy.findIndex(
+        (task) => task.id === taskId
+      );
+
+      completedTask = allTasksCopy.splice(selectedTaskIndex, 1)[0];
+      return allTasksCopy;
+    });
+
+    //Sets the task as completed
+    completedTask.completed = true;
+
+    console.log(completedTask);
+
+    //Deletes and creates log for completed task
+    //deleteTask(completedTask);
+  }
+
   const styles = StyleSheet.create({
     page: {
       flex: 1,
@@ -205,6 +232,7 @@ export default function DailyTasks() {
             selectTask={(selection) => {
               setSelectedTask(selection);
             }}
+            onCompleteTask={completeTaskHandler}
           />
         ))}
       </ScrollView>

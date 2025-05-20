@@ -1,4 +1,12 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Animated,
+  TouchableOpacity,
+  View,
+  Text,
+  StyleSheet,
+  Easing,
+  Dimensions,
+} from "react-native";
 import { STRESS_LEVELS } from "../../constants/StressLevel";
 import { TASK_PRIORITIES } from "../../constants/TaskPriority";
 import {
@@ -8,11 +16,19 @@ import {
 
 import Octicons from "@expo/vector-icons/Octicons";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useQuestion } from "../../context/QuestionContext";
 
-export default function TaskViewComponent({ theme, task, selectTask }) {
+const screenWidth = Dimensions.get("window").width;
+
+export default function TaskViewComponent({
+  theme,
+  task,
+  selectTask,
+  onCompleteTask,
+}) {
   const { openQuestionMenu, formQuestionStructure } = useQuestion();
+  const slideAnim = useRef(new Animated.Value(0)).current;
 
   const stressColors = STRESS_LEVELS.find(
     (indexValue) => indexValue.stressValue === task.stressLevel
@@ -22,6 +38,37 @@ export default function TaskViewComponent({ theme, task, selectTask }) {
   );
 
   const taskDuration = millisecondsCalculator(task.duration);
+
+  const handlePress = () => {
+    slideAnim.setValue(0);
+
+    Animated.timing(slideAnim, {
+      toValue: 1,
+      duration: 1500,
+      easing: Easing.out(Easing.ease),
+      useNativeDriver: false,
+    }).start();
+
+    //selectTask(task);
+  };
+
+  const overlayTranslate = slideAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [-screenWidth, screenWidth], // slides across entire width
+  });
+
+  const animatedBackgroundColor = slideAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [
+      stressColors.backgroundColor,
+      stressColors.vividBackgroundColor,
+    ],
+  });
+
+  const animatedBorder = slideAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [stressColors.lightColor, stressColors.textColor],
+  });
 
   //Shows question menu for delaying the task
   function delayButtonHandler() {
@@ -36,9 +83,14 @@ export default function TaskViewComponent({ theme, task, selectTask }) {
     openQuestionMenu();
   }
 
+  function onCompleteTaskButtonPress() {
+    handlePress();
+    //onCompleteTask(task.id);
+  }
+
   const styles = StyleSheet.create({
     mainDiv: {
-      width: "95%",
+      width: "100%",
       height: 100,
       backgroundColor: stressColors.backgroundColor,
       borderWidth: 2,
@@ -89,42 +141,71 @@ export default function TaskViewComponent({ theme, task, selectTask }) {
 
   return (
     <TouchableOpacity
-      style={styles.mainDiv}
+      style={{ width: "95%" }}
       onPress={() => {
         selectTask(task);
       }}
     >
-      {task.delayed.isDelayed && (
-        <Text style={styles.delayedText}>delayed</Text>
-      )}
-      <TouchableOpacity style={styles.completeTaskButton}></TouchableOpacity>
-      <View>
-        <Text style={styles.title}>{task.title}</Text>
-        {!task.endTime ? (
-          <Text style={styles.dateText}>
-            {formatDateMonthName(task.startTime)}
-          </Text>
-        ) : (
+      <View style={{ position: "relative" }}>
+        <Animated.View
+          pointerEvents="none"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            height: "100%",
+            width: "100%",
+            backgroundColor: animatedBackgroundColor,
+            borderWidth: 2,
+            borderColor: animatedBorder,
+            borderRadius: 10,
+            opacity: 0.2, // Faint highlight
+            transform: [{ translateX: overlayTranslate }],
+            zIndex: 1,
+            borderRadius: 10,
+          }}
+        />
+
+        <View style={[styles.mainDiv, { zIndex: 2 }]}>
+          {task.delayed.isDelayed && (
+            <Text style={styles.delayedText}>delayed</Text>
+          )}
+          <TouchableOpacity
+            style={styles.completeTaskButton}
+            onPress={onCompleteTaskButtonPress}
+          ></TouchableOpacity>
           <View>
-            <Text style={styles.dateText}>
-              {formatDateMonthName(task.startTime)} -{" "}
-              {formatDateMonthName(task.endTime)}
-            </Text>
-            <Text style={styles.dateText}>
-              <Octicons
-                name="hourglass"
-                size={16}
-                color="yellow"
-                style={{ marginRight: 5 }}
-              />
-              {taskDuration}
-            </Text>
+            <Text style={styles.title}>{task.title}</Text>
+            {!task.endTime ? (
+              <Text style={styles.dateText}>
+                {formatDateMonthName(task.startTime)}
+              </Text>
+            ) : (
+              <View>
+                <Text style={styles.dateText}>
+                  {formatDateMonthName(task.startTime)} -{" "}
+                  {formatDateMonthName(task.endTime)}
+                </Text>
+                <Text style={styles.dateText}>
+                  <Octicons
+                    name="hourglass"
+                    size={16}
+                    color="yellow"
+                    style={{ marginRight: 5 }}
+                  />
+                  {taskDuration}
+                </Text>
+              </View>
+            )}
           </View>
-        )}
+          <TouchableOpacity
+            style={styles.delayButton}
+            onPress={delayButtonHandler}
+          >
+            <AntDesign name="stepforward" size={28} color={theme.secondary} />
+          </TouchableOpacity>
+        </View>
       </View>
-      <TouchableOpacity style={styles.delayButton} onPress={delayButtonHandler}>
-        <AntDesign name="stepforward" size={28} color={theme.secondary} />
-      </TouchableOpacity>
     </TouchableOpacity>
   );
 }
