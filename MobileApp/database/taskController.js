@@ -8,6 +8,7 @@ import { checkForMaxTasksOverflow } from "../utils/maxTasksUtil";
 import { MAX_NUMBER_OF_DELAYED_TASK } from "../constants/MaxNumberDelayedTasks";
 import { getDateFromStartTime, getEveryTaskForTomorrow } from "../functions/panicButtonHandler";
 import LogModel from "../models/LogModel";
+import { createLog } from "./logsController";
 
 export const getTaskForGivenDay = async (givenDay) => {
     const startOfDay = new Date(givenDay.getFullYear(), givenDay.getMonth(), givenDay.getDate(), 0, 0, 0);
@@ -146,21 +147,15 @@ export const deleteTask = async (taskObject, userId) => {
     try {
         const docRef = doc(db, "Tasks", taskObject.id);
 
-        const logsCollection = collection(db, "Logs");
-        const logModel = { ...LogModel };
-        logModel.userId = userId;
-        logModel.createdAt = new Date();
-
         //Create proper notifications and logs
         if (taskObject.completed) {
-            logModel.message = `Completed task: ${taskObject.title} from ${formatDateMonthName(taskObject.startTime, false)}`;
+            await createLog(`Completed task: ${taskObject.title} from ${formatDateMonthName(taskObject.startTime, false)}`, userId);
         }
         else if (taskObject.delayed.delayedTimes > MAX_NUMBER_OF_DELAYED_TASK) {
             //In this case the task is removed because too many days has been delayed
-            logModel.message = `Task ${taskObject.title} was automatically deleted due to too many delays`;
+            await createLog(`Task ${taskObject.title} was automatically deleted due to too many delays`, userId);
         }
 
-        await addDoc(logsCollection, logModel);
         await deleteDoc(docRef);
     }
     catch (err) {
