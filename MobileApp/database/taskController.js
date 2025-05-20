@@ -1,12 +1,13 @@
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc, where } from "firebase/firestore/lite";
 import { db } from "../firebaseConfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { millisecondsCalculator } from "../utils/dateUtil";
+import { formatDateMonthName, millisecondsCalculator } from "../utils/dateUtil";
 import { durationColorSetter } from "../utils/durationColorUtil";
 import { featureTasksCompiler, taskInterval } from "../utils/tasksInterval";
 import { checkForMaxTasksOverflow } from "../utils/maxTasksUtil";
 import { MAX_NUMBER_OF_DELAYED_TASK } from "../constants/MaxNumberDelayedTasks";
 import { getDateFromStartTime, getEveryTaskForTomorrow } from "../functions/panicButtonHandler";
+import LogModel from "../models/LogModel";
 
 export const getTaskForGivenDay = async (givenDay) => {
     const startOfDay = new Date(givenDay.getFullYear(), givenDay.getMonth(), givenDay.getDate(), 0, 0, 0);
@@ -140,20 +141,26 @@ export const delayTask = async (taskId, user) => {
     });
 };
 
-export const deleteTask = async (taskObject) => {
+export const deleteTask = async (taskObject, userId) => {
 
     try {
         const docRef = doc(db, "Tasks", taskObject.id);
 
+        const logsCollection = collection(db, "Logs");
+        const logModel = { ...LogModel };
+        logModel.userId = userId;
+        logModel.createdAt = new Date();
+
         //Create proper notifications and logs
         if (taskObject.completed) {
-            //Create notification and log for completed task
+            logModel.message = `Completed task: ${taskObject.title} from ${formatDateMonthName(taskObject.startTime, false)}`;
         }
         else if (taskObject.delayed.delayedTimes > MAX_NUMBER_OF_DELAYED_TASK) {
             //In this case the task is removed because too many days has been delayed
+            logModel.message = `Task ${taskObject.title} was automatically deleted due to too many delays`;
         }
 
-
+        await addDoc(logsCollection, logModel);
         await deleteDoc(docRef);
     }
     catch (err) {
