@@ -24,7 +24,15 @@ export default function LogsView() {
       }
     }
 
-    getLogsUseEffect();
+    //getLogsUseEffect();
+
+    setLogs(
+      Array.from({ length: 20 }, (_, i) => ({
+        userId: `user_${i + 1}`,
+        message: `Log message ${i + 1}`,
+        createdAt: new Date(Date.now() - i * 3600 * 1000).toISOString(),
+      }))
+    );
   }, []);
 
   const styles = StyleSheet.create({
@@ -33,6 +41,13 @@ export default function LogsView() {
       justifyContent: "flex-start",
       alignItems: "flex-start",
       backgroundColor: theme.background,
+    },
+
+    title: {
+      fontSize: 30,
+      color: theme.text,
+      fontWeight: "bold",
+      textAlign: "center",
     },
 
     noLogsDiv: {
@@ -77,6 +92,10 @@ export default function LogsView() {
 
   return (
     <View style={styles.page}>
+      <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+        <Ionicons name="arrow-back" size={28} color={theme.secondary} />
+      </TouchableOpacity>
+      <Text style={styles.title}>Activity logs</Text>
       {logs.map((log) => (
         <Text>Log</Text>
       ))}
