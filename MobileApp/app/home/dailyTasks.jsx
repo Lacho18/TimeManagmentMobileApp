@@ -23,6 +23,7 @@ import Entypo from "@expo/vector-icons/Entypo";
 import MenuOptions from "../../components/DailyTasks/MenuOptions";
 import { useQuestion } from "../../context/QuestionContext";
 import QuestionComponent from "../../components/QuestionComponent";
+import CalmingVideo from "../../components/DailyTasks/CalmingVideo";
 
 export default function DailyTasks() {
   const { theme } = useTheme();
@@ -43,6 +44,9 @@ export default function DailyTasks() {
 
   //Follows whether the menu is visible or not
   const [showMenu, setShowMenu] = useState(false);
+
+  //Follows whether to visualize calming video before stressful task
+  const [activateCalmingVideo, setActivateCalmingVideo] = useState(true);
 
   //Describes the last selected filter in order to reverse if the same filter is selected second time
   const lastSelectedFilter = useRef({
@@ -258,6 +262,8 @@ export default function DailyTasks() {
           onNoAnswer={() => closeQuestionMenu()}
         />
       )}
+
+      {activateCalmingVideo && <CalmingVideo theme={theme} />}
     </Pressable>
   );
 }

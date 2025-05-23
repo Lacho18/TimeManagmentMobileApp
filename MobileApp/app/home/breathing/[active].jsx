@@ -80,7 +80,7 @@ export default function Breathing() {
           source={animation}
           autoPlay
           loop
-          style={{ backgroundColor: theme.background }}
+          style={{ width: 200, height: 200 }}
         />
       </View>
     );
