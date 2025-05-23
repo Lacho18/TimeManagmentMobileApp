@@ -3,7 +3,12 @@ import { useFonts } from "expo-font";
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-const allCalmingVideos = [require("../../videos/calmVideo1.mp4")];
+const allCalmingVideos = [
+  require("../../videos/calmVideo1.mp4"),
+  require("../../videos/calmVideo2.mp4"),
+  require("../../videos/calmVideo3.mp4"),
+  require("../../videos/calmVideo4.mp4"),
+];
 
 export default function CalmingVideo({ theme }) {
   const [fontsLoaded] = useFonts({
@@ -11,6 +16,7 @@ export default function CalmingVideo({ theme }) {
   });
 
   const [timer, setTimer] = useState("00:00");
+  const [video, setVideo] = useState(require("../../videos/calmVideo1.mp4"));
 
   //Called every second. Updates the timer
   function updateTimer() {
@@ -35,11 +41,14 @@ export default function CalmingVideo({ theme }) {
   //Used to set and on unmount to remove the interval for the timer
   useEffect(() => {
     const interval = setInterval(updateTimer, 1000);
+    const videoIndex = Math.floor(Math.random() * allCalmingVideos.length);
+
+    setVideo(allCalmingVideos[videoIndex]);
 
     return () => {
       clearInterval(interval);
     };
-  });
+  }, []);
 
   const styles = StyleSheet.create({
     back: {
@@ -84,12 +93,13 @@ export default function CalmingVideo({ theme }) {
     <View style={styles.back}>
       <View style={styles.mainDiv}>
         <Video
-          source={require("../../videos/calmVideo1.mp4")}
+          source={video}
           rate={1.0}
           volume={1.0}
           isMuted={false}
           resizeMode="cover"
           shouldPlay
+          ìsLooping
           useNativeControls
           style={styles.video}
         />
