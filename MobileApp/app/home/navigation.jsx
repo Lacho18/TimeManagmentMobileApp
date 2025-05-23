@@ -81,7 +81,7 @@ export default function Navigation() {
       <TouchableOpacity
         style={styles.navButton}
         onPress={() => {
-          router.push("/home/breathing");
+          router.push("/home/breathing/false");
         }}
       >
         <View style={styles.navButtonView}>
