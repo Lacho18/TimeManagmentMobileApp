@@ -20,22 +20,24 @@ export default function CalmingVideo({ theme }) {
 
   //Called every second. Updates the timer
   function updateTimer() {
-    const splitTime = timer.split(":");
-    let seconds = Number(splitTime[1]);
-    let minutes = Number(splitTime[0]);
+    setTimer((prevTime) => {
+      const splitTime = prevTime.split(":");
+      let minutes = Number(splitTime[0]);
+      let seconds = Number(splitTime[1]);
 
-    seconds += 1;
+      seconds += 1;
 
-    if (seconds == 60) {
-      minutes += 1;
-      seconds = 0;
-    }
+      if (seconds === 60) {
+        minutes += 1;
+        seconds = 0;
+      }
 
-    setTimer(
-      `${minutes >= 10 ? minutes : "0" + minutes}:${
+      const formattedTime = `${minutes >= 10 ? minutes : "0" + minutes}:${
         seconds >= 10 ? seconds : "0" + seconds
-      }`
-    );
+      }`;
+
+      return formattedTime;
+    });
   }
 
   //Used to set and on unmount to remove the interval for the timer

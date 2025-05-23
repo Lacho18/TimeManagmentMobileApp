@@ -28,7 +28,14 @@ import CalmingVideo from "../../components/DailyTasks/CalmingVideo";
 export default function DailyTasks() {
   const { theme } = useTheme();
   const { user, loading } = useUser();
-  const { isQuestionActive, questionData, closeQuestionMenu } = useQuestion();
+  const {
+    isQuestionActive,
+    questionData,
+    closeQuestionMenu,
+    openQuestionMenu,
+    formQuestionStructure,
+    yesQuestionAnswer,
+  } = useQuestion();
 
   //All tasks for the current date
   const [allDailyTasks, setAllDailyTasks] = useState([]);
@@ -46,7 +53,7 @@ export default function DailyTasks() {
   const [showMenu, setShowMenu] = useState(false);
 
   //Follows whether to visualize calming video before stressful task
-  const [activateCalmingVideo, setActivateCalmingVideo] = useState(true);
+  const [activateCalmingVideo, setActivateCalmingVideo] = useState(false);
 
   //Describes the last selected filter in order to reverse if the same filter is selected second time
   const lastSelectedFilter = useRef({
@@ -67,6 +74,7 @@ export default function DailyTasks() {
     }
 
     getTodayTasks();
+    checkForCloseStressfulTask();
   }, []);
 
   //Calculates the position of the button so the menu component to display on the right position on every device
@@ -89,6 +97,10 @@ export default function DailyTasks() {
 
     if (isQuestionActive) {
       closeQuestionMenu();
+    }
+
+    if (activateCalmingVideo) {
+      setActivateCalmingVideo(false);
     }
   }
 
@@ -146,6 +158,67 @@ export default function DailyTasks() {
     //Deletes and creates log for completed task
     //RETURN AFTER TESTING
     //deleteTask(completedTask, user.id);
+  }
+
+  //Checks if the closest task is stressful in order to ask the user if he wants to see a calming video
+  function checkForCloseStressfulTask() {
+    //Forms the question data
+    formQuestionStructure({
+      question:
+        "A stressful task is coming. Would you like to see a calming video?",
+      subQuestionData: "",
+      id: null,
+    });
+
+    //Opens question menu
+    openQuestionMenu();
+    //Current time
+    const now = new Date();
+    //Filters the today dates to just the one that has not passed
+    const featureTasks = allDailyTasks.filter((task) => now < task.startTime);
+
+    if (featureTasks.length == 0) {
+      return;
+    }
+
+    //Finds the closest task on the feature
+    const closestFeatureTask = featureTasks.reduce((previous, current) => {
+      return current - now < previous - now ? curr : prev;
+    });
+
+    //Sets time 15 minutes ahead
+    const nowAfterMinutes = now.setMinutes(now.getMinutes() + 15);
+
+    //Checks if the closest task is in 15 minutes
+    if (nowAfterMinutes > closestFeatureTask) {
+      //Checks if the closest task is with high stress level
+      if (
+        closestFeatureTask.stressLevel == 4 ||
+        closestFeatureTask.stressLevel == 5
+      ) {
+        //Forms the question data
+        formQuestionStructure({
+          question:
+            "A stressful task is coming. Would you like to see a calming video?",
+          subQuestionData: "",
+          id: null,
+        });
+
+        //Opens question menu
+        openQuestionMenu();
+      }
+    }
+  }
+
+  //This function handles yes answer on 2 cases: delaying task and opening calming video
+  async function yesQuestionHandler(tasksId) {
+    //In case the task is delayed
+    if (questionData.id) {
+      await delayTask(tasksId, user);
+    } else {
+      setActivateCalmingVideo(true);
+    }
+    closeQuestionMenu();
   }
 
   const styles = StyleSheet.create({
@@ -256,8 +329,7 @@ export default function DailyTasks() {
           theme={theme}
           questionData={questionData}
           onYesAnswer={async (tasksId) => {
-            await delayTask(tasksId, user);
-            closeQuestionMenu();
+            await yesQuestionHandler(tasksId);
           }}
           onNoAnswer={() => closeQuestionMenu()}
         />
