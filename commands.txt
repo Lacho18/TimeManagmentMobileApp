@@ -1,4 +1,4 @@
 git add .
-git commit -m "Making component for calming video"
+git commit -m "Adding functionality to calming videos"
 git branch -M main
 git push -u origin main 

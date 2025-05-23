@@ -1,8 +1,46 @@
 import { Video } from "expo-av";
+import { useFonts } from "expo-font";
+import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-//import YoutubePlayer from "react-native-youtube-iframe";
+
+const allCalmingVideos = [require("../../videos/calmVideo1.mp4")];
 
 export default function CalmingVideo({ theme }) {
+  const [fontsLoaded] = useFonts({
+    "ShareTechMono-Regular": require("../../assets/fonts/ShareTechMono-Regular.ttf"),
+  });
+
+  const [timer, setTimer] = useState("00:00");
+
+  //Called every second. Updates the timer
+  function updateTimer() {
+    const splitTime = timer.split(":");
+    let seconds = Number(splitTime[1]);
+    let minutes = Number(splitTime[0]);
+
+    seconds += 1;
+
+    if (seconds == 60) {
+      minutes += 1;
+      seconds = 0;
+    }
+
+    setTimer(
+      `${minutes >= 10 ? minutes : "0" + minutes}:${
+        seconds >= 10 ? seconds : "0" + seconds
+      }`
+    );
+  }
+
+  //Used to set and on unmount to remove the interval for the timer
+  useEffect(() => {
+    const interval = setInterval(updateTimer, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  });
+
   const styles = StyleSheet.create({
     back: {
       position: "absolute",
@@ -25,6 +63,7 @@ export default function CalmingVideo({ theme }) {
       display: "flex",
       justifyContent: "space-evenly",
       alignItems: "center",
+      gap: 10,
       padding: 15,
       zIndex: 60,
       opacity: 1,
@@ -34,15 +73,18 @@ export default function CalmingVideo({ theme }) {
       height: 200,
       zIndex: 60,
     },
+    timer: {
+      fontSize: 30,
+      color: theme.text,
+      fontFamily: "ShareTechMono-Regular",
+    },
   });
 
   return (
     <View style={styles.back}>
       <View style={styles.mainDiv}>
         <Video
-          source={{
-            uri: "https://www.youtube.com/watch?v=eA9IvKdCA5w&ab_channel=Fiki",
-          }}
+          source={require("../../videos/calmVideo1.mp4")}
           rate={1.0}
           volume={1.0}
           isMuted={false}
@@ -51,6 +93,7 @@ export default function CalmingVideo({ theme }) {
           useNativeControls
           style={styles.video}
         />
+        <Text style={styles.timer}>{timer}</Text>
       </View>
     </View>
   );
