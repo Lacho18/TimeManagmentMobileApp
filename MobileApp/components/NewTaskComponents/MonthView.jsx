@@ -11,7 +11,7 @@ export default function MonthView({ month, theme, onDateSelect, dateType }) {
       fontSize: 20,
       fontWeight: "bold",
       textAlign: "center",
-      color: theme.accent,
+      color: theme.text,
       marginVertical: 8,
     },
     weekDays: {
@@ -23,7 +23,7 @@ export default function MonthView({ month, theme, onDateSelect, dateType }) {
       width: "14.28%",
       textAlign: "center",
       fontWeight: "600",
-      color: theme.background,
+      color: theme.text,
     },
     daysGrid: {
       flexDirection: "row",
@@ -60,7 +60,7 @@ export default function MonthView({ month, theme, onDateSelect, dateType }) {
                 onDateSelect(dateType, day);
               }}
             >
-              <Text style={{ color: theme.background, fontSize: 15 }}>
+              <Text style={{ color: theme.text, fontSize: 15 }}>
                 {format(day, "d")}
               </Text>
             </TouchableOpacity>

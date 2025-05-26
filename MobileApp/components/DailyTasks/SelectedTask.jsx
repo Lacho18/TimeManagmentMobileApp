@@ -136,7 +136,7 @@ export default function SelectedTask({ selectedTask, theme, hideTask }) {
   return (
     <Modal
       transparent
-      animationType="fade"
+      animationType="slide"
       visible={isModalVisible}
       onRequestClose={() => {
         setIsModalVisible(false);
@@ -145,7 +145,7 @@ export default function SelectedTask({ selectedTask, theme, hideTask }) {
     >
       <GestureHandlerRootView style={StyleSheet.absoluteFillObject}>
         <BottomSheetModalProvider>
-          <View style={StyleSheet.absoluteFillObject}>
+          <View style={{ flex: 1, zIndex: 9999 }}>
             <BottomSheet
               ref={bottomSheetRef}
               index={0} // Start fully open at 50%

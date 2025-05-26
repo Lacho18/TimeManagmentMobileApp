@@ -60,11 +60,12 @@ export default function TimeSelector({
       left: "50%",
       transform: [{ translateX: -0.5 * 350 }, { translateY: -0.5 * 700 }],
       zIndex: 100,
-      backgroundColor: theme.secondary,
+      backgroundColor: theme.background,
       paddingTop: 20,
       display: "flex",
       alignItems: "center",
       gap: 10,
+      borderRadius: 18,
     },
 
     titleDiv: {
@@ -78,7 +79,7 @@ export default function TimeSelector({
     titleNumbers: {
       fontSize: 70,
       fontWeight: "bold",
-      color: theme.background,
+      color: theme.text,
       backgroundColor: theme.highlight,
       width: 100,
       height: 100,
@@ -90,7 +91,7 @@ export default function TimeSelector({
 
     symbol: {
       fontSize: 70,
-      color: theme.background,
+      color: theme.text,
       fontWeight: "bold",
     },
 
@@ -104,7 +105,7 @@ export default function TimeSelector({
       backgroundColor: theme.highlight,
       width: 120,
       height: 50,
-      borderColor: theme.background,
+      borderColor: theme.primary,
       borderWidth: 4,
       padding: 10,
       borderRadius: 7,
@@ -195,7 +196,7 @@ export default function TimeSelector({
                       <Text
                         style={{
                           fontSize: 18,
-                          color: theme.background,
+                          color: theme.text,
                         }}
                       >
                         {number}
@@ -211,8 +212,8 @@ export default function TimeSelector({
         {timeSelectionExpression.minutes && (
           <View
             style={{
-              width: 300,
-              height: 300,
+              width: "90%",
+              height: "70%",
               justifyContent: "center",
               alignItems: "center",
             }}
@@ -253,7 +254,7 @@ export default function TimeSelector({
                       <Text
                         style={{
                           fontSize: 16,
-                          color: theme.background,
+                          color: theme.text,
                           textAlign: "center",
                         }}
                       >
@@ -265,7 +266,7 @@ export default function TimeSelector({
                           width: 6,
                           height: 6,
                           borderRadius: 3,
-                          backgroundColor: theme.background,
+                          backgroundColor: theme.text,
                           opacity: 0.7,
                         }}
                       />

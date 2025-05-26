@@ -74,7 +74,7 @@ export default function DateSelection({
     },
     panel: {
       flex: 1,
-      backgroundColor: theme.secondary,
+      backgroundColor: theme.background,
       borderTopLeftRadius: 20,
       borderTopRightRadius: 20,
       elevation: 10,
@@ -104,7 +104,7 @@ export default function DateSelection({
     },
     fastButtonText: {
       fontSize: 15,
-      color: theme.background,
+      color: theme.text,
     },
   });
 
@@ -133,7 +133,7 @@ export default function DateSelection({
               handleTomorrowSelect();
             }}
           >
-            <MaterialIcons name="today" size={28} color={theme.accent} />
+            <MaterialIcons name="today" size={28} color={theme.secondary} />
             <Text style={styles.fastButtonText}>Tomorrow</Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -145,7 +145,7 @@ export default function DateSelection({
             <MaterialCommunityIcons
               name="calendar-weekend"
               size={28}
-              color={theme.accent}
+              color={theme.secondary}
             />
             <Text style={styles.fastButtonText}>This weekend</Text>
           </TouchableOpacity>
@@ -155,7 +155,7 @@ export default function DateSelection({
               fastButtonsHandler(true);
             }}
           >
-            <Feather name="calendar" size={28} color={theme.accent} />
+            <Feather name="calendar" size={28} color={theme.secondary} />
             <Text style={styles.fastButtonText}>Next week</Text>
           </TouchableOpacity>
         </View>

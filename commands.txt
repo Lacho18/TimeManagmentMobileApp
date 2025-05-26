@@ -1,4 +1,4 @@
 git add .
-git commit -m "Making version fixes. Going from expo 52 to expo 53. Fixing firebase auth problem. Fixing problems with touchable opacity on several components. Adding additional styling. Adding comments. Adding checkboxes from expo library"
+git commit -m "Adding additional styling"
 git branch -M main
 git push -u origin main 

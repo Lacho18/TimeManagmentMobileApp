@@ -10,11 +10,14 @@ export default function PrioritySelect({ selectedPriority, changePriority }) {
       gap: 10,
     },
     buttonStyle: {
-      width: 80,
+      width: "auto",
+      minWidth: 60,
       height: 40,
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
+      borderRadius: 10,
+      padding: 10,
     },
     buttonText: {
       fontSize: 15,

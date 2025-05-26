@@ -14,6 +14,7 @@ import DayOverviewView from "../../components/Overview/DayOverviewView";
 import { getTaskForGivenDay } from "../../database/taskController";
 import { DUMMY_DATA_TASKS } from "../../constants/dummyData";
 import { SafeAreaView } from "react-native-safe-area-context";
+import SelectedTask from "../../components/DailyTasks/SelectedTask";
 
 export default function Overview() {
   const { theme } = useTheme();
@@ -33,13 +34,13 @@ export default function Overview() {
   //State for selected tasks from the selected date
   const [selectedDayTasks, setSelectedDayTasks] = useState(DUMMY_DATA_TASKS);
 
+  const [userSelectionTask, setUserSelectionTask] = useState(null);
+
   //From the selected date by the user finds every task on this date and returns it as an array. If none returns empty array
   async function getSelectedTasks(date, index) {
     //After completing development remove the Dummy data and return fetch function
     //const fetchedData = await getTaskForGivenDay(date);
     const fetchedData = DUMMY_DATA_TASKS;
-
-    console.log("Are ve pederasiiiii");
 
     //Sets the state for the selected date
     setSelectedDate(date);
@@ -94,36 +95,52 @@ export default function Overview() {
   });
 
   return (
-    <SafeAreaView style={styles.page}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Upcoming</Text>
+    <>
+      <SafeAreaView style={styles.page}>
+        <View style={styles.header}>
+          <Text style={styles.title}>Upcoming</Text>
 
-        <OverViewHeader
-          theme={theme}
-          selectedDate={selectedDate}
-          dateSelectionHandler={getSelectedTasks}
-        />
-      </View>
-      <ScrollView
-        ref={scrollViewRef}
-        vertical
-        contentContainerStyle={{ gap: 15, paddingBottom: 20 }}
-        style={{ zIndex: 30 }}
-      >
-        {daysAhead.current.map((date, index) => (
-          <DayOverviewView
-            key={index}
-            index={index}
-            itemsRef={itemsRef}
-            date={date}
+          <OverViewHeader
             theme={theme}
-            isToday={false}
             selectedDate={selectedDate}
-            selectedTasks={selectedDayTasks}
             dateSelectionHandler={getSelectedTasks}
           />
-        ))}
-      </ScrollView>
-    </SafeAreaView>
+        </View>
+        <ScrollView
+          ref={scrollViewRef}
+          vertical
+          contentContainerStyle={{
+            gap: 15,
+            paddingBottom: 20,
+          }}
+          style={{ zIndex: 30, position: "relative" }}
+          keyboardShouldPersistTaps="handled"
+          scrollEnabled
+          nestedScrollEnabled
+        >
+          {daysAhead.current.map((date, index) => (
+            <DayOverviewView
+              key={index}
+              index={index}
+              itemsRef={itemsRef}
+              date={date}
+              theme={theme}
+              isToday={false}
+              selectedDate={selectedDate}
+              selectedTasks={selectedDayTasks}
+              dateSelectionHandler={getSelectedTasks}
+              taskSelectionHandler={(task) => setUserSelectionTask(task)}
+            />
+          ))}
+        </ScrollView>
+      </SafeAreaView>
+      {userSelectionTask && (
+        <SelectedTask
+          selectedTask={userSelectionTask}
+          theme={theme}
+          hideTask={() => setUserSelectionTask(null)}
+        />
+      )}
+    </>
   );
 }

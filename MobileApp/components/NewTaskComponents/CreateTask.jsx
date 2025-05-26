@@ -7,7 +7,6 @@ import {
   Dimensions,
   Animated,
   TextInput,
-  //CheckBox,
   ScrollView,
 } from "react-native";
 import Fontisto from "@expo/vector-icons/Fontisto";
@@ -160,7 +159,7 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
       position: "absolute",
       right: 0,
       top: 0,
-      borderTopRightRadius: 20,
+      borderRadius: 10,
       zIndex: 100,
     },
     title: {
@@ -237,6 +236,19 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
       borderRadius: 18,
       backgroundColor: theme.highlight,
       marginTop: 20,
+    },
+
+    addTaskButton: {
+      backgroundColor: theme.highlight,
+      width: 120,
+      height: 50,
+      borderColor: theme.background,
+      borderWidth: 4,
+      padding: 10,
+      borderRadius: 10,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
     },
   });
 
@@ -411,9 +423,13 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
             alignItems: "center",
             justifyContent: "center",
             marginTop: 18,
+            marginBottom: 100,
           }}
         >
-          <TouchableOpacity onPress={createTaskHandler}>
+          <TouchableOpacity
+            style={styles.addTaskButton}
+            onPress={createTaskHandler}
+          >
             <Text style={styles.buttonText}>Add task</Text>
           </TouchableOpacity>
         </View>

@@ -18,8 +18,8 @@ export default function DayOverviewView({
   selectedDate,
   selectedTasks,
   dateSelectionHandler,
+  taskSelectionHandler,
 }) {
-  //console.log(selectedDate.current);
   const styles = StyleSheet.create({
     mainDiv: {
       padding: 7,
@@ -27,6 +27,7 @@ export default function DayOverviewView({
       borderBottomWidth: 2,
       borderColor: theme.highlight,
       zIndex: 50,
+      position: "relative",
     },
     headDiv: {
       display: "flex",
@@ -95,7 +96,9 @@ export default function DayOverviewView({
                 key={task.id}
                 theme={theme}
                 task={task}
-                selectTask={() => {}}
+                selectTask={() => {
+                  taskSelectionHandler(task);
+                }}
               />
             ))
           )}

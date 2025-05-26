@@ -10,6 +10,8 @@ export default function StressLevelSelect({
       display: "flex",
       flexDirection: "row",
       justifyContent: "space-between",
+      alignItems: "center",
+      flexWrap: "wrap",
       gap: 7,
     },
     buttonStyle: {
@@ -21,6 +23,7 @@ export default function StressLevelSelect({
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
+      borderRadius: 10,
     },
     buttonText: {
       fontSize: 15,
