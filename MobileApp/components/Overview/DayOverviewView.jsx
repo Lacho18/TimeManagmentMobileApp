@@ -26,6 +26,7 @@ export default function DayOverviewView({
       borderTopWidth: 2,
       borderBottomWidth: 2,
       borderColor: theme.highlight,
+      zIndex: 50,
     },
     headDiv: {
       display: "flex",
@@ -60,8 +61,9 @@ export default function DayOverviewView({
     <View style={styles.mainDiv} ref={(ref) => (itemsRef.current[index] = ref)}>
       <TouchableOpacity
         style={styles.headDiv}
-        onPress={() => {
-          dateSelectionHandler(date, index);
+        onPress={async () => {
+          console.log("Ciganiuiiiiiiiii");
+          await dateSelectionHandler(date, index);
         }}
       >
         <Text style={styles.text}>

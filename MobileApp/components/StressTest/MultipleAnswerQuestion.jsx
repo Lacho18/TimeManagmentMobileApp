@@ -1,12 +1,7 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  CheckBox,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { useTheme } from "../../context/ThemeContext";
 import { useState } from "react";
+import CheckBox from "expo-checkbox";
 
 export default function MultipleAnswerQuestion({
   question,
@@ -75,13 +70,14 @@ export default function MultipleAnswerQuestion({
       justifyContent: "flex-end",
       alignItems: "center",
       width: "100%",
-      padding: 12,
+      padding: 20,
+      boxSizing: "border-box",
 
       // iOS Shadow
       shadowColor: "black",
-      shadowOffset: { width: 0, height: 0 }, // No offset
+      shadowOffset: { width: 0, height: 0 },
       shadowOpacity: 1,
-      shadowRadius: 1, // Very small blur
+      shadowRadius: 1,
 
       // Android Shadow
       elevation: 7,
@@ -89,7 +85,8 @@ export default function MultipleAnswerQuestion({
       borderRadius: 15,
     },
     answerText: {
-      paddingBottom: 5,
+      //paddingBottom: 5,
+      //margin: 10,
       fontSize: 21,
       color: theme.text,
       textAlign: "left",
@@ -106,7 +103,7 @@ export default function MultipleAnswerQuestion({
       justifyContent: "center",
       alignItems: "center",
       backgroundColor: theme.primary,
-      padding: 5,
+      padding: 10,
       borderRadius: 20,
     },
     submitButtonText: {

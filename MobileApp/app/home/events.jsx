@@ -9,6 +9,7 @@ import { useUser } from "../../context/UserContext";
 import * as Calendar from "expo-calendar";
 
 import CalendarBoxView from "../../components/Events/CalendarBoxView";
+import CalendarEventsView from "../../components/Events/CalendarEventsView";
 
 export default function Events() {
   const { theme } = useTheme();
@@ -25,6 +26,10 @@ export default function Events() {
 
   //Used to stop the scroll view when a calendar has been selected
   const [selectedDeviceCalendar, setSelectedDeviceCalendar] = useState(false);
+
+  const [selectedCalendarEvents, setSelectedCalendarEvents] = useState(null);
+
+  const [selectedCalendarName, setSelectedCalendarName] = useState("");
 
   useEffect(() => {
     //Gets the google token and if it is valid gets the google calendar events of the user
@@ -54,6 +59,25 @@ export default function Events() {
     getDeviceCalendarData();
   }, []);
 
+  //Function that is called when calendar is selected
+  function selectCalendarHandler(selection, calendarName) {
+    //Sets the name of the selected calendar
+    setSelectedCalendarName(calendarName);
+    //Checks if the selected calendar has any events on the limited time
+    if (Array.isArray(selection) && selection.length == 0) {
+      //If no events allows scrolls and nulls the events array
+      setSelectedDeviceCalendar(false);
+      setSelectedCalendarEvents(null);
+      return;
+    }
+
+    //Sets the events value to a state
+    if (selection !== undefined) {
+      setSelectedDeviceCalendar(true);
+      setSelectedCalendarEvents(selection);
+    }
+  }
+
   const styles = StyleSheet.create({
     mainDiv: {
       flex: 1,
@@ -66,6 +90,7 @@ export default function Events() {
       justifyContent: "flex-start",
       alignItems: "center",
       gap: 10,
+      paddingBottom: 60,
     },
     title: {
       fontSize: 30,
@@ -104,6 +129,11 @@ export default function Events() {
       display: "flex",
       gap: 30,
     },
+    errorText: {
+      fontSize: 18,
+      color: theme.text,
+      textAlign: "center",
+    },
   });
 
   return (
@@ -113,7 +143,9 @@ export default function Events() {
       scrollEnabled={!selectedDeviceCalendar}
     >
       <Text style={styles.title}>Events</Text>
-      <Text style={styles.subTitle}>{googleEvents.length} events</Text>
+      {user.google_sync && (
+        <Text style={styles.subTitle}>{googleEvents.length} events</Text>
+      )}
       {user.google_sync && (
         <View style={styles.eventsDiv}>
           <View style={styles.eventsDivTitle}>
@@ -130,22 +162,51 @@ export default function Events() {
           ))}
         </View>
       )}
+      <Text style={styles.subTitle}>Your device calendars</Text>
       {calendarStatus === "granted" ? (
         <View style={styles.deviceCalendarsDiv}>
-          {deviceCalendars.map((calendar) => (
+          {deviceCalendars.map((calendar, index) => (
             <CalendarBoxView
+              key={index}
               calendar={calendar}
               theme={theme}
-              selectCalendar={() => setSelectedDeviceCalendar(true)}
-              unselectCalendar={() => setSelectedDeviceCalendar(false)}
+              selectCalendar={(selection, calendarName) => {
+                console.log(selection);
+                console.log(calendarName);
+                if (selection !== undefined) {
+                  selectCalendarHandler(selection, calendarName);
+                }
+              }}
+              unselectCalendar={() => {
+                setSelectedDeviceCalendar(false);
+                setSelectedCalendarEvents(null);
+                setSelectedCalendarName("");
+              }}
+              hasNoEvents={
+                selectedCalendarName === calendar.name &&
+                selectedCalendarEvents === null
+              }
             />
           ))}
         </View>
       ) : (
-        <Text>
+        <Text style={styles.errorText}>
           In order to see device events data, allow the application to use the
           device calendar
         </Text>
+      )}
+
+      {selectedCalendarEvents && selectedCalendarEvents.length > 0 && (
+        <CalendarEventsView
+          calendarName={/*calendar.name*/ "Test"}
+          events={selectedCalendarEvents}
+          theme={theme}
+          closeCalendar={() => {
+            setSelectedDeviceCalendar(false);
+            setSelectedCalendarEvents(null);
+            setSelectedCalendarName("");
+          }}
+        />
       )}
     </ScrollView>
   );

@@ -5,6 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import { useEffect } from "react";
 import GoogleAuth from "../components/GoogleAuth";
+import Notifications from "../components/Notifications";
 
 import * as Calendar from "expo-calendar";
 
@@ -87,6 +88,7 @@ export default function Index() {
           </Text>
         </TouchableOpacity>
       </View>
+      <Notifications />
     </View>
   );
 }

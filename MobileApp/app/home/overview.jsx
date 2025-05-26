@@ -13,6 +13,7 @@ import { getGivenNumberOfDays } from "../../utils/dateUtil";
 import DayOverviewView from "../../components/Overview/DayOverviewView";
 import { getTaskForGivenDay } from "../../database/taskController";
 import { DUMMY_DATA_TASKS } from "../../constants/dummyData";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Overview() {
   const { theme } = useTheme();
@@ -26,7 +27,7 @@ export default function Overview() {
   //Reference to the scroll view. It is used because when the user click on some date this date to go to the top of the screen
   const scrollViewRef = useRef(null);
 
-  //Reference tyo every item inside the scroll view
+  //Reference to every item inside the scroll view
   const itemsRef = useRef({});
 
   //State for selected tasks from the selected date
@@ -37,6 +38,8 @@ export default function Overview() {
     //After completing development remove the Dummy data and return fetch function
     //const fetchedData = await getTaskForGivenDay(date);
     const fetchedData = DUMMY_DATA_TASKS;
+
+    console.log("Are ve pederasiiiii");
 
     //Sets the state for the selected date
     setSelectedDate(date);
@@ -71,12 +74,10 @@ export default function Overview() {
   const styles = StyleSheet.create({
     page: {
       flex: 1,
-      justifyContent: "flex-start",
-      alignItems: "center",
       backgroundColor: theme.background,
       padding: 10,
       gap: 15,
-      position: "relative",
+      marginBottom: -35,
     },
 
     header: {
@@ -90,15 +91,10 @@ export default function Overview() {
       color: theme.text,
       fontWeight: "bold",
     },
-
-    scrollView: {
-      width: "100%",
-      flex: 1,
-    },
   });
 
   return (
-    <View style={styles.page}>
+    <SafeAreaView style={styles.page}>
       <View style={styles.header}>
         <Text style={styles.title}>Upcoming</Text>
 
@@ -111,8 +107,8 @@ export default function Overview() {
       <ScrollView
         ref={scrollViewRef}
         vertical
-        contentContainerStyle={{ gap: 15, flex: 1 }}
-        style={styles.scrollView}
+        contentContainerStyle={{ gap: 15, paddingBottom: 20 }}
+        style={{ zIndex: 30 }}
       >
         {daysAhead.current.map((date, index) => (
           <DayOverviewView
@@ -128,6 +124,6 @@ export default function Overview() {
           />
         ))}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }

@@ -1,4 +1,5 @@
 import {
+  Dimensions,
   Image,
   Pressable,
   StyleSheet,
@@ -25,6 +26,10 @@ import MinRestTime from "../../components/Profile/MinRestTime";
 import MaxTasks from "../../components/Profile/MaxTasks";
 import PanicButton from "../../components/Profile/PanicButton";
 import DayStartTime from "../../components/Profile/DayStartTime";
+
+import { SafeAreaView } from "react-native-safe-area-context";
+
+const { width } = Dimensions.get("window");
 
 export default function Profile() {
   const { theme } = useTheme();
@@ -65,8 +70,10 @@ export default function Profile() {
   const styles = StyleSheet.create({
     page: {
       flex: 1,
-      justifyContent: "flex-start",
-      alignItems: "flex-start",
+      backgroundColor: theme.background,
+    },
+    pressable: {
+      flex: 1,
     },
     headerDiv: {
       display: "flex",
@@ -81,11 +88,12 @@ export default function Profile() {
       backgroundColor: theme.primary,
       borderBottomWidth: 3,
       borderBottomColor: theme.secondary,
+      width: "100%",
     },
     profileImage: {
       width: 30,
       height: 30,
-      borderRadius: "50%",
+      borderRadius: width / 2,
     },
     titleText: {
       fontSize: 20,
@@ -113,118 +121,117 @@ export default function Profile() {
   });
 
   return (
-    <Pressable
-      style={{ ...styles.page, backgroundColor: theme.background }}
-      onPress={closeWindows}
-    >
-      <View style={styles.headerDiv}>
-        <Image style={styles.profileImage} source={{ uri: user.image }} />
-        <Text style={styles.titleText}>{user.name}</Text>
-      </View>
-      <View style={styles.buttonsDiv}>
-        <ColorThemeSelector
-          buttonStyle={styles.buttonStyle}
-          buttonText={styles.buttonText}
-        />
-        <TouchableOpacity style={styles.buttonStyle} onPress={signOutHandler}>
-          <Ionicons
-            name="person-remove-sharp"
-            size={28}
-            color={theme.secondary}
+    <SafeAreaView style={styles.page}>
+      <Pressable style={styles.pressable} onPress={closeWindows}>
+        <View style={styles.headerDiv}>
+          <Image style={styles.profileImage} source={{ uri: user.image }} />
+          <Text style={styles.titleText}>{user.name}</Text>
+        </View>
+        <View style={styles.buttonsDiv}>
+          <ColorThemeSelector
+            buttonStyle={styles.buttonStyle}
+            buttonText={styles.buttonText}
           />
-          <Text style={styles.buttonText}>Sign out</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.buttonStyle}
-          onPress={() => {
-            startStressTest();
-          }}
-        >
-          <Ionicons name="newspaper" size={28} color={theme.secondary} />
-          <Text style={styles.buttonText}>Make stress test</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.buttonStyle}
-          onPress={() => {
-            setMinTimeRest((oldValue) => !oldValue);
-          }}
-        >
-          <MaterialIcons name="restore" size={28} color={theme.secondary} />
-          <Text style={styles.buttonText}>
-            Set minimum rest time between tasks
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.buttonStyle}
-          onPress={() => {
-            setMaxTasks((oldValue) => !oldValue);
-          }}
-        >
-          <FontAwesome5 name="tasks" size={28} color={theme.secondary} />
-          <Text style={styles.buttonText}>Set max number of daily tasks</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.buttonStyle}
-          onPress={() => {
-            setStartTime((oldValue) => !oldValue);
-          }}
-        >
-          <MaterialCommunityIcons
-            name="calendar-start"
-            size={28}
-            color={theme.secondary}
+          <TouchableOpacity style={styles.buttonStyle} onPress={signOutHandler}>
+            <Ionicons
+              name="person-remove-sharp"
+              size={28}
+              color={theme.secondary}
+            />
+            <Text style={styles.buttonText}>Sign out</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.buttonStyle}
+            onPress={() => {
+              startStressTest();
+            }}
+          >
+            <Ionicons name="newspaper" size={28} color={theme.secondary} />
+            <Text style={styles.buttonText}>Make stress test</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.buttonStyle}
+            onPress={() => {
+              setMinTimeRest((oldValue) => !oldValue);
+            }}
+          >
+            <MaterialIcons name="restore" size={28} color={theme.secondary} />
+            <Text style={styles.buttonText}>
+              Set minimum rest time between tasks
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.buttonStyle}
+            onPress={() => {
+              setMaxTasks((oldValue) => !oldValue);
+            }}
+          >
+            <FontAwesome5 name="tasks" size={28} color={theme.secondary} />
+            <Text style={styles.buttonText}>Set max number of daily tasks</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.buttonStyle}
+            onPress={() => {
+              setStartTime((oldValue) => !oldValue);
+            }}
+          >
+            <MaterialCommunityIcons
+              name="calendar-start"
+              size={28}
+              color={theme.secondary}
+            />
+            <Text style={styles.buttonText}>Set start of the day</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.buttonStyle}
+            onPress={() => {
+              router.push("/logs/logsView");
+            }}
+          >
+            <Feather name="activity" size={28} color={theme.secondary} />
+            <Text style={styles.buttonText}>Activity logs</Text>
+          </TouchableOpacity>
+        </View>
+
+        <Text>Profile</Text>
+
+        {stressTest && <StressTest />}
+        {minTimeRest && (
+          <MinRestTime
+            theme={theme}
+            currentMinTime={user.preferences.min_rest_time_between_tasks}
+            userId={user.id}
+            closeWindow={() => {
+              setMinTimeRest(false);
+            }}
           />
-          <Text style={styles.buttonText}>Set start of the day</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.buttonStyle}
-          onPress={() => {
-            router.push("/logs/logsView");
-          }}
-        >
-          <Feather name="activity" size={28} color={theme.secondary} />
-          <Text style={styles.buttonText}>Activity logs</Text>
-        </TouchableOpacity>
-      </View>
+        )}
+        {maxTasks && (
+          <MaxTasks
+            theme={theme}
+            userCurrentMaxTasks={user.preferences.maxNumberOfTasks}
+            userId={user.id}
+            closeWindow={() => {
+              setMaxTasks(false);
+            }}
+          />
+        )}
+        {startTime && (
+          <DayStartTime
+            theme={theme}
+            userCurrentStartTime={user.preferences.dayStartTime}
+            userId={user.id}
+            closeWindow={() => setStartTime(false)}
+          />
+        )}
 
-      <Text>Profile</Text>
-
-      {stressTest && <StressTest />}
-      {minTimeRest && (
-        <MinRestTime
+        <PanicButton
           theme={theme}
-          currentMinTime={user.preferences.min_rest_time_between_tasks}
           userId={user.id}
-          closeWindow={() => {
-            setMinTimeRest(false);
-          }}
+          userStartTimeOfTheDay={user.preferences.dayStartTime}
+          userMinRestTime={user.preferences.min_rest_time_between_tasks}
         />
-      )}
-      {maxTasks && (
-        <MaxTasks
-          theme={theme}
-          userCurrentMaxTasks={user.preferences.maxNumberOfTasks}
-          userId={user.id}
-          closeWindow={() => {
-            setMaxTasks(false);
-          }}
-        />
-      )}
-      {startTime && (
-        <DayStartTime
-          theme={theme}
-          userCurrentStartTime={user.preferences.dayStartTime}
-          userId={user.id}
-          closeWindow={() => setStartTime(false)}
-        />
-      )}
-
-      <PanicButton
-        theme={theme}
-        userId={user.id}
-        userStartTimeOfTheDay={user.preferences.dayStartTime}
-        userMinRestTime={user.preferences.min_rest_time_between_tasks}
-      />
-    </Pressable>
+      </Pressable>
+    </SafeAreaView>
   );
 }

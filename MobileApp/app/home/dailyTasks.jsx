@@ -15,6 +15,7 @@ import {
   getTaskForGivenDay,
 } from "../../database/taskController";
 import TaskViewComponent from "../../components/DailyTasks/TaskViewComponent";
+import { SafeAreaView } from "react-native-safe-area-context";
 import SelectedTask from "../../components/DailyTasks/SelectedTask";
 
 import { DUMMY_DATA_TASKS } from "../../constants/dummyData";
@@ -25,7 +26,10 @@ import { useQuestion } from "../../context/QuestionContext";
 import QuestionComponent from "../../components/QuestionComponent";
 import CalmingVideo from "../../components/DailyTasks/CalmingVideo";
 
+import { useSegments } from "expo-router";
+
 export default function DailyTasks() {
+  console.log(useSegments());
   const { theme } = useTheme();
   const { user, loading } = useUser();
   const {
@@ -224,11 +228,11 @@ export default function DailyTasks() {
   const styles = StyleSheet.create({
     page: {
       flex: 1,
-      justifyContent: "flex-start",
-      alignItems: "center",
+      //justifyContent: "flex-start",
+      //alignItems: "center",
       backgroundColor: theme.background,
       padding: 10,
-      gap: 15,
+
       position: "relative",
     },
 
@@ -272,70 +276,72 @@ export default function DailyTasks() {
   }
 
   return (
-    <Pressable style={styles.page} onPress={closeMenusHandler}>
-      {showMenu && (
-        <MenuOptions
-          theme={theme}
-          topPosition={menuPosition.top}
-          leftPosition={menuPosition.left}
-          lastSelectedFilter={lastSelectedFilter.current}
-          sortingTasksHandler={sortingTasksHandler}
-        />
-      )}
-      <View style={styles.header}>
-        <View>
-          <Text style={styles.title}>Today</Text>
-          <Text style={styles.subTitle}>{allDailyTasks.length} tasks</Text>
-        </View>
-        <TouchableOpacity
-          ref={menuButtonRef}
-          onPress={() => {
-            menuButtonHandler();
-          }}
-        >
-          <Entypo name="dots-three-vertical" size={24} color={theme.text} />
-        </TouchableOpacity>
-      </View>
-      <ScrollView
-        vertical
-        style={styles.tasksDiv}
-        contentContainerStyle={styles.tasksContainerStyle}
-      >
-        {allDailyTasks.map((task) => (
-          <TaskViewComponent
-            key={task.id}
+    <SafeAreaView style={styles.page}>
+      <Pressable style={{ flex: 1, gap: 15 }} onPress={closeMenusHandler}>
+        {showMenu && (
+          <MenuOptions
             theme={theme}
-            task={task}
-            selectTask={(selection) => {
-              setSelectedTask(selection);
-            }}
-            onCompleteTask={completeTaskHandler}
+            topPosition={menuPosition.top}
+            leftPosition={menuPosition.left}
+            lastSelectedFilter={lastSelectedFilter.current}
+            sortingTasksHandler={sortingTasksHandler}
           />
-        ))}
-      </ScrollView>
+        )}
+        <View style={styles.header}>
+          <View>
+            <Text style={styles.title}>Today</Text>
+            <Text style={styles.subTitle}>{allDailyTasks.length} tasks</Text>
+          </View>
+          <TouchableOpacity
+            ref={menuButtonRef}
+            onPress={() => {
+              menuButtonHandler();
+            }}
+          >
+            <Entypo name="dots-three-vertical" size={24} color={theme.text} />
+          </TouchableOpacity>
+        </View>
+        <ScrollView
+          vertical
+          style={styles.tasksDiv}
+          contentContainerStyle={styles.tasksContainerStyle}
+        >
+          {allDailyTasks.map((task) => (
+            <TaskViewComponent
+              key={task.id}
+              theme={theme}
+              task={task}
+              selectTask={(selection) => {
+                setSelectedTask(selection);
+              }}
+              onCompleteTask={completeTaskHandler}
+            />
+          ))}
+        </ScrollView>
 
-      {selectedTask && (
-        <SelectedTask
-          selectedTask={selectedTask}
-          theme={theme}
-          hideTask={() => {
-            setSelectedTask(null);
-          }}
-        />
-      )}
+        {selectedTask && (
+          <SelectedTask
+            selectedTask={selectedTask}
+            theme={theme}
+            hideTask={() => {
+              setSelectedTask(null);
+            }}
+          />
+        )}
 
-      {isQuestionActive && (
-        <QuestionComponent
-          theme={theme}
-          questionData={questionData}
-          onYesAnswer={async (tasksId) => {
-            await yesQuestionHandler(tasksId);
-          }}
-          onNoAnswer={() => closeQuestionMenu()}
-        />
-      )}
+        {isQuestionActive && (
+          <QuestionComponent
+            theme={theme}
+            questionData={questionData}
+            onYesAnswer={async (tasksId) => {
+              await yesQuestionHandler(tasksId);
+            }}
+            onNoAnswer={() => closeQuestionMenu()}
+          />
+        )}
 
-      {activateCalmingVideo && <CalmingVideo theme={theme} />}
-    </Pressable>
+        {activateCalmingVideo && <CalmingVideo theme={theme} />}
+      </Pressable>
+    </SafeAreaView>
   );
 }

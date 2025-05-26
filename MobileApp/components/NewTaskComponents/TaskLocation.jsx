@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Platform } from "react-native";
-//import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import {
   DEFAULT_MAP_LATITUDE,
@@ -102,9 +102,7 @@ export default function TaskLocation({ theme, locationSelectionHandler }) {
     );
   }
 
-  return <View>123</View>;
-
-  /*return (
+  return (
     <View style={styles.container}>
       <Text style={styles.label}>Tap the map to set location:</Text>
       <MapView
@@ -126,5 +124,5 @@ export default function TaskLocation({ theme, locationSelectionHandler }) {
         </Text>
       )}
     </View>
-  );*/
+  );
 }

@@ -1,38 +1,21 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { useState } from "react";
 
 import * as Calendar from "expo-calendar";
-import CalendarEventsView from "./CalendarEventsView";
 
 export default function CalendarBoxView({
   calendar,
   theme,
   selectCalendar,
   unselectCalendar,
+  hasNoEvents,
 }) {
-  const [currentCalendarEvents, setCurrentCalendarEvents] = useState(null);
-
-  //Closes the calendar menu and returns the scroll function to the scroll view
-  function handleCloseCalendar() {
-    if (currentCalendarEvents !== null) {
-      setCurrentCalendarEvents(null);
-      unselectCalendar();
-    }
-  }
-
   async function getCurrentCalendarEvents() {
-    //This happens if the user has clicked the button that shows the events and there is no events. If he clicks it again it triggers this condition which closes the message
-    if (
-      Array.isArray(currentCalendarEvents) &&
-      currentCalendarEvents.length === 0
-    ) {
-      handleCloseCalendar();
+    if (hasNoEvents) {
+      unselectCalendar();
       return;
     }
 
-    //Stops the scroll view of the parent component
-    selectCalendar();
     const startDate = new Date();
     const endDate = new Date();
 
@@ -48,7 +31,8 @@ export default function CalendarBoxView({
       endDate
     );
 
-    setCurrentCalendarEvents(events);
+    //Stops the scroll view of the parent component and opens the calendar
+    selectCalendar(events, calendar.name);
   }
 
   const styles = StyleSheet.create({
@@ -94,7 +78,7 @@ export default function CalendarBoxView({
   });
 
   return (
-    <View style={styles.mainDiv} onPress={handleCloseCalendar}>
+    <View style={styles.mainDiv}>
       <View style={styles.contextDiv}>
         <Text style={styles.calendarName}>{calendar.name}</Text>
         <TouchableOpacity
@@ -104,21 +88,12 @@ export default function CalendarBoxView({
           <AntDesign name="caretdown" size={24} color="black" />
         </TouchableOpacity>
       </View>
-      {currentCalendarEvents &&
-        (currentCalendarEvents.length > 0 ? (
-          <View>
-            <CalendarEventsView
-              calendarName={calendar.name}
-              events={currentCalendarEvents}
-              theme={theme}
-              closeCalendar={() => handleCloseCalendar()}
-            />
-          </View>
-        ) : (
-          <View style={styles.noEventsTextDiv}>
-            <Text style={styles.noEventsText}>No events for this calendar</Text>
-          </View>
-        ))}
+
+      {hasNoEvents && (
+        <View style={styles.noEventsTextDiv}>
+          <Text style={styles.noEventsText}>No events for this calendar</Text>
+        </View>
+      )}
     </View>
   );
 }

@@ -124,14 +124,20 @@ export default function EventsMonthView({ month, theme }) {
         ))}
       </View>
       <View style={styles.eventsBoxesDiv}>
-        {month.events.map((event, index) => (
-          <View key={index} style={styles.eventsBox}>
-            <Text style={styles.eventBoxMonthName}>
-              {formatDateMonthName(new Date(event.startDate), false)}
-            </Text>
-            <Text style={styles.eventBoxEventName}>{event.title}</Text>
-          </View>
-        ))}
+        {month.events.length == 0 ? (
+          <Text style={[styles.monthTitle, { marginBottom: 20 }]}>
+            No events for this month
+          </Text>
+        ) : (
+          month.events.map((event, index) => (
+            <View key={index} style={styles.eventsBox}>
+              <Text style={styles.eventBoxMonthName}>
+                {formatDateMonthName(new Date(event.startDate), false)}
+              </Text>
+              <Text style={styles.eventBoxEventName}>{event.title}</Text>
+            </View>
+          ))
+        )}
       </View>
     </ScrollView>
   );

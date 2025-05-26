@@ -42,7 +42,7 @@ export default function SingleAnswerQuestion({
       justifyContent: "flex-end",
       alignItems: "center",
       width: "100%",
-      padding: 12,
+      padding: 20,
 
       // iOS Shadow
       shadowColor: "black",
@@ -66,7 +66,6 @@ export default function SingleAnswerQuestion({
       alignItems: "center",
     },
     answerText: {
-      paddingBottom: 5,
       fontSize: 21,
       color: theme.text,
       textAlign: "left",

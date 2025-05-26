@@ -7,12 +7,21 @@ import {
   isSameMonth,
   parseISO,
 } from "date-fns";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Dimensions,
+  Modal,
+} from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 import { useMemo, useState } from "react";
 import EventsMonthView from "./EventsMonthView";
 
 import Fontisto from "@expo/vector-icons/Fontisto";
+
+const { width, height } = Dimensions.get("window");
 
 export default function CalendarEventsView({
   calendarName,
@@ -56,12 +65,19 @@ export default function CalendarEventsView({
   }, [events]);
 
   const styles = StyleSheet.create({
+    back: {
+      position: "absolute",
+      width: width,
+      height: height,
+      backgroundColor: theme.primary + "7D",
+      zIndex: 50,
+    },
     mainDiv: {
       position: "absolute",
       top: "50%",
       left: "50%",
       transform: "translate(-50%, -50%)",
-      width: "100%",
+      width: "95%",
       height: 400,
       backgroundColor: theme.primary,
       zIndex: 100,
@@ -70,6 +86,7 @@ export default function CalendarEventsView({
       padding: 10,
       display: "flex",
       alignItems: "center",
+      zIndex: 100,
     },
     currentMonth: {
       fontSize: 18,
@@ -87,30 +104,34 @@ export default function CalendarEventsView({
   });
 
   return (
-    <View
-      style={styles.mainDiv}
-      onLayout={(event) => {
-        const { width } = event.nativeEvent.layout;
-        setParentWidth(width);
-      }}
-    >
-      <Text style={styles.currentMonth}>{calendarName}</Text>
-      <TouchableOpacity style={styles.closeButton} onPress={closeCalendar}>
-        <Fontisto name="close-a" size={20} color="black" />
-      </TouchableOpacity>
-      {parentWidth > 0 && (
-        <Carousel
-          loop={false}
-          width={parentWidth}
-          height={400}
-          autoPlay={false}
-          data={monthData}
-          scrollAnimationDuration={1000}
-          renderItem={({ item, index }) => (
-            <EventsMonthView month={item} theme={theme} />
+    <Modal transparent animationType="fade">
+      <View style={styles.back}>
+        <View
+          style={styles.mainDiv}
+          onLayout={(event) => {
+            const { width } = event.nativeEvent.layout;
+            setParentWidth(width);
+          }}
+        >
+          <Text style={styles.currentMonth}>{calendarName}</Text>
+          <TouchableOpacity style={styles.closeButton} onPress={closeCalendar}>
+            <Fontisto name="close-a" size={20} color="black" />
+          </TouchableOpacity>
+          {parentWidth > 0 && (
+            <Carousel
+              loop={false}
+              width={parentWidth}
+              height={400}
+              autoPlay={false}
+              data={monthData}
+              scrollAnimationDuration={1000}
+              renderItem={({ item, index }) => (
+                <EventsMonthView month={item} theme={theme} />
+              )}
+            />
           )}
-        />
-      )}
-    </View>
+        </View>
+      </View>
+    </Modal>
   );
 }

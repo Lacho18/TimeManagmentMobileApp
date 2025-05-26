@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -23,7 +23,14 @@ import { createTask } from "../../database/taskController";
 import TaskLocation from "./TaskLocation";
 import { useUser } from "../../context/UserContext";
 
+import CheckBox from "expo-checkbox";
+
 const screenHeight = Dimensions.get("window").height;
+
+/*
+  MANIFEST SERIAL
+  Dobavi logikata za  repeate task
+*/
 
 export default function CreateTask({ closeAddTaskMenu, visible }) {
   const { theme } = useTheme();
@@ -378,21 +385,23 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
             marginTop: 18,
           }}
         >
-          {/*<CheckBox
-            value={newTask.repeating.isRepeating}
-            onValueChange={() => {
-              setNewTask((oldValue) => ({
-                ...oldValue,
-                repeating: {
-                  ...oldValue.repeating,
-                  isRepeating: !oldValue.repeating.isRepeating,
-                },
-              }));
-            }}
-            tintColors={{ true: "#FF8C00", false: "gray" }}
-          />*/}
+          {
+            <CheckBox
+              value={newTask.repeating.isRepeating}
+              onValueChange={() => {
+                setNewTask((oldValue) => ({
+                  ...oldValue,
+                  repeating: {
+                    ...oldValue.repeating,
+                    isRepeating: !oldValue.repeating.isRepeating,
+                  },
+                }));
+              }}
+              tintColors={{ true: "#FF8C00", false: "gray" }}
+            />
+          }
           <Text style={styles.labelText}>
-            Do you want the task to repeate every day
+            Do you want the task to repeat every day
           </Text>
         </View>
 

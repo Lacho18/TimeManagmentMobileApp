@@ -1,7 +1,9 @@
 import { Video } from "expo-av";
 import { useFonts } from "expo-font";
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+
+import * as ScreenOrientation from "expo-screen-orientation";
 
 const allCalmingVideos = [
   require("../../videos/calmVideo1.mp4"),
@@ -17,6 +19,18 @@ export default function CalmingVideo({ theme }) {
 
   const [timer, setTimer] = useState("00:00");
   const [video, setVideo] = useState(require("../../videos/calmVideo1.mp4"));
+
+  //Used to set and on unmount to remove the interval for the timer
+  useEffect(() => {
+    const interval = setInterval(updateTimer, 1000);
+    const videoIndex = Math.floor(Math.random() * allCalmingVideos.length);
+
+    setVideo(allCalmingVideos[videoIndex]);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   //Called every second. Updates the timer
   function updateTimer() {
@@ -40,17 +54,20 @@ export default function CalmingVideo({ theme }) {
     });
   }
 
-  //Used to set and on unmount to remove the interval for the timer
-  useEffect(() => {
-    const interval = setInterval(updateTimer, 1000);
-    const videoIndex = Math.floor(Math.random() * allCalmingVideos.length);
-
-    setVideo(allCalmingVideos[videoIndex]);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
+  // Called when fullscreen changes
+  const handleFullscreenUpdate = async ({ fullscreenUpdate }) => {
+    if (fullscreenUpdate === Video.FULLSCREEN_UPDATE_PLAYER_DID_PRESENT) {
+      await ScreenOrientation.lockAsync(
+        ScreenOrientation.OrientationLock.LANDSCAPE
+      );
+    } else if (
+      fullscreenUpdate === Video.FULLSCREEN_UPDATE_PLAYER_WILL_DISMISS
+    ) {
+      await ScreenOrientation.lockAsync(
+        ScreenOrientation.OrientationLock.PORTRAIT_UP
+      );
+    }
+  };
 
   const styles = StyleSheet.create({
     back: {
@@ -93,7 +110,7 @@ export default function CalmingVideo({ theme }) {
 
   return (
     <View style={styles.back}>
-      <View style={styles.mainDiv}>
+      <Pressable style={styles.mainDiv} onPress={() => {}}>
         <Video
           source={video}
           rate={1.0}
@@ -104,9 +121,10 @@ export default function CalmingVideo({ theme }) {
           ìsLooping
           useNativeControls
           style={styles.video}
+          onFullscreenUpdate={handleFullscreenUpdate}
         />
         <Text style={styles.timer}>{timer}</Text>
-      </View>
+      </Pressable>
     </View>
   );
 }

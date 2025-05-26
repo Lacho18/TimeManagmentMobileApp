@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View, Dimensions } from "react-native";
 import LottieView from "lottie-react-native";
 import { useTheme } from "../../../context/ThemeContext";
 import { useLocalSearchParams } from "expo-router";
+
+const { width, height } = Dimensions.get("window");
 
 export default function Breathing() {
   const { theme } = useTheme();
@@ -32,8 +34,8 @@ export default function Breathing() {
       backgroundColor: theme.background,
     },
     button: {
-      width: 200,
-      height: 200,
+      width: 250,
+      height: 250,
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
@@ -80,7 +82,7 @@ export default function Breathing() {
           source={animation}
           autoPlay
           loop
-          style={{ width: 200, height: 200 }}
+          style={{ width: width, height: height }}
         />
       </View>
     );

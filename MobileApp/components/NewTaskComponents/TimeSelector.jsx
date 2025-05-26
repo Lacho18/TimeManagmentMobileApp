@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Modal } from "react-native";
 
 export default function TimeSelector({
   theme,
@@ -20,8 +20,8 @@ export default function TimeSelector({
   const innerClockNumbers = Array.from({ length: 12 }, (_, i) => i + 12);
   const minutesNumbers = Array.from({ length: 60 }, (_, i) => i);
 
-  const outerRadius = 120;
-  const innerRadius = 80;
+  const outerRadius = 130;
+  const innerRadius = 90;
   const centerX = 150;
   const centerY = 150;
 
@@ -53,12 +53,12 @@ export default function TimeSelector({
 
   const styles = StyleSheet.create({
     mainDiv: {
-      width: "90%",
-      height: "80%",
+      width: 350,
+      height: 700,
       position: "absolute",
       top: "50%",
       left: "50%",
-      transform: "translate(-50%, -50%)",
+      transform: [{ translateX: -0.5 * 350 }, { translateY: -0.5 * 700 }],
       zIndex: 100,
       backgroundColor: theme.secondary,
       paddingTop: 20,
@@ -84,6 +84,7 @@ export default function TimeSelector({
       height: 100,
       display: "flex",
       justifyContent: "center",
+      textAlign: "center",
       borderRadius: 10,
     },
 
@@ -101,8 +102,8 @@ export default function TimeSelector({
 
     setButton: {
       backgroundColor: theme.highlight,
-      width: 100,
-      height: 40,
+      width: 120,
+      height: 50,
       borderColor: theme.background,
       borderWidth: 4,
       padding: 10,
@@ -116,162 +117,177 @@ export default function TimeSelector({
       fontSize: 18,
       color: theme.text,
     },
+
+    timeButton: {
+      width: 20,
+      height: 20,
+      backgroundColor: "green",
+    },
   });
 
   return (
-    <View style={styles.mainDiv}>
-      <View style={styles.titleDiv}>
-        <TouchableOpacity
-          onPress={() => {
-            setTimeSelectionExpression(() => {
-              return { hours: true, minutes: false };
-            });
-          }}
-        >
-          <Text style={styles.titleNumbers}>
-            {selectedTime.getHours().toString().padStart(2, "0")}
-          </Text>
-        </TouchableOpacity>
-        <Text style={styles.symbol}>:</Text>
-        <TouchableOpacity
-          onPress={() => {
-            setTimeSelectionExpression(() => {
-              return { hours: false, minutes: true };
-            });
-          }}
-        >
-          <Text style={styles.titleNumbers}>
-            {selectedTime.getMinutes().toString().padStart(2, "0")}
-          </Text>
-        </TouchableOpacity>
-      </View>
-      {timeSelectionExpression.hours && (
-        <View style={styles.clockDiv}>
-          {outerClockNumbers.map((number, index) => {
-            const angle = (index / 12) * 2 * Math.PI - Math.PI / 2;
-            const x = centerX + outerRadius * Math.cos(angle) - 10;
-            const y = centerY + outerRadius * Math.sin(angle) - 10;
-
-            return (
-              <TouchableOpacity
-                key={`outer-${number}`}
-                onPress={() => {
-                  setDateHour(number);
-                }}
-              >
-                <Text
-                  style={{
-                    position: "absolute",
-                    left: x,
-                    top: y,
-                    width: 20,
-                    height: 20,
-                    textAlign: "center",
-                    fontSize: 18,
-                    color: theme.background,
-                  }}
-                >
-                  {number}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
-
-          {innerClockNumbers.map((number, index) => {
-            const angle = (index / 12) * 2 * Math.PI - Math.PI / 2;
-            const x = centerX + innerRadius * Math.cos(angle) - 10;
-            const y = centerY + innerRadius * Math.sin(angle) - 10;
-
-            return (
-              <TouchableOpacity
-                key={`inner-${number}`}
-                onPress={() => {
-                  setDateHour(number);
-                }}
-              >
-                <Text
-                  style={{
-                    position: "absolute",
-                    left: x,
-                    top: y,
-                    width: 20,
-                    height: 20,
-                    textAlign: "center",
-                    fontSize: 18,
-                    color: theme.background,
-                  }}
-                >
-                  {number}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
+    <Modal transparent animationType="fade">
+      <View style={styles.mainDiv}>
+        <View style={styles.titleDiv}>
+          <TouchableOpacity
+            onPress={() => {
+              setTimeSelectionExpression(() => {
+                return { hours: true, minutes: false };
+              });
+            }}
+          >
+            <Text style={styles.titleNumbers}>
+              {selectedTime.getHours().toString().padStart(2, "0")}
+            </Text>
+          </TouchableOpacity>
+          <Text style={styles.symbol}>:</Text>
+          <TouchableOpacity
+            onPress={() => {
+              setTimeSelectionExpression(() => {
+                return { hours: false, minutes: true };
+              });
+            }}
+          >
+            <Text style={styles.titleNumbers}>
+              {selectedTime.getMinutes().toString().padStart(2, "0")}
+            </Text>
+          </TouchableOpacity>
         </View>
-      )}
-      {timeSelectionExpression.minutes && (
-        <View style={styles.clockDiv}>
-          {minutesNumbers.map((number, index) => {
-            const angle = (index / 60) * 2 * Math.PI - Math.PI / 2;
-            const x = centerX + outerRadius * Math.cos(angle) - 10;
-            const y = centerY + outerRadius * Math.sin(angle) - 10;
+        {timeSelectionExpression.hours && (
+          <View
+            style={[
+              styles.clockDiv,
+              {
+                justifyContent: "center",
+                alignItems: "center",
+              },
+            ]}
+          >
+            {[...outerClockNumbers, ...innerClockNumbers].map(
+              (number, index) => {
+                const isOuter = index < 12;
+                const radius = isOuter ? outerRadius : innerRadius;
+                const realIndex = isOuter ? index : index - 12;
 
-            const divideByFive = number % 5 === 0;
+                const angle = (realIndex / 12) * 2 * Math.PI - Math.PI / 2;
+                const x = radius * Math.cos(angle);
+                const y = radius * Math.sin(angle);
 
-            return (
-              <TouchableOpacity
-                key={`outer-${number}`}
-                onPress={() => {
-                  setDateMinutes(number);
-                }}
-              >
+                return (
+                  <View
+                    key={number}
+                    style={{
+                      transform: [{ translateX: x }, { translateY: y }],
+                      position: "absolute",
+                    }}
+                  >
+                    <TouchableOpacity
+                      onPress={() => setDateHour(number)}
+                      style={{
+                        width: 36,
+                        height: 36,
+                        borderRadius: 18,
+                        justifyContent: "center",
+                        alignItems: "center",
+                        backgroundColor: "transparent",
+                      }}
+                    >
+                      <Text
+                        style={{
+                          fontSize: 18,
+                          color: theme.background,
+                        }}
+                      >
+                        {number}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                );
+              }
+            )}
+          </View>
+        )}
+
+        {timeSelectionExpression.minutes && (
+          <View
+            style={{
+              width: 300,
+              height: 300,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {minutesNumbers.map((number, index) => {
+              const angleDeg = (index / 60) * 360;
+              const isLabel = number % 5 === 0;
+
+              const radius = 140;
+
+              const rotate = angleDeg;
+              const translateY = -radius;
+
+              return (
                 <View
+                  key={`minute-${number}`}
                   style={{
                     position: "absolute",
-                    left: x,
-                    top: y,
-                    width: divideByFive ? 24 : 20,
-                    height: divideByFive ? 24 : 20,
+                    transform: [
+                      { rotate: `${rotate}deg` },
+                      { translateY },
+                      { rotate: `${-rotate}deg` }, // unrotate children
+                    ],
                     justifyContent: "center",
                     alignItems: "center",
                   }}
                 >
-                  {divideByFive ? (
-                    <Text
-                      style={{
-                        fontSize: 18,
-                        color: theme.background,
-                        textAlign: "center",
-                      }}
-                    >
-                      {number}
-                    </Text>
-                  ) : (
-                    <View
-                      style={{
-                        width: 4,
-                        height: 4,
-                        borderRadius: 2,
-                        backgroundColor: theme.background,
-                      }}
-                    />
-                  )}
+                  <TouchableOpacity
+                    onPress={() => setDateMinutes(number)}
+                    style={{
+                      justifyContent: "center",
+                      alignItems: "center",
+                      width: isLabel ? 30 : 10,
+                      height: isLabel ? 30 : 10,
+                    }}
+                  >
+                    {isLabel ? (
+                      <Text
+                        style={{
+                          fontSize: 16,
+                          color: theme.background,
+                          textAlign: "center",
+                        }}
+                      >
+                        {number}
+                      </Text>
+                    ) : (
+                      <View
+                        style={{
+                          width: 6,
+                          height: 6,
+                          borderRadius: 3,
+                          backgroundColor: theme.background,
+                          opacity: 0.7,
+                        }}
+                      />
+                    )}
+                  </TouchableOpacity>
                 </View>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-      )}
+              );
+            })}
+          </View>
+        )}
 
-      <View>
-        <TouchableOpacity
-          style={styles.setButton}
-          onPress={() => {
-            onTimeSelect(dateType, selectedTime);
-          }}
-        >
-          <Text style={styles.setButtonText}>Set time</Text>
-        </TouchableOpacity>
+        <View>
+          <TouchableOpacity
+            style={styles.setButton}
+            onPress={() => {
+              onTimeSelect(dateType, selectedTime);
+            }}
+          >
+            <Text style={styles.setButtonText}>Set time</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </Modal>
   );
 }

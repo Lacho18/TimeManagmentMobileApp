@@ -103,6 +103,7 @@ export default function OverViewHeader({
         scrollAnimationDuration={1000}
         renderItem={({ item, index }) => (
           <DayOfWeek
+            key={index}
             daysFromWeek={item}
             theme={theme}
             selectedDate={selectedDate}

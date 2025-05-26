@@ -34,11 +34,11 @@ export default function DayOfWeek({
       fontSize: 18,
       color: theme.text,
       fontWeight: "bold",
-      padding: 5,
+      padding: 7,
     },
     dayNumberTextSelected: {
       backgroundColor: "#f58038",
-      borderRadios: 15,
+      borderRadius: 10,
     },
   });
 
@@ -56,7 +56,7 @@ export default function DayOfWeek({
         }
 
         return (
-          <View style={styles.dayView}>
+          <View key={index} style={styles.dayView}>
             <Text style={styles.dayNameText}>{dayName}</Text>
             <TouchableOpacity
               onPress={() => {

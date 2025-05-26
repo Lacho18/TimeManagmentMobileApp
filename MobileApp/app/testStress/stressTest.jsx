@@ -25,16 +25,18 @@ export default function StressTest() {
 
   //fills the array of answers with nulls
   while (userAnswers.current.length < stressTestQuestions.length) {
-    userAnswers.current.push(null); // Or use any default value like 'null'
+    userAnswers.current.push(null);
   }
 
-  //Thew current question index
+  //The current question index
   const [index, setIndex] = useState(0);
   //Percentage value from the current value index. Used for progress bar
   const [progressPercent, setProgressPercent] = useState(0);
 
-  //Follows when the carousel to be active. It is only not active when the user uses  Slider on the PercentAnswerQuestion type
+  //Follows when the carousel to be active. It is only not active when the user uses Slider on the PercentAnswerQuestion type
   const [activeSwiper, setActiveSwiper] = useState(false);
+
+  console.log(userAnswers.current);
 
   //Calculates the percent of the progression
   useEffect(() => {
@@ -65,6 +67,8 @@ export default function StressTest() {
   }
 
   function submitStressTestAnswers() {
+    console.log("Answers");
+    console.log(userAnswers.current);
     router.back();
   }
 
@@ -149,6 +153,13 @@ export default function StressTest() {
         data={stressTestQuestions}
         scrollAnimationDuration={1000}
         enabled={!activeSwiper}
+        onProgressChange={(offsetProgress, absoluteProgress) => {
+          // Lock interaction while in transition
+          const isScrolling = Math.abs(offsetProgress % 1) > 0.01;
+
+          // disables swiping while moving
+          setActiveSwiper(isScrolling);
+        }}
         onSnapToItem={(itemIndex) => {
           setIndex((oldValue) => {
             const diff = Math.abs(itemIndex - oldValue);
