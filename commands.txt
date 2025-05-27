@@ -1,4 +1,4 @@
 git add .
-git commit -m "Adding additional styling"
+git commit -m "Adding fonts context for dynamic font change"
 git branch -M main
 git push -u origin main 

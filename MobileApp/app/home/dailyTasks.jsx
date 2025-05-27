@@ -25,11 +25,16 @@ import MenuOptions from "../../components/DailyTasks/MenuOptions";
 import { useQuestion } from "../../context/QuestionContext";
 import QuestionComponent from "../../components/QuestionComponent";
 import CalmingVideo from "../../components/DailyTasks/CalmingVideo";
+import { useMyFont } from "../../context/FontContext";
 
-import { useSegments } from "expo-router";
+/*
+  1. Nawsqkude kudeto ima teks go napravi da moje lesno da se promenq fonda
+  2. Dobavi nqkakwa logika s ejednevbnite zadachi
+  3. Mahni dummy datata (Nay nakraq)
+  4. Vish kak potrebitelq da si pravi customise notificacii
+*/
 
 export default function DailyTasks() {
-  console.log(useSegments());
   const { theme } = useTheme();
   const { user, loading } = useUser();
   const {
@@ -40,6 +45,7 @@ export default function DailyTasks() {
     formQuestionStructure,
     yesQuestionAnswer,
   } = useQuestion();
+  const { font } = useMyFont();
 
   //All tasks for the current date
   const [allDailyTasks, setAllDailyTasks] = useState([]);
@@ -187,7 +193,7 @@ export default function DailyTasks() {
 
     //Finds the closest task on the feature
     const closestFeatureTask = featureTasks.reduce((previous, current) => {
-      return current - now < previous - now ? curr : prev;
+      return current - now < previous - now ? curr : previous;
     });
 
     //Sets time 15 minutes ahead
@@ -228,11 +234,8 @@ export default function DailyTasks() {
   const styles = StyleSheet.create({
     page: {
       flex: 1,
-      //justifyContent: "flex-start",
-      //alignItems: "center",
       backgroundColor: theme.background,
       padding: 10,
-
       position: "relative",
     },
 
@@ -247,12 +250,13 @@ export default function DailyTasks() {
     title: {
       fontSize: 30,
       color: theme.text,
-      fontWeight: "bold",
+      fontFamily: font.bold,
     },
 
     subTitle: {
       fontSize: 18,
       color: theme.text,
+      fontFamily: font.regular,
     },
 
     tasksDiv: {
