@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc, where } from "firebase/firestore/lite";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc, where, or, and } from "firebase/firestore/lite";
 import { db } from "../firebaseConfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { formatDateMonthName, millisecondsCalculator } from "../utils/dateUtil";
@@ -9,30 +9,82 @@ import { MAX_NUMBER_OF_DELAYED_TASK } from "../constants/MaxNumberDelayedTasks";
 import { getDateFromStartTime, getEveryTaskForTomorrow } from "../functions/panicButtonHandler";
 import { createLog } from "./logsController";
 
-export const getTaskForGivenDay = async (givenDay) => {
+export const getTaskForGivenDay = async (givenDay, userId) => {
     const startOfDay = new Date(givenDay.getFullYear(), givenDay.getMonth(), givenDay.getDate(), 0, 0, 0);
     const endOfDay = new Date(givenDay.getFullYear(), givenDay.getMonth(), givenDay.getDate(), 23, 59, 59);
 
     const taskCollection = collection(db, "Tasks");
 
-    const q = query(taskCollection, where("startTime", ">=", startOfDay), where("startTime", "<=", endOfDay));
+    const tasksQuery = query(
+        taskCollection,
+        where("startTime", ">=", startOfDay),
+        where("startTime", "<=", endOfDay),
+        where("completed", "==", false),
+        where("userId", "==", userId)
+    );
+
+    const repeatingTasks = query(
+        taskCollection,
+        where("repeating.isRepeating", "==", true),
+        where("userId", "==", userId)
+    );
+
+    console.log("Ehoooo kakwo se slychwa");
 
     try {
-        const querySnapshot = await getDocs(q);
+        //const querySnapshot = await getDocs(q);
+        const tasksSnapshot = await getDocs(tasksQuery);
+        const repeatingSnapshot = await getDocs(repeatingTasks);
 
         const tasks = [];
+        const repeatingTasksArray = [];
 
-        querySnapshot.forEach((doc) => {
+        tasksSnapshot.forEach((doc) => {
             tasks.push({ id: doc.id, ...doc.data() });
         });
+        repeatingSnapshot.forEach((doc) => {
+            repeatingTasksArray.push({ id: doc.id, ...doc.data() });
+        });
 
-        return tasks;
+        console.log("Tasks ", tasks);
+        console.log("repeatingTasksArray ", repeatingTasksArray);
+
+        const today = new Date().toDateString();
+        const givenDayStr = givenDay.toDateString();
+
+        const finalRepeatingTasks = repeatingTasksArray.filter(task => {
+            if (givenDayStr === today) {
+                return task.completed === false;
+            } else {
+                return true; // include even if completed
+            }
+        });
+
+        return [...tasks, ...finalRepeatingTasks];
     }
     catch (err) {
         console.error("Error getting tasks for the day:", err);
         return [];
     }
 }
+
+/*const q = query(
+        taskCollection,
+        or(
+            and(
+                where("startTime", ">=", startOfDay),
+                where("startTime", "<=", endOfDay),
+                where("repeating.isRepeating", "==", false),
+                where("completed", "==", false),
+            ),
+
+            where("repeating.isRepeating", "==", true),
+            or(
+                where("completed", "==", false),
+                where(givenDay, "!=", new Date()).
+            )
+        )
+    );*/
 
 export const createTask = async (newTask, user) => {
 
@@ -69,6 +121,19 @@ export const createTask = async (newTask, user) => {
         }
 
         console.log("The new task before ", newTask);
+
+        //If the task is marked as repeating set its start and end time on separate fields
+        if (newTask.repeating.isRepeating) {
+            const pad = (num) => String(num).padStart(2, '0');
+
+            const repeatStartTime = `${pad(newTask.startTime.getHours())}:${pad(newTask.startTime.getMinutes())}`;
+            newTask.repeating.repeatStartTime = repeatStartTime;
+
+            if (newTask.endTime) {
+                const repeatEndTime = `${pad(newTask.endTime.getHours())}:${pad(newTask.endTime.getMinutes())}`;
+                newTask.repeating.repeatEndTime = repeatEndTime;
+            }
+        }
 
         //Add min rest time between tasks if necessary
         //Adjusts the time of the inserted task by the closest on the past
@@ -142,6 +207,17 @@ export const delayTask = async (taskId, user) => {
 };
 
 export const deleteTask = async (taskObject, userId) => {
+    console.log("EI PEDERASIIIIIIII ", taskObject);
+
+    //If the task is repeating do not delete it but mark it as completed for the current day
+    if (taskObject.repeating.isRepeating && taskObject.completed) {
+        const docRef = doc(db, "Tasks", taskObject.id);
+
+        updateDoc(docRef, {
+            completed: taskObject.completed,
+        });
+        return;
+    }
 
     try {
         const docRef = doc(db, "Tasks", taskObject.id);

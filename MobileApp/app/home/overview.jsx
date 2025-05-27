@@ -7,19 +7,21 @@ import {
 } from "react-native";
 import { useTheme } from "../../context/ThemeContext";
 import OverViewHeader from "../../components/Overview/OverViewHeader";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { DAYS_AHEAD_OVERVIEW_VIEW } from "../../constants/DateConstants";
 import { getGivenNumberOfDays } from "../../utils/dateUtil";
 import DayOverviewView from "../../components/Overview/DayOverviewView";
-import { getTaskForGivenDay } from "../../database/taskController";
+import { deleteTask, getTaskForGivenDay } from "../../database/taskController";
 import { DUMMY_DATA_TASKS } from "../../constants/dummyData";
 import { SafeAreaView } from "react-native-safe-area-context";
 import SelectedTask from "../../components/DailyTasks/SelectedTask";
 import { useMyFont } from "../../context/FontContext";
+import { useUser } from "../../context/UserContext";
 
 export default function Overview() {
   const { theme } = useTheme();
   const { font } = useMyFont();
+  const { user } = useUser();
 
   //Ref about array of dates ahead of today which will be accessible from overview page component
   const daysAhead = useRef(getGivenNumberOfDays(DAYS_AHEAD_OVERVIEW_VIEW));
@@ -34,15 +36,27 @@ export default function Overview() {
   const itemsRef = useRef({});
 
   //State for selected tasks from the selected date
-  const [selectedDayTasks, setSelectedDayTasks] = useState(DUMMY_DATA_TASKS);
+  const [selectedDayTasks, setSelectedDayTasks] = useState([]);
 
   const [userSelectionTask, setUserSelectionTask] = useState(null);
+
+  useEffect(() => {
+    async function getTodayTasks() {
+      const result = await getTaskForGivenDay(new Date(), user.id);
+
+      if (result.length > 0) {
+        setSelectedDayTasks(result);
+      }
+    }
+
+    getTodayTasks();
+  }, []);
 
   //From the selected date by the user finds every task on this date and returns it as an array. If none returns empty array
   async function getSelectedTasks(date, index) {
     //After completing development remove the Dummy data and return fetch function
-    //const fetchedData = await getTaskForGivenDay(date);
-    const fetchedData = DUMMY_DATA_TASKS;
+    const fetchedData = await getTaskForGivenDay(date, user.id);
+    //const fetchedData = DUMMY_DATA_TASKS;
 
     //Sets the state for the selected date
     setSelectedDate(date);
@@ -52,7 +66,6 @@ export default function Overview() {
 
     //Sets the array of task with the selected one
     setSelectedDayTasks(fetchedData);
-    //setSelectedDayTasks([]);
   }
 
   //Function that send the clicked attribute from the scroll view to the top of the scroll view
@@ -72,6 +85,28 @@ export default function Overview() {
         );
       }
     });
+  }
+
+  async function completeTaskHandlerOverview(taskId) {
+    let completedTask;
+    //Remove the task from the state
+    setSelectedDayTasks((allTasks) => {
+      const allTasksCopy = [...allTasks];
+      const selectedTaskIndex = allTasksCopy.findIndex(
+        (task) => task.id === taskId
+      );
+
+      completedTask = allTasksCopy.splice(selectedTaskIndex, 1)[0];
+      return allTasksCopy;
+    });
+
+    //Sets the task as completed
+    completedTask.completed = true;
+
+    console.log(completedTask);
+
+    //Deletes and creates log for completed task
+    await deleteTask(completedTask, user.id);
   }
 
   const styles = StyleSheet.create({
@@ -134,6 +169,7 @@ export default function Overview() {
               selectedTasks={selectedDayTasks}
               dateSelectionHandler={getSelectedTasks}
               taskSelectionHandler={(task) => setUserSelectionTask(task)}
+              onCompletedTask={completeTaskHandlerOverview}
             />
           ))}
         </ScrollView>

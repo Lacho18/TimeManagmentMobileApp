@@ -20,6 +20,7 @@ export default function DayOverviewView({
   selectedTasks,
   dateSelectionHandler,
   taskSelectionHandler,
+  onCompletedTask,
 }) {
   const styles = StyleSheet.create({
     mainDiv: {
@@ -102,6 +103,7 @@ export default function DayOverviewView({
                 selectTask={() => {
                   taskSelectionHandler(task);
                 }}
+                onCompleteTask={onCompletedTask}
               />
             ))
           )}

@@ -16,7 +16,8 @@ export default taskModel = {
     },
     repeating: {
         isRepeating: false,
-        repeatInterval: null
+        repeatStartTime: "08:00",
+        repeatEndTime: "08:00",
     },
     completed: false,
 };

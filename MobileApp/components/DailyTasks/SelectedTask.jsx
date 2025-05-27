@@ -157,7 +157,7 @@ export default function SelectedTask({ selectedTask, theme, hideTask }) {
           <View style={{ flex: 1, zIndex: 9999 }}>
             <BottomSheet
               ref={bottomSheetRef}
-              index={0} // Start fully open at 50%
+              index={0}
               snapPoints={snapPoints}
               onChange={handleSheetChanges}
               enablePanDownToClose={true}
@@ -177,7 +177,16 @@ export default function SelectedTask({ selectedTask, theme, hideTask }) {
                     {selectedTask.description}
                   </Text>
                 )}
-                {selectedTask.endTime ? (
+                {selectedTask.repeating.isRepeating ? (
+                  <Text style={styles.dateText}>
+                    <AntDesign name="calendar" size={24} color="red" />
+                    <Text>
+                      Every day from {selectedTask.repeating.repeatStartTime}{" "}
+                      {selectedTask.repeating.repeatEndTime !== "" &&
+                        "to " + selectedTask.repeating.repeatEndTime}
+                    </Text>
+                  </Text>
+                ) : selectedTask.endTime ? (
                   <Text style={styles.dateText}>
                     <AntDesign name="calendar" size={24} color="red" />
                     <Text>
@@ -201,7 +210,7 @@ export default function SelectedTask({ selectedTask, theme, hideTask }) {
                       </Text>
                     </Text>
                     <Text style={styles.durationText}>
-                      {millisecondsCalculator(selectedTask.duration)}
+                      {selectedTask.duration}
                     </Text>
                     <View style={styles.lineDiv}>
                       <View style={styles.circle}></View>

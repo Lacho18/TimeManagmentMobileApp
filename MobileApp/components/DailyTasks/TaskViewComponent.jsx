@@ -29,6 +29,7 @@ export default function TaskViewComponent({
   selectTask,
   onCompleteTask,
 }) {
+  console.log(task);
   const { openQuestionMenu, formQuestionStructure } = useQuestion();
   const slideAnim = useRef(new Animated.Value(0)).current;
 
@@ -38,8 +39,6 @@ export default function TaskViewComponent({
   const priorityColors = TASK_PRIORITIES.find(
     (indexValue) => indexValue.priorityValue === task.priority
   );
-
-  const taskDuration = millisecondsCalculator(task.duration);
 
   //Starts the animation which is ANIMATION_INTERVAL milliseconds long
   const handlePress = () => {
@@ -169,7 +168,7 @@ export default function TaskViewComponent({
             borderWidth: 2,
             borderColor: animatedBorder,
             borderRadius: 10,
-            opacity: 0.5, // Faint highlight
+            opacity: 0.5,
             transform: [{ translateX: overlayTranslate }],
             zIndex: 1,
             borderRadius: 10,
@@ -180,13 +179,20 @@ export default function TaskViewComponent({
           {task.delayed.isDelayed && (
             <Text style={styles.delayedText}>delayed</Text>
           )}
+
           <TouchableOpacity
             style={styles.completeTaskButton}
             onPress={onCompleteTaskButtonPress}
           ></TouchableOpacity>
           <View>
             <Text style={styles.title}>{task.title}</Text>
-            {!task.endTime ? (
+            {task.repeating.isRepeating ? (
+              <Text style={styles.dateText}>
+                Every day from {task.repeating.repeatStartTime}{" "}
+                {task.repeating.repeatEndTime !== "" &&
+                  "to " + task.repeating.repeatEndTime}
+              </Text>
+            ) : !task.endTime ? (
               <Text style={styles.dateText}>
                 {formatDateMonthName(task.startTime)}
               </Text>
@@ -203,17 +209,19 @@ export default function TaskViewComponent({
                     color="yellow"
                     style={{ marginRight: 5 }}
                   />
-                  {taskDuration}
+                  {task.duration}
                 </Text>
               </View>
             )}
           </View>
-          <TouchableOpacity
-            style={styles.delayButton}
-            onPress={delayButtonHandler}
-          >
-            <AntDesign name="stepforward" size={28} color={theme.secondary} />
-          </TouchableOpacity>
+          {!task.repeating.isRepeating && (
+            <TouchableOpacity
+              style={styles.delayButton}
+              onPress={delayButtonHandler}
+            >
+              <AntDesign name="stepforward" size={28} color={theme.secondary} />
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     </TouchableOpacity>

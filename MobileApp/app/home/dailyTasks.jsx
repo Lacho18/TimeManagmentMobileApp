@@ -28,9 +28,7 @@ import CalmingVideo from "../../components/DailyTasks/CalmingVideo";
 import { useMyFont } from "../../context/FontContext";
 
 /*
-  1. Nawsqkude kudeto ima teks go napravi da moje lesno da se promenq fonda
   2. Dobavi nqkakwa logika s ejednevbnite zadachi
-  3. Mahni dummy datata (Nay nakraq)
   4. Vish kak potrebitelq da si pravi customise notificacii
 */
 
@@ -74,9 +72,7 @@ export default function DailyTasks() {
   useEffect(() => {
     async function getTodayTasks() {
       //RETURN AFTER FINISHING THE APP
-      //const result = await getTaskForGivenDay(new Date());
-
-      const result = DUMMY_DATA_TASKS;
+      const result = await getTaskForGivenDay(new Date(), user.id);
 
       if (result.length > 0) {
         setAllDailyTasks(result);
@@ -166,8 +162,7 @@ export default function DailyTasks() {
     console.log(completedTask);
 
     //Deletes and creates log for completed task
-    //RETURN AFTER TESTING
-    //deleteTask(completedTask, user.id);
+    deleteTask(completedTask, user.id);
   }
 
   //Checks if the closest task is stressful in order to ask the user if he wants to see a calming video
@@ -269,6 +264,13 @@ export default function DailyTasks() {
       alignItems: "center",
       gap: 20,
     },
+
+    noTasksDiv: { flex: 1, justifyContent: "center", alignItems: "center" },
+    noTasksDivText: {
+      fontSize: 18,
+      color: theme.text,
+      fontFamily: font.regular,
+    },
   });
 
   if (loading) {
@@ -305,24 +307,30 @@ export default function DailyTasks() {
             <Entypo name="dots-three-vertical" size={24} color={theme.text} />
           </TouchableOpacity>
         </View>
-        <ScrollView
-          vertical
-          style={styles.tasksDiv}
-          contentContainerStyle={styles.tasksContainerStyle}
-        >
-          {allDailyTasks.map((task) => (
-            <TaskViewComponent
-              key={task.id}
-              font={font}
-              theme={theme}
-              task={task}
-              selectTask={(selection) => {
-                setSelectedTask(selection);
-              }}
-              onCompleteTask={completeTaskHandler}
-            />
-          ))}
-        </ScrollView>
+        {allDailyTasks.length == 0 ? (
+          <View style={styles.noTasksDiv}>
+            <Text style={styles.noTasksDivText}>No tasks for today so far</Text>
+          </View>
+        ) : (
+          <ScrollView
+            vertical
+            style={styles.tasksDiv}
+            contentContainerStyle={styles.tasksContainerStyle}
+          >
+            {allDailyTasks.map((task) => (
+              <TaskViewComponent
+                key={task.id}
+                font={font}
+                theme={theme}
+                task={task}
+                selectTask={(selection) => {
+                  setSelectedTask(selection);
+                }}
+                onCompleteTask={completeTaskHandler}
+              />
+            ))}
+          </ScrollView>
+        )}
 
         {selectedTask && (
           <SelectedTask

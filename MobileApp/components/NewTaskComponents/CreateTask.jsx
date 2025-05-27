@@ -23,6 +23,7 @@ import TaskLocation from "./TaskLocation";
 import { useUser } from "../../context/UserContext";
 
 import CheckBox from "expo-checkbox";
+import { router } from "expo-router";
 
 const screenHeight = Dimensions.get("window").height;
 
@@ -128,6 +129,7 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
 
     if (result === "Success") {
       closeAddTaskMenu();
+      router.push("/home/dailyTasks");
     } else setError(result);
   }
 
