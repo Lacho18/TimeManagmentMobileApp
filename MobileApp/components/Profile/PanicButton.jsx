@@ -5,6 +5,7 @@ import { panicButtonHandler } from "../../functions/panicButtonHandler";
 
 export default function CalmPanicButton({
   theme,
+  font,
   userId,
   userStartTimeOfTheDay,
   userMinRestTime,
@@ -88,6 +89,7 @@ export default function CalmPanicButton({
       fontSize: 18,
       letterSpacing: 1,
       textAlign: "center",
+      fontFamily: font.regular,
     },
   });
 

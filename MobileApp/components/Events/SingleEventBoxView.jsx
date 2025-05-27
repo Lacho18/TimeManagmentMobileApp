@@ -9,7 +9,7 @@ import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
 const MAX_SHORT_DESCRIPTION_LENGTH = 20;
 
-export default function SingleEventBoxView({ event, theme }) {
+export default function SingleEventBoxView({ font, event, theme }) {
   const [eventDescription, setEventDescription] = useState("");
   const startTime = useRef(new Date(event.start.dateTime));
   const endTime = useRef(new Date(event.end.dateTime));
@@ -49,6 +49,7 @@ export default function SingleEventBoxView({ event, theme }) {
       fontSize: 18,
       color: theme.background,
       fontWeight: "bold",
+      fontFamily: font.bold,
     },
     descriptionDiv: {
       display: "flex",
@@ -60,6 +61,7 @@ export default function SingleEventBoxView({ event, theme }) {
     descriptionText: {
       fontSize: 15,
       color: theme.background,
+      fontFamily: font.regular,
     },
     readMoreButton: {
       alignSelf: "flex-end",
@@ -71,6 +73,7 @@ export default function SingleEventBoxView({ event, theme }) {
       color: theme.background,
       fontStyle: "italic",
       textDecorationLine: "underline",
+      fontFamily: font.regular,
     },
     detailsDiv: {
       display: "flex",
@@ -86,6 +89,7 @@ export default function SingleEventBoxView({ event, theme }) {
     singleDetailText: {
       fontSize: 15,
       color: theme.background,
+      fontFamily: font.regular,
     },
   });
 

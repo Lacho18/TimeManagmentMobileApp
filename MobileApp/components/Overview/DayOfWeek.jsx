@@ -3,6 +3,7 @@ import { WEEK_DAYS } from "../../constants/DateConstants";
 import { equalDates } from "../../utils/dateUtil";
 
 export default function DayOfWeek({
+  font,
   daysFromWeek,
   theme,
   selectedDate,
@@ -29,16 +30,19 @@ export default function DayOfWeek({
       fontSize: 18,
       color: theme.text,
       fontWeight: 300,
+      fontFamily: font.regular,
     },
     dayNumberText: {
       fontSize: 18,
       color: theme.text,
       fontWeight: "bold",
       padding: 7,
+      fontFamily: font.bold,
     },
     dayNumberTextSelected: {
       backgroundColor: "#f58038",
       borderRadius: 10,
+      fontFamily: font.regular,
     },
   });
 

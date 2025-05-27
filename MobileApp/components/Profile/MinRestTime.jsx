@@ -7,14 +7,13 @@ import { useUser } from "../../context/UserContext";
 
 export default function MinRestTime({
   theme,
+  font,
   currentMinTime,
   userId,
   closeWindow,
 }) {
   const { changeUserPreferences } = useUser();
   const [minutes, setMinutes] = useState(currentMinTime / 60 / 1000);
-
-  console.log(userId);
 
   function calculateHours() {
     let minutesCopy = minutes;
@@ -79,6 +78,7 @@ export default function MinRestTime({
       fontSize: 18,
       color: theme.text,
       textAlign: "center",
+      fontFamily: font.regular,
     },
     submitButton: {
       width: 120,
@@ -111,7 +111,9 @@ export default function MinRestTime({
       />
       <Text style={styles.mainText}>
         Current time:{" "}
-        <Text style={{ fontWeight: "bold" }}>{calculateHours()}</Text>
+        <Text style={{ fontWeight: "bold", fontFamily: font.bold }}>
+          {calculateHours()}
+        </Text>
       </Text>
       <TouchableOpacity
         style={styles.submitButton}

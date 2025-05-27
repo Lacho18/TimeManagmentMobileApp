@@ -17,6 +17,7 @@ import { useEffect, useRef, useState } from "react";
 import { router } from "expo-router";
 
 import Feather from "@expo/vector-icons/Feather";
+import { useMyFont } from "../../context/FontContext";
 
 export default function MenuOptions({
   theme,
@@ -25,6 +26,8 @@ export default function MenuOptions({
   lastSelectedFilter,
   sortingTasksHandler,
 }) {
+  const { font } = useMyFont();
+
   const COMPONENT_WIDTH = 230;
   const COMPONENT_HEIGHT = 310;
 
@@ -103,6 +106,7 @@ export default function MenuOptions({
     buttonText: {
       fontSize: 16,
       color: theme.text,
+      fontFamily: font.regular,
     },
   });
 

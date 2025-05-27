@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { useTheme } from "../../context/ThemeContext";
 import { useState } from "react";
 import CheckBox from "expo-checkbox";
+import { useMyFont } from "../../context/FontContext";
 
 export default function MultipleAnswerQuestion({
   question,
@@ -10,6 +11,8 @@ export default function MultipleAnswerQuestion({
   userAnswer,
 }) {
   const { theme } = useTheme();
+  const { font } = useMyFont();
+
   //If thew user has already answered this question set the answers array to his previous one. Or else set it to null
   const [selectedAnswers, setSelectedAnswers] = useState(
     userAnswer ? userAnswer : []
@@ -55,6 +58,7 @@ export default function MultipleAnswerQuestion({
       color: theme.text,
       textAlign: "center",
       fontWeight: 600,
+      fontFamily: font.bold,
     },
     allAnswersDiv: {
       display: "flex",
@@ -90,6 +94,7 @@ export default function MultipleAnswerQuestion({
       fontSize: 21,
       color: theme.text,
       textAlign: "left",
+      fontFamily: font.regular,
     },
     checkBox: {
       width: 20,
@@ -110,6 +115,7 @@ export default function MultipleAnswerQuestion({
       fontSize: 20,
       fontWeight: "bold",
       color: theme.text,
+      fontFamily: font.regular,
     },
   });
 

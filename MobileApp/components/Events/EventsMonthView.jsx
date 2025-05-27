@@ -5,7 +5,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { formatDateMonthName } from "../../utils/dateUtil";
 import { useRef } from "react";
 
-export default function EventsMonthView({ month, theme }) {
+export default function EventsMonthView({ month, theme, font }) {
   //Used in order to scroll to the bottom of the scroll view
   const scrollViewRef = useRef(null);
 
@@ -27,6 +27,7 @@ export default function EventsMonthView({ month, theme }) {
       textAlign: "center",
       color: theme.accent,
       marginVertical: 8,
+      fontFamily: font.bold,
     },
     weekDays: {
       flexDirection: "row",
@@ -38,6 +39,7 @@ export default function EventsMonthView({ month, theme }) {
       textAlign: "center",
       fontWeight: "600",
       color: theme.background,
+      fontFamily: font.regular,
     },
     daysGrid: {
       flexDirection: "row",
@@ -78,11 +80,13 @@ export default function EventsMonthView({ month, theme }) {
     eventBoxMonthName: {
       color: theme.background,
       fontSize: 12,
+      fontFamily: font.regular,
     },
 
     eventBoxEventName: {
       color: theme.background,
       fontSize: 15,
+      fontFamily: font.regular,
     },
   });
 
@@ -116,7 +120,13 @@ export default function EventsMonthView({ month, theme }) {
                 scrollViewRef.current.scrollToEnd();
               }}
             >
-              <Text style={{ color: theme.background, fontSize: 15 }}>
+              <Text
+                style={{
+                  color: theme.text,
+                  fontSize: 15,
+                  fontFamily: font.regular,
+                }}
+              >
                 {format(day, "d")}
               </Text>
             </TouchableOpacity>

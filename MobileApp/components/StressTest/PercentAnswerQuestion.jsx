@@ -8,6 +8,7 @@ import {
 import { useTheme } from "../../context/ThemeContext";
 import Slider from "@react-native-community/slider";
 import { useState } from "react";
+import { useMyFont } from "../../context/FontContext";
 
 export default function PercentAnswerQuestion({
   question,
@@ -16,13 +17,8 @@ export default function PercentAnswerQuestion({
   userAnswer,
   isSwiperActive,
 }) {
-  /*
-        1. Dovurshi tozi vid vuprosi (stilizirane, prashtane na otgovor)
-        2. Napravi go sled submit da se vrushta na poslednata stranica
-        3. Pogledni tova sus subitiqta dali raboti (Ako trqbva dobavi refresh token fynkcionalnost)
-    */
-
   const { theme } = useTheme();
+  const { font } = useMyFont();
 
   const [sliderValue, setSliderValue] = useState(userAnswer ? userAnswer : 50);
 
@@ -41,6 +37,7 @@ export default function PercentAnswerQuestion({
       color: theme.text,
       textAlign: "center",
       fontWeight: 600,
+      fontFamily: font.bold,
     },
     sliderTextValue: {
       fontSize: 25,
@@ -62,6 +59,7 @@ export default function PercentAnswerQuestion({
       fontSize: 20,
       fontWeight: "bold",
       color: theme.text,
+      fontFamily: font.regular,
     },
   });
 

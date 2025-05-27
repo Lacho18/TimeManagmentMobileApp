@@ -8,6 +8,7 @@ import {
 import { getCurrentWeek } from "../../utils/dateUtil";
 import Carousel from "react-native-reanimated-carousel";
 import DayOfWeek from "./DayOfWeek";
+import { useMyFont } from "../../context/FontContext";
 
 const screenWidth = Dimensions.get("window").width - 10;
 const currentDate = new Date();
@@ -17,6 +18,7 @@ export default function OverViewHeader({
   selectedDate,
   dateSelectionHandler,
 }) {
+  const { font } = useMyFont();
   const weeksGroups = useRef(getGroupWeeksData());
 
   //Used from header selector of the dates in order to calculate the correct way the index of the date, so the scroll view can go to the right destination
@@ -87,6 +89,7 @@ export default function OverViewHeader({
     currentMonthHeader: {
       fontSize: 18,
       color: theme.text,
+      fontFamily: font.regular,
     },
   });
 
@@ -104,6 +107,7 @@ export default function OverViewHeader({
         renderItem={({ item, index }) => (
           <DayOfWeek
             key={index}
+            font={font}
             daysFromWeek={item}
             theme={theme}
             selectedDate={selectedDate}

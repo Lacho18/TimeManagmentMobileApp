@@ -28,6 +28,7 @@ import PanicButton from "../../components/Profile/PanicButton";
 import DayStartTime from "../../components/Profile/DayStartTime";
 
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useMyFont } from "../../context/FontContext";
 
 const { width } = Dimensions.get("window");
 
@@ -35,6 +36,7 @@ export default function Profile() {
   const { theme } = useTheme();
   const { user, logout, loading } = useUser();
   const { stressTest, startStressTest, endStressTest } = useStressTest();
+  const { font } = useMyFont();
 
   //Follows whether to visualize the MinRestTime component which changes the min rest time
   const [minTimeRest, setMinTimeRest] = useState(false);
@@ -99,6 +101,7 @@ export default function Profile() {
       fontSize: 20,
       fontWeight: "bold",
       color: theme.text,
+      fontFamily: font.bold,
     },
     buttonsDiv: {
       margin: 10,
@@ -117,6 +120,7 @@ export default function Profile() {
     buttonText: {
       color: theme.text,
       fontSize: 17,
+      fontFamily: font.regular,
     },
   });
 
@@ -199,6 +203,7 @@ export default function Profile() {
         {minTimeRest && (
           <MinRestTime
             theme={theme}
+            font={font}
             currentMinTime={user.preferences.min_rest_time_between_tasks}
             userId={user.id}
             closeWindow={() => {
@@ -209,6 +214,7 @@ export default function Profile() {
         {maxTasks && (
           <MaxTasks
             theme={theme}
+            font={font}
             userCurrentMaxTasks={user.preferences.maxNumberOfTasks}
             userId={user.id}
             closeWindow={() => {
@@ -219,6 +225,7 @@ export default function Profile() {
         {startTime && (
           <DayStartTime
             theme={theme}
+            font={font}
             userCurrentStartTime={user.preferences.dayStartTime}
             userId={user.id}
             closeWindow={() => setStartTime(false)}
@@ -227,6 +234,7 @@ export default function Profile() {
 
         <PanicButton
           theme={theme}
+          font={font}
           userId={user.id}
           userStartTimeOfTheDay={user.preferences.dayStartTime}
           userMinRestTime={user.preferences.min_rest_time_between_tasks}

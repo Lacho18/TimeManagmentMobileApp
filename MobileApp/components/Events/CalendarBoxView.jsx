@@ -6,6 +6,7 @@ import * as Calendar from "expo-calendar";
 export default function CalendarBoxView({
   calendar,
   theme,
+  font,
   selectCalendar,
   unselectCalendar,
   hasNoEvents,
@@ -40,8 +41,8 @@ export default function CalendarBoxView({
       width: "100%",
       height: 75,
       borderWidth: 5,
-      borderColor: theme.accent,
-      backgroundColor: theme.secondary,
+      borderColor: theme.secondary,
+      backgroundColor: theme.accent,
       padding: 5,
     },
     contextDiv: {
@@ -53,7 +54,8 @@ export default function CalendarBoxView({
     calendarName: {
       flexBasis: "80%",
       fontSize: 15,
-      color: theme.background,
+      color: theme.text,
+      fontFamily: font.regular,
     },
     showEventsButton: {
       flexBasis: "20%",
@@ -74,6 +76,7 @@ export default function CalendarBoxView({
     noEventsText: {
       fontSize: 15,
       color: "red",
+      fontFamily: font.regular,
     },
   });
 

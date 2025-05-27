@@ -11,12 +11,14 @@ import { useEffect, useRef, useState } from "react";
 import Carousel from "react-native-reanimated-carousel";
 import BaseQuestionComponent from "../../components/StressTest/BaseQuestionComponent";
 import { router } from "expo-router";
+import { useMyFont } from "../../context/FontContext";
 
 const screenWidth = Dimensions.get("window").width - 10;
 
 export default function StressTest() {
   const { theme } = useTheme();
   const { stressTestQuestions } = useStressTest();
+  const { font } = useMyFont();
 
   //Reference to the carousel
   const carouselRef = useRef(null);
@@ -35,8 +37,6 @@ export default function StressTest() {
 
   //Follows when the carousel to be active. It is only not active when the user uses Slider on the PercentAnswerQuestion type
   const [activeSwiper, setActiveSwiper] = useState(false);
-
-  console.log(userAnswers.current);
 
   //Calculates the percent of the progression
   useEffect(() => {
@@ -91,11 +91,13 @@ export default function StressTest() {
       fontWeight: "bold",
       textTransform: "uppercase",
       color: theme.text,
+      fontFamily: font.bold,
     },
     progressionText: {
       fontSize: 30,
       fontStyle: "italic",
       color: theme.text,
+      fontFamily: font.regular,
     },
     progressBarDiv: {
       width: "100%",
@@ -132,6 +134,7 @@ export default function StressTest() {
       fontWeight: "bold",
       color: theme.text,
       textAlign: "center",
+      fontFamily: font.regular,
     },
   });
 

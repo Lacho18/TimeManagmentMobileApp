@@ -313,6 +313,7 @@ export default function DailyTasks() {
           {allDailyTasks.map((task) => (
             <TaskViewComponent
               key={task.id}
+              font={font}
               theme={theme}
               task={task}
               selectTask={(selection) => {

@@ -80,6 +80,6 @@ export const QUESTIONS = [
     {
         id: 12,
         type: "percentAnswer",
-        question: "How stupid do you think you are?",
+        question: "Test percentage question.",
     },
 ];

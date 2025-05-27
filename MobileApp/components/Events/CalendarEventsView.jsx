@@ -27,6 +27,7 @@ export default function CalendarEventsView({
   calendarName,
   events,
   theme,
+  font,
   closeCalendar,
 }) {
   //The width of the parent component, used from the Carousel
@@ -87,11 +88,13 @@ export default function CalendarEventsView({
       display: "flex",
       alignItems: "center",
       zIndex: 100,
+      borderRadius: 18,
     },
     currentMonth: {
       fontSize: 18,
       color: theme.text,
       marginBottom: 3,
+      fontFamily: font.regular,
     },
 
     closeButton: {
@@ -100,6 +103,7 @@ export default function CalendarEventsView({
       right: 0,
       backgroundColor: "red",
       padding: 8,
+      borderRadius: 10,
     },
   });
 
@@ -126,7 +130,7 @@ export default function CalendarEventsView({
               data={monthData}
               scrollAnimationDuration={1000}
               renderItem={({ item, index }) => (
-                <EventsMonthView month={item} theme={theme} />
+                <EventsMonthView month={item} theme={theme} font={font} />
               )}
             />
           )}

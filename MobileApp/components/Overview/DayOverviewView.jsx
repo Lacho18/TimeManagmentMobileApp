@@ -11,6 +11,7 @@ import { equalDates } from "../../utils/dateUtil";
 
 export default function DayOverviewView({
   index,
+  font,
   itemsRef,
   date,
   theme,
@@ -38,6 +39,7 @@ export default function DayOverviewView({
     text: {
       fontSize: 20,
       color: theme.text,
+      fontFamily: font.regular,
     },
     tasksDiv: {
       paddingVertical: 20,
@@ -55,6 +57,7 @@ export default function DayOverviewView({
       fontSize: 20,
       color: theme.text,
       fontWeight: "bold",
+      fontFamily: font.regular,
     },
   });
 
@@ -63,7 +66,6 @@ export default function DayOverviewView({
       <TouchableOpacity
         style={styles.headDiv}
         onPress={async () => {
-          console.log("Ciganiuiiiiiiiii");
           await dateSelectionHandler(date, index);
         }}
       >
@@ -94,6 +96,7 @@ export default function DayOverviewView({
             selectedTasks.map((task) => (
               <TaskViewComponent
                 key={task.id}
+                font={font}
                 theme={theme}
                 task={task}
                 selectTask={() => {

@@ -17,8 +17,11 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import Octicons from "@expo/vector-icons/Octicons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import { useMyFont } from "../../context/FontContext";
 
 export default function SelectedTask({ selectedTask, theme, hideTask }) {
+  const { font } = useMyFont();
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const bottomSheetRef = useRef(null);
 
@@ -59,11 +62,13 @@ export default function SelectedTask({ selectedTask, theme, hideTask }) {
       fontSize: 25,
       fontWeight: "bold",
       color: theme.text,
+      fontFamily: font.bold,
     },
     description: {
       fontSize: 18,
       fontWeight: 200,
       color: theme.text,
+      fontFamily: font.regular,
     },
     dateText: {
       fontSize: 18,
@@ -73,6 +78,7 @@ export default function SelectedTask({ selectedTask, theme, hideTask }) {
       justifyContent: "center",
       alignItems: "center",
       gap: 10,
+      fontFamily: font.regular,
     },
     durationDiv: {
       display: "flex",
@@ -84,6 +90,7 @@ export default function SelectedTask({ selectedTask, theme, hideTask }) {
       color: theme.background,
       fontSize: 15,
       alignSelf: "flex-end",
+      fontFamily: font.regular,
     },
     lineDiv: {
       display: "flex",
@@ -120,6 +127,7 @@ export default function SelectedTask({ selectedTask, theme, hideTask }) {
       fontSize: 18,
       color: theme.background,
       fontWeight: 500,
+      fontFamily: font.regular,
     },
 
     delayedText: {
@@ -128,6 +136,7 @@ export default function SelectedTask({ selectedTask, theme, hideTask }) {
       position: "absolute",
       right: 10,
       top: 10,
+      fontFamily: font.regular,
     },
   });
 

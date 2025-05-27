@@ -1,5 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useTheme } from "../../context/ThemeContext";
+import { useMyFont } from "../../context/FontContext";
 
 export default function SingleAnswerQuestion({
   question,
@@ -8,6 +9,7 @@ export default function SingleAnswerQuestion({
   userAnswer,
 }) {
   const { theme } = useTheme();
+  const { font } = useMyFont();
 
   //Sends the answer to the upper component
   function onGivenAnswer(answerIndex) {
@@ -27,6 +29,7 @@ export default function SingleAnswerQuestion({
       color: theme.text,
       textAlign: "center",
       fontWeight: 600,
+      fontFamily: font.bold,
     },
     allAnswersDiv: {
       display: "flex",
@@ -69,6 +72,7 @@ export default function SingleAnswerQuestion({
       fontSize: 21,
       color: theme.text,
       textAlign: "left",
+      fontFamily: font.regular,
     },
     blackDot: {
       width: 10,

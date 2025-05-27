@@ -1,4 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useMyFont } from "../context/FontContext";
 
 export default function QuestionComponent({
   theme,
@@ -7,6 +8,7 @@ export default function QuestionComponent({
   onNoAnswer,
 }) {
   console.log(questionData);
+  const { font } = useMyFont();
   const styles = StyleSheet.create({
     mainDiv: {
       position: "absolute",
@@ -29,6 +31,7 @@ export default function QuestionComponent({
       fontSize: 18,
       color: theme.text,
       textAlign: "center",
+      fontFamily: font.regular,
     },
 
     buttonsDiv: {
@@ -51,6 +54,7 @@ export default function QuestionComponent({
     buttonText: {
       fontSize: 18,
       color: theme.text,
+      fontFamily: font.regular,
     },
   });
 

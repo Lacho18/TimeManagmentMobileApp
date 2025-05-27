@@ -8,6 +8,7 @@ import { useUser } from "../../context/UserContext";
 
 export default function DayStartTime({
   theme,
+  font,
   userCurrentStartTime,
   userId,
   closeWindow,
@@ -70,6 +71,7 @@ export default function DayStartTime({
       fontSize: 18,
       color: theme.text,
       textAlign: "center",
+      fontFamily: font.regular,
     },
     submitButton: {
       width: 120,
@@ -110,7 +112,9 @@ export default function DayStartTime({
         <View style={styles.layout}>
           <Text style={styles.mainText}>
             Current value:{" "}
-            <Text style={{ fontWeight: "bold" }}>{currentStartTime}</Text>
+            <Text style={{ fontWeight: "bold", fontFamily: font.bold }}>
+              {currentStartTime}
+            </Text>
           </Text>
           <View style={styles.buttonsLayout}>
             <TouchableOpacity

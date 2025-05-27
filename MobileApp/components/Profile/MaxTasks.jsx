@@ -7,6 +7,7 @@ import { useUser } from "../../context/UserContext";
 
 export default function MaxTasks({
   theme,
+  font,
   userCurrentMaxTasks,
   userId,
   closeWindow,
@@ -54,6 +55,7 @@ export default function MaxTasks({
       fontSize: 18,
       color: theme.text,
       textAlign: "center",
+      fontFamily: font.regular,
     },
     submitButton: {
       width: 120,
@@ -87,7 +89,9 @@ export default function MaxTasks({
       />
       <Text style={styles.mainText}>
         Current value:{" "}
-        <Text style={{ fontWeight: "bold" }}>{currentMaxTasks}</Text>
+        <Text style={{ fontWeight: "bold", fontFamily: font.bold }}>
+          {currentMaxTasks}
+        </Text>
       </Text>
       <TouchableOpacity
         style={styles.submitButton}

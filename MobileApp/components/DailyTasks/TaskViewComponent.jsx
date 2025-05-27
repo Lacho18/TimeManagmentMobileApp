@@ -24,6 +24,7 @@ const ANIMATION_INTERVAL = 1500;
 
 export default function TaskViewComponent({
   theme,
+  font,
   task,
   selectTask,
   onCompleteTask,
@@ -123,12 +124,14 @@ export default function TaskViewComponent({
       fontSize: 18,
       color: stressColors.textColor,
       fontWeight: 500,
+      fontFamily: font.regular,
     },
 
     dateText: {
       fontSize: 16,
       color: stressColors.textColor,
       fontWeight: 400,
+      fontFamily: font.regular,
     },
 
     delayedText: {
@@ -137,6 +140,7 @@ export default function TaskViewComponent({
       position: "absolute",
       right: 10,
       top: 5,
+      fontFamily: font.regular,
     },
 
     delayButton: {

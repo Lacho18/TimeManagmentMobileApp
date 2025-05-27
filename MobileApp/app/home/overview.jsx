@@ -15,9 +15,11 @@ import { getTaskForGivenDay } from "../../database/taskController";
 import { DUMMY_DATA_TASKS } from "../../constants/dummyData";
 import { SafeAreaView } from "react-native-safe-area-context";
 import SelectedTask from "../../components/DailyTasks/SelectedTask";
+import { useMyFont } from "../../context/FontContext";
 
 export default function Overview() {
   const { theme } = useTheme();
+  const { font } = useMyFont();
 
   //Ref about array of dates ahead of today which will be accessible from overview page component
   const daysAhead = useRef(getGivenNumberOfDays(DAYS_AHEAD_OVERVIEW_VIEW));
@@ -91,6 +93,7 @@ export default function Overview() {
       fontSize: 30,
       color: theme.text,
       fontWeight: "bold",
+      fontFamily: font.bold,
     },
   });
 
@@ -122,6 +125,7 @@ export default function Overview() {
             <DayOverviewView
               key={index}
               index={index}
+              font={font}
               itemsRef={itemsRef}
               date={date}
               theme={theme}

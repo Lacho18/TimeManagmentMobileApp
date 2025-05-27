@@ -10,10 +10,12 @@ import * as Calendar from "expo-calendar";
 
 import CalendarBoxView from "../../components/Events/CalendarBoxView";
 import CalendarEventsView from "../../components/Events/CalendarEventsView";
+import { useMyFont } from "../../context/FontContext";
 
 export default function Events() {
   const { theme } = useTheme();
   const { user } = useUser();
+  const { font } = useMyFont();
 
   //Events from google calendar
   const [googleEvents, setGoogleEvents] = useState([]);
@@ -98,6 +100,7 @@ export default function Events() {
       fontWeight: "bold",
       alignSelf: "flex-start",
       marginLeft: 10,
+      fontFamily: font.bold,
     },
     subTitle: {
       fontSize: 18,
@@ -105,6 +108,7 @@ export default function Events() {
       alignSelf: "flex-start",
       marginLeft: 10,
       marginBottom: 10,
+      fontFamily: font.regular,
     },
     eventsDiv: {
       width: "100%",
@@ -123,6 +127,7 @@ export default function Events() {
     eventsDivTitleText: {
       fontSize: 18,
       color: theme.text,
+      fontFamily: font.regular,
     },
     deviceCalendarsDiv: {
       width: "90%",
@@ -133,6 +138,7 @@ export default function Events() {
       fontSize: 18,
       color: theme.text,
       textAlign: "center",
+      fontFamily: font.regular,
     },
   });
 
@@ -158,7 +164,12 @@ export default function Events() {
             </Text>
           </View>
           {googleEvents.map((event) => (
-            <SingleEventBoxView key={event.id} event={event} theme={theme} />
+            <SingleEventBoxView
+              key={event.id}
+              font={font}
+              event={event}
+              theme={theme}
+            />
           ))}
         </View>
       )}
@@ -170,6 +181,7 @@ export default function Events() {
               key={index}
               calendar={calendar}
               theme={theme}
+              font={font}
               selectCalendar={(selection, calendarName) => {
                 console.log(selection);
                 console.log(calendarName);
@@ -198,9 +210,10 @@ export default function Events() {
 
       {selectedCalendarEvents && selectedCalendarEvents.length > 0 && (
         <CalendarEventsView
-          calendarName={/*calendar.name*/ "Test"}
+          calendarName={selectedCalendarName}
           events={selectedCalendarEvents}
           theme={theme}
+          font={font}
           closeCalendar={() => {
             setSelectedDeviceCalendar(false);
             setSelectedCalendarEvents(null);
