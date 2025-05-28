@@ -10,6 +10,8 @@ import { getDateFromStartTime, getEveryTaskForTomorrow } from "../functions/pani
 import { createLog } from "./logsController";
 
 export const getTaskForGivenDay = async (givenDay, userId) => {
+    if (userId === null || userId === undefined) return [];
+
     const startOfDay = new Date(givenDay.getFullYear(), givenDay.getMonth(), givenDay.getDate(), 0, 0, 0);
     const endOfDay = new Date(givenDay.getFullYear(), givenDay.getMonth(), givenDay.getDate(), 23, 59, 59);
 
@@ -20,6 +22,7 @@ export const getTaskForGivenDay = async (givenDay, userId) => {
         where("startTime", ">=", startOfDay),
         where("startTime", "<=", endOfDay),
         where("completed", "==", false),
+        where("repeating.isRepeating", "==", false),
         where("userId", "==", userId)
     );
 
@@ -28,8 +31,6 @@ export const getTaskForGivenDay = async (givenDay, userId) => {
         where("repeating.isRepeating", "==", true),
         where("userId", "==", userId)
     );
-
-    console.log("Ehoooo kakwo se slychwa");
 
     try {
         //const querySnapshot = await getDocs(q);
@@ -45,9 +46,6 @@ export const getTaskForGivenDay = async (givenDay, userId) => {
         repeatingSnapshot.forEach((doc) => {
             repeatingTasksArray.push({ id: doc.id, ...doc.data() });
         });
-
-        console.log("Tasks ", tasks);
-        console.log("repeatingTasksArray ", repeatingTasksArray);
 
         const today = new Date().toDateString();
         const givenDayStr = givenDay.toDateString();
@@ -68,34 +66,19 @@ export const getTaskForGivenDay = async (givenDay, userId) => {
     }
 }
 
-/*const q = query(
-        taskCollection,
-        or(
-            and(
-                where("startTime", ">=", startOfDay),
-                where("startTime", "<=", endOfDay),
-                where("repeating.isRepeating", "==", false),
-                where("completed", "==", false),
-            ),
+export const getOnlyTasksForTomorrow = () => {
 
-            where("repeating.isRepeating", "==", true),
-            or(
-                where("completed", "==", false),
-                where(givenDay, "!=", new Date()).
-            )
-        )
-    );*/
+}
 
 export const createTask = async (newTask, user) => {
-
-    console.log(newTask);
+    let result = "Success";
 
     if (newTask.title === "") {
         return "Please provide a title for the task";
     }
 
     if (newTask.startTime === null) {
-        return "Please select start time of the task!";
+        return "Please select start time for the task!";
     }
 
     try {
@@ -110,6 +93,10 @@ export const createTask = async (newTask, user) => {
 
         //Calculates the duration of the task
         if (newTask.endTime) {
+            //Checks if the task end time is before the task start time
+            if (newTask.endTime <= newTask.startTime) {
+                return "The task can not end before it begins 😄. Did you make lapse on selection the end time."
+            }
             //Calculates the duration in milliseconds
             const taskDuration = newTask.endTime - newTask.startTime;
 
@@ -120,7 +107,7 @@ export const createTask = async (newTask, user) => {
             newTask.durationColor = durationColorSetter(newTask.duration);
         }
 
-        console.log("The new task before ", newTask);
+        //console.log("The new task before ", newTask);
 
         //If the task is marked as repeating set its start and end time on separate fields
         if (newTask.repeating.isRepeating) {
@@ -135,23 +122,23 @@ export const createTask = async (newTask, user) => {
             }
         }
 
+        //Adjusts whether the user goes over his limit of tasks
+        const isMaxTasksOverflowed = await checkForMaxTasksOverflow(newTask.startTime, user.preferences.maxNumberOfTasks);
+        if (isMaxTasksOverflowed) {
+            result = "The big numbers of tasks can be stressful. Adding more tasks will make your day very hard.";
+        }
+
         //Add min rest time between tasks if necessary
         //Adjusts the time of the inserted task by the closest on the past
         newTask = await taskInterval(newTask, user.preferences.min_rest_time_between_tasks);
         //Adjust every feature task until there are no more on there are not more changes needed
         await featureTasksCompiler(newTask, user.preferences.min_rest_time_between_tasks);
 
-        //Adjusts whether the user goes over his limit of tasks
-        const isMaxTasksOverflowed = await checkForMaxTasksOverflow(newTask.startTime, user.preferences.maxNumberOfTasks);
-        if (isMaxTasksOverflowed) {
-            return "The big numbers of tasks can be stressful. Uploading this will go over your limit of daily tasks.";
-        }
-
         const taskCollection = collection(db, "Tasks");
 
         const insertedDoc = await addDoc(taskCollection, newTask);
 
-        return "Success";
+        return result;
     }
     catch (err) {
         console.error(err.message);
@@ -182,10 +169,10 @@ export const delayTask = async (taskId, user) => {
     };
 
     // 3. Calculate task duration + rest time
-    let taskDuration = Number(user.preferences.min_rest_time_between_tasks);
+    let taskDuration;
     if (task.startTime && task.endTime) {
         const originalDuration = task.endTime.getTime() - task.startTime.getTime();
-        taskDuration = originalDuration + Number(user.preferences.min_rest_time_between_tasks);
+        taskDuration = originalDuration;
     }
 
     // 4. Compute new start time (next day at user-preferred start)
@@ -193,11 +180,27 @@ export const delayTask = async (taskId, user) => {
 
     // 5. Set new task times
     task.startTime = userStartTime;
-    task.endTime = new Date(userStartTime.getTime() + taskDuration);
+    if (task.endTime) {
+        task.endTime = new Date(userStartTime.getTime() + taskDuration);
+    }
 
-    const allUpdatedTasks = await getEveryTaskForTomorrow(taskDuration, userStartTime, Number(user.preferences.min_rest_time_between_tasks));
+    const allUpdatedTasks = await getEveryTaskForTomorrow(taskDuration, userStartTime, Number(user.preferences.min_rest_time_between_tasks), user.id);
+
+    console.log("Aloooooo maika ti da eba");
+
+    if (allUpdatedTasks.length == 0) {
+        const delayedTaskRef = doc(db, "Tasks", task.id);
+
+        updateDoc(delayedTaskRef, task);
+        return;
+    }
+
+    task.delayed.isDelayed = true;
+    task.delayed.delayedTimes = task.delayed.delayedTimes + 1;
 
     allUpdatedTasks.unshift(task);
+
+    console.log("Ei tyka trqbva da ima 3 zadachi. I TRITE BE EIIIIIII ", allUpdatedTasks);
 
     allUpdatedTasks.forEach(task => {
         const docRef = doc(db, "Tasks", task.id);

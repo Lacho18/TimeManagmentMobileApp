@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+/*import { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Platform } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
@@ -7,10 +7,10 @@ import {
   DEFAULT_MAP_LONGITUDE,
 } from "../../constants/coordinates";
 
-import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";*/
 
 export default function TaskLocation({ theme, locationSelectionHandler }) {
-  const [selectedLocation, setSelectedLocation] = useState(null);
+  /*const [selectedLocation, setSelectedLocation] = useState(null);
   const [permissionStatus, setPermissionStatus] = useState("");
   const [locationText, setLocationText] = useState("");
 
@@ -124,5 +124,5 @@ export default function TaskLocation({ theme, locationSelectionHandler }) {
         </Text>
       )}
     </View>
-  );
+  );*/
 }

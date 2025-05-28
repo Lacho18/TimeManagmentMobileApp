@@ -1,13 +1,9 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useMyFont } from "../context/FontContext";
+import { useWarning } from "../context/WarningContext";
 
-export default function QuestionComponent({
-  theme,
-  questionData,
-  onYesAnswer,
-  onNoAnswer,
-}) {
-  console.log(questionData);
+export default function WarningComponent({ theme }) {
+  const { warningMessage, clearWarning } = useWarning();
   const { font } = useMyFont();
   const styles = StyleSheet.create({
     mainDiv: {
@@ -43,13 +39,14 @@ export default function QuestionComponent({
     },
 
     buttonStructure: {
-      width: 50,
+      width: 60,
       height: 40,
       borderRadius: 10,
       borderWidth: 1,
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
+      backgroundColor: theme.accent,
     },
 
     buttonText: {
@@ -61,24 +58,10 @@ export default function QuestionComponent({
 
   return (
     <View style={styles.mainDiv}>
-      <Text style={styles.questionText}>
-        {questionData.question}{" "}
-        <Text style={{ fontWeight: "bold" }}>
-          {questionData.subQuestionData}
-        </Text>
-      </Text>
+      <Text style={styles.questionText}>{warningMessage}</Text>
       <View style={styles.buttonsDiv}>
-        <TouchableOpacity
-          style={{ ...styles.buttonStructure, backgroundColor: "#77dd77" }}
-          onPress={() => onYesAnswer(questionData.id)}
-        >
-          <Text style={styles.buttonText}>Yes</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{ ...styles.buttonStructure, backgroundColor: "#ff6961" }}
-          onPress={onNoAnswer}
-        >
-          <Text style={styles.buttonText}>No</Text>
+        <TouchableOpacity style={styles.buttonStructure} onPress={clearWarning}>
+          <Text style={styles.buttonText}>OK</Text>
         </TouchableOpacity>
       </View>
     </View>

@@ -24,15 +24,19 @@ import { useUser } from "../../context/UserContext";
 
 import CheckBox from "expo-checkbox";
 import { router } from "expo-router";
+import { useQuestion } from "../../context/QuestionContext";
+import QuestionComponent from "../QuestionComponent";
+import { subQuarters } from "date-fns";
+import { useWarning } from "../../context/WarningContext";
 
 const screenHeight = Dimensions.get("window").height;
 
 /*
   MANIFEST SERIAL
-  Dobavi logikata za  repeate task
 */
 
 export default function CreateTask({ closeAddTaskMenu, visible }) {
+  const { valWarningMessage } = useWarning();
   const { theme } = useTheme();
 
   //Used only on create task function in order to know the user time between tasks
@@ -130,6 +134,10 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
     if (result === "Success") {
       closeAddTaskMenu();
       router.push("/home/dailyTasks");
+    } else if (result.includes("The big numbers of tasks can")) {
+      valWarningMessage(result);
+      closeAddTaskMenu();
+      router.push("/home/dailyTasks");
     } else setError(result);
   }
 
@@ -219,11 +227,7 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
     },
 
     errorMessage: {
-      position: "fixed",
-      top: "105%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      color: "red",
+      color: "#f7395c",
       fontSize: 20,
       fontWeight: "bold",
       width: 250,

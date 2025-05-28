@@ -17,11 +17,30 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import SelectedTask from "../../components/DailyTasks/SelectedTask";
 import { useMyFont } from "../../context/FontContext";
 import { useUser } from "../../context/UserContext";
+import { useQuestion } from "../../context/QuestionContext";
+import QuestionComponent from "../../components/QuestionComponent";
 
 export default function Overview() {
+  const { user, loading } = useUser();
+
+  if (loading) {
+    return (
+      <View>
+        <Text>Loading</Text>
+      </View>
+    );
+  }
+
   const { theme } = useTheme();
   const { font } = useMyFont();
-  const { user } = useUser();
+  const {
+    isQuestionActive,
+    questionData,
+    closeQuestionMenu,
+    openQuestionMenu,
+    formQuestionStructure,
+    yesQuestionAnswer,
+  } = useQuestion();
 
   //Ref about array of dates ahead of today which will be accessible from overview page component
   const daysAhead = useRef(getGivenNumberOfDays(DAYS_AHEAD_OVERVIEW_VIEW));
@@ -179,6 +198,17 @@ export default function Overview() {
           selectedTask={userSelectionTask}
           theme={theme}
           hideTask={() => setUserSelectionTask(null)}
+        />
+      )}
+
+      {isQuestionActive && (
+        <QuestionComponent
+          theme={theme}
+          questionData={questionData}
+          onYesAnswer={async (tasksId) => {
+            //await yesQuestionHandler(tasksId);
+          }}
+          onNoAnswer={() => closeQuestionMenu()}
         />
       )}
     </>

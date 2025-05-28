@@ -13,6 +13,7 @@ import { createLog, deleteLog, getLogs } from "../../database/logsController";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
 import LogComponent from "../../components/LogsView/LogComponent";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function LogsView() {
   const { theme } = useTheme();
@@ -103,29 +104,29 @@ export default function LogsView() {
   }
 
   return (
-    <ScrollView
-      style={styles.page}
-      contentContainerStyle={styles.logsContainerStyle}
-    >
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()}>
-          <Ionicons name="arrow-back" size={28} color={theme.secondary} />
-        </TouchableOpacity>
-        <View style={{ width: "100%" }}>
-          <Text style={styles.title}>Activity logs</Text>
+    <SafeAreaView style={styles.page}>
+      <ScrollView contentContainerStyle={styles.logsContainerStyle}>
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => router.back()}>
+            <Ionicons name="arrow-back" size={28} color={theme.secondary} />
+          </TouchableOpacity>
+          <View style={{ width: "100%" }}>
+            <Text style={styles.title}>Activity logs</Text>
+          </View>
         </View>
-      </View>
 
-      <View style={styles.viewsDiv}>
-        {logs.map((log) => (
-          <LogComponent
-            log={log}
-            theme={theme}
-            user={user}
-            removeLog={removeLogHandler}
-          />
-        ))}
-      </View>
-    </ScrollView>
+        <View style={styles.viewsDiv}>
+          {logs.map((log) => (
+            <LogComponent
+              key={log.id}
+              log={log}
+              theme={theme}
+              user={user}
+              removeLog={removeLogHandler}
+            />
+          ))}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }

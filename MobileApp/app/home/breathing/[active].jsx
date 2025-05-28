@@ -1,4 +1,4 @@
-import { useState } from "react";
+/*import { useState } from "react";
 import { Pressable, StyleSheet, Text, View, Dimensions } from "react-native";
 import LottieView from "lottie-react-native";
 import { useTheme } from "../../../context/ThemeContext";
@@ -87,4 +87,14 @@ export default function Breathing() {
       </View>
     );
   }
+}*/
+
+import { Pressable, StyleSheet, Text, View, Dimensions } from "react-native";
+
+export default function Breathing() {
+  return (
+    <View>
+      <Text>123</Text>
+    </View>
+  );
 }

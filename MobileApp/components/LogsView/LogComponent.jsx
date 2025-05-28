@@ -79,7 +79,15 @@ export default function LogComponent({ log, theme, user, removeLog }) {
           style={[styles.mainDiv, { transform: [{ translateX }] }]}
         >
           <View style={styles.imageDiv}>
-            <Image style={styles.userImage} source={{ uri: user.image }} />
+            <Image
+              style={styles.userImage}
+              source={{
+                uri:
+                  user.image === ""
+                    ? "https://cdn-icons-png.flaticon.com/512/666/666201.png"
+                    : user.image,
+              }}
+            />
           </View>
           <View style={styles.contextDiv}>
             <Text style={styles.messageText}>{log.message}</Text>

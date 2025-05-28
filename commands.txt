@@ -1,4 +1,4 @@
 git add .
-git commit -m "Adding repeating task functionality"
+git commit -m "Making mobile tests and adding more components"
 git branch -M main
 git push -u origin main 

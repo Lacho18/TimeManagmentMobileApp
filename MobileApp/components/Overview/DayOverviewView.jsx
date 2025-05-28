@@ -45,7 +45,6 @@ export default function DayOverviewView({
     tasksDiv: {
       paddingVertical: 20,
       height: "auto",
-      maxHeight: 450,
     },
     emptyTasksDiv: {
       display: "flex",

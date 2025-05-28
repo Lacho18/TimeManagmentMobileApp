@@ -18,31 +18,39 @@ import TaskViewComponent from "../../components/DailyTasks/TaskViewComponent";
 import { SafeAreaView } from "react-native-safe-area-context";
 import SelectedTask from "../../components/DailyTasks/SelectedTask";
 
-import { DUMMY_DATA_TASKS } from "../../constants/dummyData";
-
 import Entypo from "@expo/vector-icons/Entypo";
 import MenuOptions from "../../components/DailyTasks/MenuOptions";
 import { useQuestion } from "../../context/QuestionContext";
 import QuestionComponent from "../../components/QuestionComponent";
 import CalmingVideo from "../../components/DailyTasks/CalmingVideo";
 import { useMyFont } from "../../context/FontContext";
+import { useWarning } from "../../context/WarningContext";
+import WarningComponent from "../../components/WarningComponent";
 
 /*
-  2. Dobavi nqkakwa logika s ejednevbnite zadachi
   4. Vish kak potrebitelq da si pravi customise notificacii
 */
 
 export default function DailyTasks() {
-  const { theme } = useTheme();
   const { user, loading } = useUser();
+
+  if (loading) {
+    return (
+      <View>
+        <Text>Loading</Text>
+      </View>
+    );
+  }
+
+  const { theme } = useTheme();
   const {
     isQuestionActive,
     questionData,
     closeQuestionMenu,
     openQuestionMenu,
     formQuestionStructure,
-    yesQuestionAnswer,
   } = useQuestion();
+  const { warningMessage, valWarningMessage, clearWarning } = useWarning();
   const { font } = useMyFont();
 
   //All tasks for the current date
@@ -71,7 +79,6 @@ export default function DailyTasks() {
 
   useEffect(() => {
     async function getTodayTasks() {
-      //RETURN AFTER FINISHING THE APP
       const result = await getTaskForGivenDay(new Date(), user.id);
 
       if (result.length > 0) {
@@ -159,8 +166,6 @@ export default function DailyTasks() {
     //Sets the task as completed
     completedTask.completed = true;
 
-    console.log(completedTask);
-
     //Deletes and creates log for completed task
     deleteTask(completedTask, user.id);
   }
@@ -217,12 +222,15 @@ export default function DailyTasks() {
 
   //This function handles yes answer on 2 cases: delaying task and opening calming video
   async function yesQuestionHandler(tasksId) {
+    console.log("Alo ve pedaliiiiiii");
     //In case the task is delayed
     if (questionData.id) {
-      await delayTask(tasksId, user);
+      delayTask(tasksId, user);
     } else {
       setActivateCalmingVideo(true);
     }
+
+    console.log("Neshto primerno");
     closeQuestionMenu();
   }
 
@@ -272,14 +280,6 @@ export default function DailyTasks() {
       fontFamily: font.regular,
     },
   });
-
-  if (loading) {
-    return (
-      <View>
-        <Text>Loading</Text>
-      </View>
-    );
-  }
 
   return (
     <SafeAreaView style={styles.page}>
@@ -354,6 +354,7 @@ export default function DailyTasks() {
         )}
 
         {activateCalmingVideo && <CalmingVideo theme={theme} />}
+        {warningMessage !== "" && <WarningComponent theme={theme} />}
       </Pressable>
     </SafeAreaView>
   );

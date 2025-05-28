@@ -29,7 +29,7 @@ export const panicButtonHandler = async (userId, userStartTimeOfTheDay, userMinR
         task.startTime = task.startTime.toDate();
         task.endTime = task.endTime ? task.endTime.toDate() : null;
 
-        return { ...task, priority: oldTaskValue.priority + 1, }
+        return { ...task };
     });
 
     //Finds if there are tasks thats are delayed more than the given limit 
@@ -37,6 +37,7 @@ export const panicButtonHandler = async (userId, userStartTimeOfTheDay, userMinR
 
     //If there are remove them from the array of tasks
     if (tasksForDelete.length > 0) {
+        //Removed the more than the limit delayed tasks
         tasks = tasks.filter(task => task.delayed.delayedTimes <= MAX_NUMBER_OF_DELAYED_TASK);
 
         //Removes every tasks which is delayed more than the system limit
@@ -79,12 +80,16 @@ export const panicButtonHandler = async (userId, userStartTimeOfTheDay, userMinR
         tasks[tasks.length - 1].endTime.getTime() - startTimeForTomorrow :
         tasks[tasks.length - 1].startTime.getTime() - startTimeForTomorrow;
 
-    const tomorrowUpdatedTasks = await getEveryTaskForTomorrow(fullTimeForDelayedTasks, startTimeForTomorrow, userMinRestTime);
+    const tomorrowUpdatedTasks = await getEveryTaskForTomorrow(fullTimeForDelayedTasks, startTimeForTomorrow, userMinRestTime, userId);
 
     const everyTaskThatHasChanged = [...tasks, ...tomorrowUpdatedTasks];
 
     everyTaskThatHasChanged.forEach(async (task) => {
         const docRef = doc(db, "Tasks", task.id);
+
+        console.log(task.title, " Current one with the changes");
+        console.log(task);
+        console.log("---------------------------------------------------------------------------------------------------------");
 
         await updateDoc(docRef, task);
     });
@@ -126,11 +131,19 @@ async function getTasksWithLowAndMediumPriority(currentDay, userId) {
 }
 
 //Function that makes the necessary modifications on the tasks of the tomorrow day 
-export async function getEveryTaskForTomorrow(delayedInterval, startTimeForTomorrow, minRestTime) {
+export async function getEveryTaskForTomorrow(delayedInterval, startTimeForTomorrow, minRestTime, userId) {
     const endDurationTime = new Date(startTimeForTomorrow.getTime() + delayedInterval);
 
     //Every task for tomorrow without the delayed
-    let everyTask = await getTaskForGivenDay(startTimeForTomorrow);
+    let everyTask = await getTaskForGivenDay(startTimeForTomorrow, userId);
+
+    console.log(endDurationTime.toString());
+    console.log(startTimeForTomorrow.toString());
+    console.log("Every task ehoooo", everyTask);
+
+    if (everyTask.length == 0) {
+        return [];
+    }
 
     //Changes the endTime field to javascript date object
     everyTask = everyTask.map(task => {
@@ -159,6 +172,15 @@ export async function getEveryTaskForTomorrow(delayedInterval, startTimeForTomor
             //Makes copy of the task in order to modify the copy
             const taskCopy = { ...task };
 
+            //In case the task is repeating, its start and end time is always the current date so add +1 to the dates
+            if (taskCopy.repeating.isRepeating) {
+                taskCopy.startTime.setDate(taskCopy.startTime.getDate() + 1);
+
+                if (taskCopy.endTime) {
+                    taskCopy.endTime.setDate(taskCopy.endTime.getDate() + 1);
+                }
+            }
+
             //Will store the duration of the current task
             let taskDuration = 0;
             //Will store the time interval to the next task
@@ -185,6 +207,7 @@ export async function getEveryTaskForTomorrow(delayedInterval, startTimeForTomor
             if (index == 0) {
                 //Sets the start time to minUserRestTime after the end of the delayed task interval
                 taskCopy.startTime = new Date(endDurationTime.getTime() + minRestTime);
+
                 //If the current task has end time
                 if (taskDuration != 0) {
                     //Sets the end time of the task according to it's duration and sets the previous end time 
@@ -237,6 +260,7 @@ export async function getEveryTaskForTomorrow(delayedInterval, startTimeForTomor
 //Gets the start time of the day as date object
 //The start time is stored on the database on format "hours:minutes"
 export function getDateFromStartTime(userStartTimeOfTheDay) {
+    console.log(userStartTimeOfTheDay);
     const splitTime = userStartTimeOfTheDay.split(":");
     const startHour = Number(splitTime[0]);
     const startMinutes = Number(splitTime[1]);
@@ -245,6 +269,9 @@ export function getDateFromStartTime(userStartTimeOfTheDay) {
     tomorrowStartTime.setDate(tomorrowStartTime.getDate() + 1);
     tomorrowStartTime.setHours(startHour);
     tomorrowStartTime.setMinutes(startMinutes);
+
+    tomorrowStartTime.setSeconds(0);
+    tomorrowStartTime.setMilliseconds(0);
 
     return tomorrowStartTime;
 }
