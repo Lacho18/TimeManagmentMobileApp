@@ -1,4 +1,4 @@
 git add .
-git commit -m "Adding simple view and stress levels graph"
+git commit -m "Adding more modification for simple view"
 git branch -M main
 git push -u origin main 

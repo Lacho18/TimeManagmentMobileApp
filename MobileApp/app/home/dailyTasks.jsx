@@ -26,6 +26,7 @@ import CalmingVideo from "../../components/DailyTasks/CalmingVideo";
 import { useMyFont } from "../../context/FontContext";
 import { useWarning } from "../../context/WarningContext";
 import WarningComponent from "../../components/WarningComponent";
+import DailyTasksSimpleView from "../../components/DailyTasks/DailyTasksSimpleView";
 
 /*
   4. Vish kak potrebitelq da si pravi customise notificacii
@@ -311,6 +312,12 @@ export default function DailyTasks() {
           <View style={styles.noTasksDiv}>
             <Text style={styles.noTasksDivText}>No tasks for today so far</Text>
           </View>
+        ) : user.preferences.simpleView ? (
+          <DailyTasksSimpleView
+            theme={theme}
+            font={font}
+            allDailyTasks={allDailyTasks}
+          />
         ) : (
           <ScrollView
             vertical
