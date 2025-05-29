@@ -35,8 +35,6 @@ export const formatDateMonthName = (date, withHours = true, withDigits = false) 
 }
 
 export const formatHoursFromDate = (date) => {
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAA");
-    console.log(date);
     if (date?.toDate) {
         date = date.toDate();
     }

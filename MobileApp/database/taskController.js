@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc, where, or, and } from "firebase/firestore/lite";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc, where, or, and, writeBatch } from "firebase/firestore/lite";
 import { db } from "../firebaseConfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { formatDateMonthName, millisecondsCalculator } from "../utils/dateUtil";

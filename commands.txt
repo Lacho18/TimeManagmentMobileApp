@@ -1,4 +1,4 @@
 git add .
-git commit -m "Making mobile tests and adding more components"
+git commit -m "Adding simple view and stress levels graph"
 git branch -M main
 git push -u origin main 

@@ -8,7 +8,8 @@ export default userModel = {
         notification_sound: "",
         min_rest_time_between_tasks: "300000",
         maxNumberOfTasks: 10,
-        theme: "purple"
+        theme: "purple",
+        simpleView: false,
     },
     google_sync: false,
     stress_levels: [],

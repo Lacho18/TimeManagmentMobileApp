@@ -139,6 +139,7 @@ export default function Events() {
       color: theme.text,
       textAlign: "center",
       fontFamily: font.regular,
+      paddingHorizontal: 20,
     },
   });
 
@@ -173,7 +174,9 @@ export default function Events() {
           ))}
         </View>
       )}
-      <Text style={styles.subTitle}>Your device calendars</Text>
+      <Text style={[styles.subTitle, { marginTop: 20 }]}>
+        Your device calendars
+      </Text>
       {calendarStatus === "granted" ? (
         <View style={styles.deviceCalendarsDiv}>
           {deviceCalendars.map((calendar, index) => (

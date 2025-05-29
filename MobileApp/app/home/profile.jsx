@@ -16,6 +16,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Feather from "@expo/vector-icons/Feather";
+import Entypo from "@expo/vector-icons/Entypo";
 
 import ColorThemeSelector from "../../components/ColorThemeSelector";
 import { router } from "expo-router";
@@ -29,6 +30,8 @@ import DayStartTime from "../../components/Profile/DayStartTime";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useMyFont } from "../../context/FontContext";
+import SimpleViewSwitch from "../../components/Profile/SimpleViewSwitch";
+import ProfileSimpleView from "../../components/Profile/ProfileSimpleView";
 
 const { width } = Dimensions.get("window");
 
@@ -37,6 +40,8 @@ export default function Profile() {
   const { user, logout, loading } = useUser();
   const { stressTest, startStressTest, endStressTest } = useStressTest();
   const { font } = useMyFont();
+
+  console.log(user);
 
   //Follows whether to visualize the MinRestTime component which changes the min rest time
   const [minTimeRest, setMinTimeRest] = useState(false);
@@ -131,71 +136,99 @@ export default function Profile() {
           <Image style={styles.profileImage} source={{ uri: user.image }} />
           <Text style={styles.titleText}>{user.name}</Text>
         </View>
-        <View style={styles.buttonsDiv}>
-          <ColorThemeSelector
-            buttonStyle={styles.buttonStyle}
-            buttonText={styles.buttonText}
+        <SimpleViewSwitch theme={theme} font={font} />
+        {user.preferences.simpleView ? (
+          <ProfileSimpleView
+            theme={theme}
+            font={font}
+            signOutHandler={signOutHandler}
+            onMinRestTime={() => setMinTimeRest((oldValue) => !oldValue)}
+            onMaxTasks={() => setMaxTasks((oldValue) => !oldValue)}
+            onStartTime={() => setStartTime((oldValue) => !oldValue)}
+            onLogsView={() => router.push("/logs/logsView")}
+            onStressLevels={() => router.push("/home/stressGraph")}
           />
-          <TouchableOpacity style={styles.buttonStyle} onPress={signOutHandler}>
-            <Ionicons
-              name="person-remove-sharp"
-              size={28}
-              color={theme.secondary}
+        ) : (
+          <View style={styles.buttonsDiv}>
+            <ColorThemeSelector
+              buttonStyle={styles.buttonStyle}
+              buttonText={styles.buttonText}
             />
-            <Text style={styles.buttonText}>Sign out</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.buttonStyle}
-            onPress={() => {
-              startStressTest();
-            }}
-          >
-            <Ionicons name="newspaper" size={28} color={theme.secondary} />
-            <Text style={styles.buttonText}>Make stress test</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.buttonStyle}
-            onPress={() => {
-              setMinTimeRest((oldValue) => !oldValue);
-            }}
-          >
-            <MaterialIcons name="restore" size={28} color={theme.secondary} />
-            <Text style={styles.buttonText}>
-              Set minimum rest time between tasks
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.buttonStyle}
-            onPress={() => {
-              setMaxTasks((oldValue) => !oldValue);
-            }}
-          >
-            <FontAwesome5 name="tasks" size={28} color={theme.secondary} />
-            <Text style={styles.buttonText}>Set max number of daily tasks</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.buttonStyle}
-            onPress={() => {
-              setStartTime((oldValue) => !oldValue);
-            }}
-          >
-            <MaterialCommunityIcons
-              name="calendar-start"
-              size={28}
-              color={theme.secondary}
-            />
-            <Text style={styles.buttonText}>Set start of the day</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.buttonStyle}
-            onPress={() => {
-              router.push("/logs/logsView");
-            }}
-          >
-            <Feather name="activity" size={28} color={theme.secondary} />
-            <Text style={styles.buttonText}>Activity logs</Text>
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              onPress={signOutHandler}
+            >
+              <Ionicons
+                name="person-remove-sharp"
+                size={28}
+                color={theme.secondary}
+              />
+              <Text style={styles.buttonText}>Sign out</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              onPress={() => {
+                startStressTest();
+              }}
+            >
+              <Ionicons name="newspaper" size={28} color={theme.secondary} />
+              <Text style={styles.buttonText}>Make stress test</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              onPress={() => {
+                setMinTimeRest((oldValue) => !oldValue);
+              }}
+            >
+              <MaterialIcons name="restore" size={28} color={theme.secondary} />
+              <Text style={styles.buttonText}>
+                Set minimum rest time between tasks
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              onPress={() => {
+                setMaxTasks((oldValue) => !oldValue);
+              }}
+            >
+              <FontAwesome5 name="tasks" size={28} color={theme.secondary} />
+              <Text style={styles.buttonText}>
+                Set max number of daily tasks
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              onPress={() => {
+                setStartTime((oldValue) => !oldValue);
+              }}
+            >
+              <MaterialCommunityIcons
+                name="calendar-start"
+                size={28}
+                color={theme.secondary}
+              />
+              <Text style={styles.buttonText}>Set start of the day</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              onPress={() => {
+                router.push("/logs/logsView");
+              }}
+            >
+              <Feather name="activity" size={28} color={theme.secondary} />
+              <Text style={styles.buttonText}>Activity logs</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              onPress={() => {
+                router.push("/home/stressGraph");
+              }}
+            >
+              <Entypo name="area-graph" size={28} color={theme.secondary} />
+              <Text style={styles.buttonText}>Stress levels graph</Text>
+            </TouchableOpacity>
+          </View>
+        )}
 
         <Text>Profile</Text>
 
