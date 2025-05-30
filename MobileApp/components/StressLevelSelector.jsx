@@ -2,7 +2,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Slider from "@react-native-community/slider";
 import { useState } from "react";
 
-export default function StressLevelSelector({ theme }) {
+export default function StressLevelSelector({ theme, font }) {
   const [stressLevel, setStressLevel] = useState(0);
 
   const styles = StyleSheet.create({
@@ -16,24 +16,45 @@ export default function StressLevelSelector({ theme }) {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
+      position: "absolute",
+    },
+    title: {
+      fontSize: 18,
+      fontFamily: font.bold,
+      textAlign: "center",
+      color: theme.text,
+    },
+    hint: {
+      fontSize: 12,
+      fontFamily: font.regular,
+      fontStyle: "italic",
+      color: theme.text,
+      textAlign: "center",
     },
   });
 
   return (
     <View style={styles.mainDiv}>
-      <Text>Stress level</Text>
-      <Text>Following your stress levels helps in reducing them</Text>
+      <View>
+        <Text style={styles.title}>Stress level</Text>
+        <Text style={styles.hint}>
+          Following your stress levels helps in reducing them
+        </Text>
+      </View>
+
       <Slider
-        style={{ width: 300, height: 40 }}
+        style={{ width: 300, height: 60 }}
         minimumValue={0}
         maximumValue={100}
         value={stressLevel}
         onValueChange={(value) => setStressLevel(Math.round(value))}
-        minimumTrackTintColor={theme.secondary} // color of the left side of the thumb
-        maximumTrackTintColor={theme.accent} // color of the right side of the thumb
+        minimumTrackTintColor={theme.secondary}
+        maximumTrackTintColor={theme.accent}
         thumbTintColor={theme.primary}
+        tapToSeek={true}
       />
-      <Text>
+      <Text>{stressLevel}</Text>
+      <Text style={styles.hint}>
         If you are not sure how you fill, you can answer some questions.
       </Text>
       <TouchableOpacity>

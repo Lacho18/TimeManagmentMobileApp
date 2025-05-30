@@ -378,7 +378,7 @@ export default function DailyTasks() {
 
         {activateCalmingVideo && <CalmingVideo theme={theme} />}
         {warningMessage !== "" && <WarningComponent theme={theme} />}
-        <StressLevelSelector theme={theme} />
+        <StressLevelSelector theme={theme} font={font} />
       </Pressable>
     </SafeAreaView>
   );
