@@ -27,6 +27,7 @@ import { useMyFont } from "../../context/FontContext";
 import { useWarning } from "../../context/WarningContext";
 import WarningComponent from "../../components/WarningComponent";
 import DailyTasksSimpleView from "../../components/DailyTasks/DailyTasksSimpleView";
+import StressLevelSelector from "../../components/StressLevelSelector";
 
 /*
   4. Vish kak potrebitelq da si pravi customise notificacii
@@ -280,6 +281,11 @@ export default function DailyTasks() {
       color: theme.text,
       fontFamily: font.regular,
     },
+    hint: {
+      fontSize: 12,
+      color: theme.text,
+      fontStyle: "italic",
+    },
   });
 
   return (
@@ -292,6 +298,7 @@ export default function DailyTasks() {
             leftPosition={menuPosition.left}
             lastSelectedFilter={lastSelectedFilter.current}
             sortingTasksHandler={sortingTasksHandler}
+            userSimpleView={user.preferences.simpleView}
           />
         )}
         <View style={styles.header}>
@@ -313,11 +320,20 @@ export default function DailyTasks() {
             <Text style={styles.noTasksDivText}>No tasks for today so far</Text>
           </View>
         ) : user.preferences.simpleView ? (
-          <DailyTasksSimpleView
-            theme={theme}
-            font={font}
-            allDailyTasks={allDailyTasks}
-          />
+          <View>
+            <Text style={styles.hint}>
+              Hold the task in order to complete it
+            </Text>
+            <DailyTasksSimpleView
+              theme={theme}
+              font={font}
+              allDailyTasks={allDailyTasks}
+              selectTask={(selection) => {
+                setSelectedTask(selection);
+              }}
+              onCompleteTask={completeTaskHandler}
+            />
+          </View>
         ) : (
           <ScrollView
             vertical
@@ -362,6 +378,7 @@ export default function DailyTasks() {
 
         {activateCalmingVideo && <CalmingVideo theme={theme} />}
         {warningMessage !== "" && <WarningComponent theme={theme} />}
+        <StressLevelSelector theme={theme} />
       </Pressable>
     </SafeAreaView>
   );

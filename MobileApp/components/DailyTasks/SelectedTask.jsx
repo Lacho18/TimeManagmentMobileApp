@@ -261,14 +261,16 @@ export default function SelectedTask({ selectedTask, theme, hideTask }) {
                   />{" "}
                   Priority - {priorityDescription.textDescription}
                 </Text>
-                <Text style={styles.dateText}>
-                  <FontAwesome6
-                    name="location-dot"
-                    size={24}
-                    color={theme.accent}
-                  />
-                  Location - {selectedTask.location}
-                </Text>
+                {selectedTask.location !== "" && (
+                  <Text style={styles.dateText}>
+                    <FontAwesome6
+                      name="location-dot"
+                      size={24}
+                      color={theme.accent}
+                    />
+                    Location - {selectedTask.location}
+                  </Text>
+                )}
               </BottomSheetView>
             </BottomSheet>
           </View>

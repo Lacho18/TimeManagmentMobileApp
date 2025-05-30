@@ -9,6 +9,7 @@ import {
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import SortButton from "./SortButton";
@@ -25,11 +26,12 @@ export default function MenuOptions({
   leftPosition,
   lastSelectedFilter,
   sortingTasksHandler,
+  userSimpleView,
 }) {
   const { font } = useMyFont();
 
-  const COMPONENT_WIDTH = 230;
-  const COMPONENT_HEIGHT = 310;
+  const COMPONENT_WIDTH = 250;
+  const COMPONENT_MIN_HEIGHT = 150;
 
   const [menuVisible, setMenuVisible] = useState(false);
   const scaleAnim = useRef(new Animated.Value(0)).current;
@@ -78,7 +80,8 @@ export default function MenuOptions({
   const styles = StyleSheet.create({
     mainDiv: {
       width: COMPONENT_WIDTH,
-      height: COMPONENT_HEIGHT,
+      height: "auto",
+      minHeight: COMPONENT_MIN_HEIGHT,
       backgroundColor: theme.primary,
       borderRadius: 20,
       display: "flex",
@@ -98,6 +101,7 @@ export default function MenuOptions({
       borderColor: theme.secondary,
       borderRadius: 10,
       display: "flex",
+      flexWrap: "wrap",
       flexDirection: "row",
       alignItems: "center",
       gap: 10,
@@ -128,7 +132,7 @@ export default function MenuOptions({
             {
               translateY: scaleAnim.interpolate({
                 inputRange: [0, 1],
-                outputRange: [-COMPONENT_HEIGHT, 0],
+                outputRange: [-COMPONENT_MIN_HEIGHT, 0],
               }),
             },
           ],
@@ -136,62 +140,79 @@ export default function MenuOptions({
         },
       ]}
     >
-      <SortButton
-        icon={
-          <MaterialIcons
-            name="access-time-filled"
-            size={24}
-            color={theme.secondary}
-          />
-        }
-        theme={theme}
-        buttonType={"startTime"}
-        sortMethod={"date"}
-        lastSelectedFilter={lastSelectedFilter}
-        sortingTasksHandler={sortingTasksHandler}
-      />
-      <SortButton
-        icon={<Ionicons name="flag-sharp" size={24} color={theme.secondary} />}
-        theme={theme}
-        buttonType={"priority"}
-        sortMethod={"priority"}
-        lastSelectedFilter={lastSelectedFilter}
-        sortingTasksHandler={sortingTasksHandler}
-      />
-      <SortButton
-        icon={
-          <MaterialCommunityIcons
-            name="gauge"
-            size={24}
-            color={theme.secondary}
-          />
-        }
-        theme={theme}
-        buttonType={"stressLevel"}
-        sortMethod={"stress level"}
-        lastSelectedFilter={lastSelectedFilter}
-        sortingTasksHandler={sortingTasksHandler}
-      />
-      <SortButton
-        icon={
-          <FontAwesome6
-            name="hourglass-end"
-            size={24}
-            color={theme.secondary}
-          />
-        }
-        theme={theme}
-        buttonType={"duration"}
-        sortMethod={"duration"}
-        lastSelectedFilter={lastSelectedFilter}
-        sortingTasksHandler={sortingTasksHandler}
-      />
+      {!userSimpleView && (
+        <SortButton
+          icon={
+            <MaterialIcons
+              name="access-time-filled"
+              size={24}
+              color={theme.secondary}
+            />
+          }
+          theme={theme}
+          buttonType={"startTime"}
+          sortMethod={"date"}
+          lastSelectedFilter={lastSelectedFilter}
+          sortingTasksHandler={sortingTasksHandler}
+        />
+      )}
+      {!userSimpleView && (
+        <SortButton
+          icon={
+            <Ionicons name="flag-sharp" size={24} color={theme.secondary} />
+          }
+          theme={theme}
+          buttonType={"priority"}
+          sortMethod={"priority"}
+          lastSelectedFilter={lastSelectedFilter}
+          sortingTasksHandler={sortingTasksHandler}
+        />
+      )}
+      {!userSimpleView && (
+        <SortButton
+          icon={
+            <MaterialCommunityIcons
+              name="gauge"
+              size={24}
+              color={theme.secondary}
+            />
+          }
+          theme={theme}
+          buttonType={"stressLevel"}
+          sortMethod={"stress lv."}
+          lastSelectedFilter={lastSelectedFilter}
+          sortingTasksHandler={sortingTasksHandler}
+        />
+      )}
+      {!userSimpleView && (
+        <SortButton
+          icon={
+            <FontAwesome6
+              name="hourglass-end"
+              size={24}
+              color={theme.secondary}
+            />
+          }
+          theme={theme}
+          buttonType={"duration"}
+          sortMethod={"duration"}
+          lastSelectedFilter={lastSelectedFilter}
+          sortingTasksHandler={sortingTasksHandler}
+        />
+      )}
       <TouchableOpacity
         style={styles.buttonStyle}
         onPress={() => router.push("/logs/logsView")}
       >
         <Feather name="activity" size={28} color={theme.secondary} />
         <Text style={styles.buttonText}>Activity logs</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.buttonStyle}
+        onPress={() => router.push("/logs/logsView")}
+      >
+        <FontAwesome name="wpforms" size={28} color={theme.secondary} />
+        <Text style={styles.buttonText}>Insert stress level</Text>
       </TouchableOpacity>
     </Animated.View>
   );

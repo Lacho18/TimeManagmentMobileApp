@@ -210,8 +210,6 @@ export const delayTask = async (taskId, user) => {
 };
 
 export const deleteTask = async (taskObject, userId) => {
-    console.log("EI PEDERASIIIIIIII ", taskObject);
-
     //If the task is repeating do not delete it but mark it as completed for the current day
     if (taskObject.repeating.isRepeating && taskObject.completed) {
         const docRef = doc(db, "Tasks", taskObject.id);
@@ -234,11 +232,12 @@ export const deleteTask = async (taskObject, userId) => {
             await createLog(`Task ${taskObject.title} was automatically deleted due to too many delays`, userId);
         }
 
+        console.log("Deleting task " + taskObject.id);
+
         await deleteDoc(docRef);
     }
     catch (err) {
         console.error(err.message);
-
     }
 }
 

@@ -1,4 +1,10 @@
-import { ScrollView, View, Text, StyleSheet } from "react-native";
+import {
+  ScrollView,
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { useUser } from "../../context/UserContext";
 import { useEffect, useState, useRef } from "react";
 import { STRESS_LEVELS } from "../../constants/StressLevel";
@@ -8,12 +14,16 @@ const HOURS_RANGE = 70;
 const MIN_TASK_WIDTH = 25;
 const MIN_TASK_HEIGHT = 30;
 
-export default function DailyTasksSimpleView({ theme, font, allDailyTasks }) {
+export default function DailyTasksSimpleView({
+  theme,
+  font,
+  allDailyTasks,
+  selectTask,
+  onCompleteTask,
+}) {
   const { user } = useUser();
   const [userWorkHours, setUserWorkHours] = useState([]);
   const [visualTasks, setVisualTasks] = useState([]);
-
-  console.log(allDailyTasks);
 
   const userStartHour = useRef(
     Number(user.preferences.dayStartTime.split(":")[0])
@@ -36,53 +46,46 @@ export default function DailyTasksSimpleView({ theme, font, allDailyTasks }) {
       visualTasks.push(setTaskCoordinates(task));
     });
 
+    //visualTasks.splice(1, 1);
+
     setUserWorkHours(workHours);
     setVisualTasks(visualTasks);
   }, []);
 
   function setTaskCoordinates(task) {
-    if (task.startTime.toDate) {
-      task.startTime = task.startTime.toDate();
-    }
-    const yCoordinate =
+    if (task.startTime.toDate) task.startTime = task.startTime.toDate();
+    if (task.endTime?.toDate) task.endTime = task.endTime.toDate();
+
+    const start =
       (task.startTime.getHours() - userStartHour.current) * HOURS_RANGE +
       (task.startTime.getMinutes() / 60) * HOURS_RANGE;
-    let taskWidth = 0;
-    let taskHeight = 0;
 
-    console.log(yCoordinate + 35);
+    let height = MIN_TASK_HEIGHT;
+    if (task.endTime) {
+      const end =
+        (task.endTime.getHours() - userStartHour.current) * HOURS_RANGE +
+        (task.endTime.getMinutes() / 60) * HOURS_RANGE;
+      height = end - start;
+    }
 
     const stressColors = STRESS_LEVELS.find(
       (indexValue) => indexValue.stressValue === task.stressLevel
     );
 
-    if (!task.endTime) {
-      taskWidth = MIN_TASK_WIDTH;
-      taskHeight = MIN_TASK_HEIGHT;
-    } else {
-      if (task.endTime.toDate) {
-        task.endTime = task.endTime.toDate();
-      }
-      const yEndCoordinate =
-        (task.endTime.getHours() - userStartHour.current) * HOURS_RANGE +
-        (task.endTime.getMinutes() / 60) * HOURS_RANGE;
-
-      taskHeight = yEndCoordinate - yCoordinate;
-      taskWidth = MIN_TASK_WIDTH;
-    }
-
-    const taskVisualObject = {
-      y: yCoordinate + HOURS_RANGE,
-      taskWidth,
-      taskHeight,
+    return {
+      id: task.id,
+      y: start + 5,
+      taskWidth: MIN_TASK_WIDTH,
+      taskHeight: height - 1,
       title: task.title,
       background: stressColors.backgroundColor,
     };
-
-    return taskVisualObject;
   }
 
-  console.log(visualTasks);
+  function deleteVisualTask(taskId) {
+    const newTasks = visualTasks.filter((task) => task.id !== taskId);
+    setVisualTasks(newTasks);
+  }
 
   const styles = StyleSheet.create({
     mainDiv: {
@@ -100,12 +103,11 @@ export default function DailyTasksSimpleView({ theme, font, allDailyTasks }) {
     },
 
     hoursDiv: {
+      position: "relative",
       display: "flex",
       width: 60,
       flexDirection: "column",
-      //gap: HOURS_RANGE,
       borderRightWidth: 2,
-      paddingVertical: 35,
       borderStyle: "dashed",
     },
     taskBox: {
@@ -117,7 +119,6 @@ export default function DailyTasksSimpleView({ theme, font, allDailyTasks }) {
       width: 250,
     },
     text: {
-      fontSize: 18,
       color: theme.text,
       fontFamily: font.regular,
     },
@@ -134,8 +135,8 @@ export default function DailyTasksSimpleView({ theme, font, allDailyTasks }) {
           <Text
             key={index}
             style={{
-              marginBottom:
-                index === userWorkHours.length - 1 ? 0 : HOURS_RANGE,
+              position: "absolute",
+              top: index * HOURS_RANGE,
               color: theme.text,
             }}
           >
@@ -145,7 +146,18 @@ export default function DailyTasksSimpleView({ theme, font, allDailyTasks }) {
       </View>
       <View>
         {visualTasks.map((task) => (
-          <View
+          <TouchableOpacity
+            onPress={() => {
+              let selectedTaskFromUser = allDailyTasks.find(
+                (indexValue) => indexValue.id === task.id
+              );
+              selectTask(selectedTaskFromUser);
+            }}
+            onLongPress={() => {
+              deleteVisualTask(task.id);
+              onCompleteTask(task.id);
+            }}
+            delayLongPress={1000}
             style={[
               styles.taskBox,
               {
@@ -158,8 +170,10 @@ export default function DailyTasksSimpleView({ theme, font, allDailyTasks }) {
               },
             ]}
           >
-            <Text style={styles.text}>{task.title}</Text>
-          </View>
+            <Text style={[styles.text, { fontSize: task.taskHeight * 0.5 }]}>
+              {task.title}
+            </Text>
+          </TouchableOpacity>
         ))}
       </View>
     </ScrollView>
