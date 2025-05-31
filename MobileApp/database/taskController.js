@@ -1,7 +1,7 @@
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc, where, or, and, writeBatch } from "firebase/firestore/lite";
 import { db } from "../firebaseConfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { formatDateMonthName, millisecondsCalculator } from "../utils/dateUtil";
+import { formatDateMonthName, millisecondsCalculator, taskOnRestTime } from "../utils/dateUtil";
 import { durationColorSetter } from "../utils/durationColorUtil";
 import { featureTasksCompiler, taskInterval } from "../utils/tasksInterval";
 import { checkForMaxTasksOverflow } from "../utils/maxTasksUtil";
@@ -73,12 +73,26 @@ export const getOnlyTasksForTomorrow = () => {
 export const createTask = async (newTask, user) => {
     let result = "Success";
 
+    //Requires title
     if (newTask.title === "") {
         return "Please provide a title for the task";
     }
 
+    //Requires start time of the task
     if (newTask.startTime === null) {
         return "Please select start time for the task!";
+    }
+
+    const now = new Date();
+
+    //Requires the task to not be in the past
+    if (newTask.startTime < now) {
+        return "This time is already on the past. Can you provide a different start time";
+    }
+
+    //Requires the task to not be in the resting hours
+    if (!taskOnRestTime(user.preferences.dayStartTime, newTask.startTime, newTask.endTime)) {
+        return "Resting is the most important thing. This tasks goes in your resting hours";
     }
 
     try {

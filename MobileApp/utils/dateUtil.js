@@ -1,4 +1,5 @@
 import { eachDayOfInterval, endOfDay, endOfWeek, isSameWeek, startOfDay, startOfWeek } from "date-fns";
+import { getDateFromStartTime } from "../functions/panicButtonHandler";
 
 //Formats the date as a string
 export const formatDate = (date) => {
@@ -119,4 +120,27 @@ export const equalDatesWithHours = (date1, date2) => {
     else {
         return false;
     }
+}
+
+//The user rest time is set to be 8 hours before the start time of the day. This function checks if the new inserted tasks goes inside the rest interval
+export const taskOnRestTime = (userStartTime, taskStartTime, taskEndTime = null) => {
+    const startTime = getDateFromStartTime(userStartTime);
+
+    const startRestTime = new Date(startTime);
+    startRestTime.setHours(startRestTime.getHours() - 8);
+
+    taskStartTime = new Date(startTime.getFullYear(), startTime.getMonth(), startTime.getDate(), taskStartTime.getHours(), taskStartTime.getMinutes(), 0);
+
+    if (taskStartTime >= startRestTime && taskStartTime < startTime) {
+        return false;
+    }
+
+    if (taskEndTime) {
+        taskEndTime = new Date(startTime.getFullYear(), startTime.getMonth(), startTime.getDate(), taskEndTime.getHours(), taskEndTime.getMinutes(), 0);
+        if (taskEndTime >= startRestTime && taskEndTime <= startTime) {
+            return false;
+        }
+    }
+
+    return true;
 }
