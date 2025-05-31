@@ -3,7 +3,11 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useTheme } from "../context/ThemeContext";
 import { useState } from "react";
 
-export default function ColorThemeSelector({ buttonStyle, buttonText }) {
+export default function ColorThemeSelector({
+  buttonStyle,
+  buttonText,
+  userSimpleView,
+}) {
   const { theme, toggleTheme, colorThemes } = useTheme();
   const [themes, setThemes] = useState(false);
 
@@ -28,6 +32,23 @@ export default function ColorThemeSelector({ buttonStyle, buttonText }) {
       height: 25,
       borderWidth: 1,
       padding: 3,
+    },
+
+    singleButton: {
+      flexBasis: "30%",
+      height: 120,
+      borderWidth: 5,
+      borderColor: theme.primary,
+      borderRadius: 18,
+      padding: 15,
+      display: "flex",
+      justifyContent: "space-around",
+      alignItems: "center",
+    },
+
+    buttonText: {
+      fontSize: 16,
+      color: theme.text,
     },
   });
 

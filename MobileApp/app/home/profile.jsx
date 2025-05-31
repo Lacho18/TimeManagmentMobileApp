@@ -136,7 +136,12 @@ export default function Profile() {
           <Image style={styles.profileImage} source={{ uri: user.image }} />
           <Text style={styles.titleText}>{user.name}</Text>
         </View>
-        <SimpleViewSwitch theme={theme} font={font} />
+        <SimpleViewSwitch
+          theme={theme}
+          font={font}
+          switchValue={user.preferences.simpleView}
+          userId={user.id}
+        />
         {user.preferences.simpleView ? (
           <ProfileSimpleView
             theme={theme}
@@ -229,8 +234,6 @@ export default function Profile() {
             </TouchableOpacity>
           </View>
         )}
-
-        <Text>Profile</Text>
 
         {stressTest && <StressTest />}
         {minTimeRest && (

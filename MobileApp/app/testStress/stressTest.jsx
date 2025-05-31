@@ -12,6 +12,9 @@ import Carousel from "react-native-reanimated-carousel";
 import BaseQuestionComponent from "../../components/StressTest/BaseQuestionComponent";
 import { router } from "expo-router";
 import { useMyFont } from "../../context/FontContext";
+import { arrayUnion, doc, updateDoc } from "firebase/firestore/lite";
+import { db } from "../../firebaseConfig";
+import { useUser } from "../../context/UserContext";
 
 const screenWidth = Dimensions.get("window").width - 10;
 
@@ -19,6 +22,7 @@ export default function StressTest() {
   const { theme } = useTheme();
   const { stressTestQuestions } = useStressTest();
   const { font } = useMyFont();
+  const { user } = useUser();
 
   //Reference to the carousel
   const carouselRef = useRef(null);
@@ -66,9 +70,25 @@ export default function StressTest() {
     } else setProgressPercent(100);
   }
 
-  function submitStressTestAnswers() {
-    console.log("Answers");
-    console.log(userAnswers.current);
+  async function submitStressTestAnswers() {
+    let stressPoints = 0;
+
+    stressTestQuestions.forEach((question, index) => {
+      if (question.pointAnswer === userAnswers.current[index]) {
+        stressPoints++;
+      }
+    });
+    let stressLevel = stressPoints * 10;
+
+    const userDocRef = doc(db, "Users", user.id);
+
+    await updateDoc(userDocRef, {
+      stressLevels: arrayUnion({
+        value: stressLevel,
+        date: new Date(),
+      }),
+    });
+
     router.back();
   }
 

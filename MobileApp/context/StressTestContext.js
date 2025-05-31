@@ -3,7 +3,7 @@ import { useRouter } from "expo-router";
 import { QUESTIONS } from "../constants/Questions";
 
 //The number of questions on the stress test
-const STRESS_TEST_MAX_QUESTIONS_NUMBER = 8;
+const STRESS_TEST_MAX_QUESTIONS_NUMBER = 10;
 
 const StressTestContext = createContext();
 

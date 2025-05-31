@@ -7,6 +7,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Feather from "@expo/vector-icons/Feather";
 import Entypo from "@expo/vector-icons/Entypo";
 import { useStressTest } from "../../context/StressTestContext";
+import ColorThemeSelector from "../ColorThemeSelector";
 
 export default function ProfileSimpleView({
   theme,
@@ -51,6 +52,10 @@ export default function ProfileSimpleView({
 
   return (
     <View style={styles.buttonsDiv}>
+      <TouchableOpacity style={styles.singleButton}>
+        <MaterialIcons name="color-lens" size={42} color={theme.secondary} />
+        <Text style={styles.buttonText}>Theme</Text>
+      </TouchableOpacity>
       <TouchableOpacity style={styles.singleButton} onPress={signOutHandler}>
         <Ionicons
           name="person-remove-sharp"

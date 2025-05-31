@@ -27,6 +27,7 @@ export default function MenuOptions({
   lastSelectedFilter,
   sortingTasksHandler,
   userSimpleView,
+  openStressLevelSelector,
 }) {
   const { font } = useMyFont();
 
@@ -209,7 +210,7 @@ export default function MenuOptions({
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.buttonStyle}
-        onPress={() => router.push("/logs/logsView")}
+        onPress={() => openStressLevelSelector()}
       >
         <FontAwesome name="wpforms" size={28} color={theme.secondary} />
         <Text style={styles.buttonText}>Insert stress level</Text>

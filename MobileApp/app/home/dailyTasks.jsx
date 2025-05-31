@@ -73,6 +73,9 @@ export default function DailyTasks() {
   //Follows whether to visualize calming video before stressful task
   const [activateCalmingVideo, setActivateCalmingVideo] = useState(false);
 
+  //Follows whether to visualize stress level selector
+  const [stressLevelSelector, setStressLevelSelector] = useState(false);
+
   //Describes the last selected filter in order to reverse if the same filter is selected second time
   const lastSelectedFilter = useRef({
     type: "startTime",
@@ -116,6 +119,10 @@ export default function DailyTasks() {
 
     if (activateCalmingVideo) {
       setActivateCalmingVideo(false);
+    }
+
+    if (stressLevelSelector) {
+      setStressLevelSelector(false);
     }
   }
 
@@ -299,6 +306,10 @@ export default function DailyTasks() {
             lastSelectedFilter={lastSelectedFilter.current}
             sortingTasksHandler={sortingTasksHandler}
             userSimpleView={user.preferences.simpleView}
+            openStressLevelSelector={() => {
+              setStressLevelSelector(true);
+              setShowMenu(false);
+            }}
           />
         )}
         <View style={styles.header}>
@@ -378,7 +389,9 @@ export default function DailyTasks() {
 
         {activateCalmingVideo && <CalmingVideo theme={theme} />}
         {warningMessage !== "" && <WarningComponent theme={theme} />}
-        <StressLevelSelector theme={theme} font={font} />
+        {stressLevelSelector && (
+          <StressLevelSelector theme={theme} font={font} userId={user.id} />
+        )}
       </Pressable>
     </SafeAreaView>
   );

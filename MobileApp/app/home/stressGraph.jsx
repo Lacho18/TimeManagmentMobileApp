@@ -30,8 +30,9 @@ export default function StressGraph() {
     const today = new Date();
 
     const values = [
-      2, 2, 3, 2, 2, 1, 1, 5, 5, 7, 7, 7, 7, 7, 7, 8, 6, 6, 3, 1, 1, 1, 1, 2, 2,
-      2, 2, 2, 2, 2, 2, 2, 9, 9, 9, 8, 9, 10, 7, 6, 4, 3, 3, 3, 3, 4,
+      20, 20, 30, 20, 20, 10, 10, 50, 50, 70, 70, 70, 70, 70, 70, 80, 60, 60,
+      30, 10, 10, 10, 10, 20, 20, 20, 20, 20, 20, 20, 20, 20, 90, 90, 90, 80,
+      90, 100, 70, 60, 40, 30, 30, 30, 30, 40,
     ];
 
     const dataLength = onlyPastMonth ? 30 : values.length;
@@ -114,7 +115,7 @@ export default function StressGraph() {
         height={240}
         yAxisLabel=""
         yAxisSuffix=""
-        yAxisInterval={1}
+        yAxisInterval={10}
         chartConfig={{
           backgroundGradientFrom: theme.secondary,
           backgroundGradientTo: theme.secondary,
@@ -125,7 +126,7 @@ export default function StressGraph() {
             borderRadius: 16,
           },
           propsForDots: {
-            r: "3",
+            r: "2",
             strokeWidth: "1",
             stroke: theme.primary,
           },

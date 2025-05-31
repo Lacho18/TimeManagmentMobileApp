@@ -1,14 +1,26 @@
 import React, { useState } from "react";
 import { View, Text, Switch, StyleSheet } from "react-native";
 import { useUser } from "../../context/UserContext";
+import { doc, updateDoc } from "firebase/firestore/lite";
+import { db } from "../../firebaseConfig";
 
-export default function SimpleViewSwitch({ theme, font }) {
+export default function SimpleViewSwitch({ theme, font, switchValue, userId }) {
   const { changeUserPreferences } = useUser();
-  const [isEnabled, setIsEnabled] = useState(false);
+  const [isEnabled, setIsEnabled] = useState(switchValue);
 
   function toggleSwitch() {
     setIsEnabled((previous) => !previous);
     changeUserPreferences("simpleView", !isEnabled);
+
+    try {
+      const docRef = doc(db, "Users", userId);
+
+      updateDoc(docRef, {
+        "preferences.simpleView": isEnabled,
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
   }
 
   return (
