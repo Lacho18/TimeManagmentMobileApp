@@ -12,7 +12,7 @@ import { STRESS_LEVELS } from "../../constants/StressLevel";
 const MAX_WORK_HOURS = 24 - 8;
 const HOURS_RANGE = 70;
 const MIN_TASK_WIDTH = 25;
-const MIN_TASK_HEIGHT = 30;
+const MIN_TASK_HEIGHT = 5;
 
 export default function DailyTasksSimpleView({
   theme,
@@ -170,7 +170,14 @@ export default function DailyTasksSimpleView({
               },
             ]}
           >
-            <Text style={[styles.text, { fontSize: task.taskHeight * 0.5 }]}>
+            <Text
+              style={[
+                styles.text,
+                {
+                  fontSize: task.taskHeight <= 20 ? 18 : task.taskHeight * 0.5,
+                },
+              ]}
+            >
               {task.title}
             </Text>
           </TouchableOpacity>

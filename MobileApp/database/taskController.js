@@ -121,8 +121,6 @@ export const createTask = async (newTask, user) => {
             newTask.durationColor = durationColorSetter(newTask.duration);
         }
 
-        //console.log("The new task before ", newTask);
-
         //If the task is marked as repeating set its start and end time on separate fields
         if (newTask.repeating.isRepeating) {
             const pad = (num) => String(num).padStart(2, '0');

@@ -32,6 +32,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useMyFont } from "../../context/FontContext";
 import SimpleViewSwitch from "../../components/Profile/SimpleViewSwitch";
 import ProfileSimpleView from "../../components/Profile/ProfileSimpleView";
+import StressLevelSelector from "../../components/StressLevelSelector";
 
 const { width } = Dimensions.get("window");
 
@@ -52,6 +53,9 @@ export default function Profile() {
   //Follows whether to visualize the DayStartTime component which changes start of the day time
   const [startTime, setStartTime] = useState(false);
 
+  //Follows whether to visualize stress level selector
+  const [stressLevelSelector, setStressLevelSelector] = useState(false);
+
   //Checks if the data for user is loading or if the user is found. Does not return anything if so.
   if (loading || !user) return null;
 
@@ -71,6 +75,10 @@ export default function Profile() {
 
     if (startTime) {
       setStartTime(false);
+    }
+
+    if (stressLevelSelector) {
+      setStressLevelSelector(false);
     }
   }
 
@@ -147,6 +155,7 @@ export default function Profile() {
             theme={theme}
             font={font}
             signOutHandler={signOutHandler}
+            onTestSelect={() => setStressLevelSelector((oldValue) => !oldValue)}
             onMinRestTime={() => setMinTimeRest((oldValue) => !oldValue)}
             onMaxTasks={() => setMaxTasks((oldValue) => !oldValue)}
             onStartTime={() => setStartTime((oldValue) => !oldValue)}
@@ -275,6 +284,9 @@ export default function Profile() {
           userStartTimeOfTheDay={user.preferences.dayStartTime}
           userMinRestTime={user.preferences.min_rest_time_between_tasks}
         />
+        {stressLevelSelector && (
+          <StressLevelSelector theme={theme} font={font} userId={user.id} />
+        )}
       </Pressable>
     </SafeAreaView>
   );

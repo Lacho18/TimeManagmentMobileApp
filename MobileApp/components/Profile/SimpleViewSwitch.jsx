@@ -8,15 +8,19 @@ export default function SimpleViewSwitch({ theme, font, switchValue, userId }) {
   const { changeUserPreferences } = useUser();
   const [isEnabled, setIsEnabled] = useState(switchValue);
 
+  console.log(switchValue);
+
   function toggleSwitch() {
     setIsEnabled((previous) => !previous);
     changeUserPreferences("simpleView", !isEnabled);
+
+    console.log("Update switch ", userId);
 
     try {
       const docRef = doc(db, "Users", userId);
 
       updateDoc(docRef, {
-        "preferences.simpleView": isEnabled,
+        "preferences.simpleView": !isEnabled,
       });
     } catch (error) {
       console.error(error.message);

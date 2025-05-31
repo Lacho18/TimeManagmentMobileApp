@@ -64,7 +64,7 @@ export const millisecondsCalculator = (milliseconds) => {
         return `${days} day${days > 1 ? "s" : ""} ${hours > 0 && "and " + hours + " hours"}`;
     }
     else if (hours > 0) {
-        return `${hours} hour${hours > 1 ? "s" : ""} ${minutes > 0 && `and ${minutes} minute${minutes > 1 && "s"}`}`;
+        return `${hours} hour${hours > 1 ? "s" : ""} ${minutes > 0 && `and ${minutes - (hours * 60)} minute${minutes > 1 && "s"}`}`;
     }
     else {
         return `${minutes} minute${minutes > 1 ? "s" : ""}`;

@@ -7,12 +7,14 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Feather from "@expo/vector-icons/Feather";
 import Entypo from "@expo/vector-icons/Entypo";
 import { useStressTest } from "../../context/StressTestContext";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import ColorThemeSelector from "../ColorThemeSelector";
 
 export default function ProfileSimpleView({
   theme,
   font,
   signOutHandler,
+  onTestSelect,
   onMinRestTime,
   onMaxTasks,
   onStartTime,
@@ -64,8 +66,8 @@ export default function ProfileSimpleView({
         />
         <Text style={styles.buttonText}>Sign out</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.singleButton} onPress={startStressTest}>
-        <Ionicons name="newspaper" size={42} color={theme.secondary} />
+      <TouchableOpacity style={styles.singleButton} onPress={onTestSelect}>
+        <FontAwesome name="wpforms" size={42} color={theme.secondary} />
         <Text style={styles.buttonText}>Test</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.singleButton} onPress={onMinRestTime}>

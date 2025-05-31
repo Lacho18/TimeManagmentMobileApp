@@ -1,4 +1,4 @@
 git add .
-git commit -m "Adding stress level selector component"
+git commit -m "Final submit with hard changes"
 git branch -M main
 git push -u origin main 

@@ -27,9 +27,6 @@ export default function GoogleAuth({ theme, router }) {
       "https://www.googleapis.com/auth/userinfo.profile",
     ],
     redirectUri: makeRedirectUri({ useProxy: true }),
-    //responseType: "code",
-    //accessType: "offline",
-    //prompt: "consent",
   });
 
   useEffect(() => {
@@ -46,18 +43,8 @@ export default function GoogleAuth({ theme, router }) {
     //If user not found, it means no user has logged in
     if (!user) {
       if (response?.type === "success") {
-        const { code } = response.params;
-        console.log("TYKA SUMMMMMMMMMMMMMMMMMMMMMM");
-        console.log(code);
+        //const { code } = response.params;
         setToken(response.authentication.accessToken);
-        /*exchangeCodeForToken(code)
-          .then((tokens) => {
-            AsyncStorage.setItem("@token", tokens.access_token);
-            AsyncStorage.setItem("@refreshToken", tokens.refresh_token);
-            setToken(tokens.access_token);
-            getUserInfo(tokens.access_token);
-          })
-          .catch((err) => console.error(err));*/
         await getUserInfo(response.authentication.accessToken);
       }
     } else {

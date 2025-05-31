@@ -231,15 +231,12 @@ export default function DailyTasks() {
 
   //This function handles yes answer on 2 cases: delaying task and opening calming video
   async function yesQuestionHandler(tasksId) {
-    console.log("Alo ve pedaliiiiiii");
     //In case the task is delayed
     if (questionData.id) {
       delayTask(tasksId, user);
     } else {
       setActivateCalmingVideo(true);
     }
-
-    console.log("Neshto primerno");
     closeQuestionMenu();
   }
 
@@ -289,7 +286,7 @@ export default function DailyTasks() {
       fontFamily: font.regular,
     },
     hint: {
-      fontSize: 12,
+      fontSize: 15,
       color: theme.text,
       fontStyle: "italic",
     },
@@ -331,7 +328,7 @@ export default function DailyTasks() {
             <Text style={styles.noTasksDivText}>No tasks for today so far</Text>
           </View>
         ) : user.preferences.simpleView ? (
-          <View>
+          <View style={{ flex: 1 }}>
             <Text style={styles.hint}>
               Hold the task in order to complete it
             </Text>
