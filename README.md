@@ -5,27 +5,28 @@
 ## Technologies
 
 <div style="
-    display: flex,
-    gap: 10,
+    display: flex;
+    flex-direction: row;
+    gap: 10;
 ">
     <p style="
-        padding: 15,
-        border: 1px solid black,
-        border-radius: 18px,
+        padding: 15;
+        border: 1px solid black;
+        border-radius: 18px;
     ">JavaScript</p>
     <p style="
-        padding: 15,
-        border: 1px solid black,
-        border-radius: 18px,
+        padding: 15;
+        border: 1px solid black;
+        border-radius: 18px;
     ">React Native</p>
     <p style="
-        padding: 15,
-        border: 1px solid black,
-        border-radius: 18px,
+        padding: 15;
+        border: 1px solid black;
+        border-radius: 18px;
     ">Expo</p>
     <p style="
-        padding: 15,
-        border: 1px solid black,
-        border-radius: 18px,
+        padding: 15;
+        border: 1px solid black;
+        border-radius: 18px;
     ">Firebase</p>
 </div>
