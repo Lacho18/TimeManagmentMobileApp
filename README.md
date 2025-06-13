@@ -56,7 +56,7 @@ This is a hybrid mobile app which can run on both Android and iOS operational sy
 
 This mobile app is focused on stress reduction. It provides different functionalities to achieve this. They are:
 
-1. Buffer zone between tasks - this application does not allow users to have two or more tasks at the same time. There is algorithm which automatically change the inserted task times, so that it does not go on the interval of the existing one and also automatically adds buffer zone between them, which is a value of minutes, which can be managed by the user
-2. Specific colors for high stress tasks - depending on the stress level of the task, it's component is displayed with different color
-3. Calming videos before stressful tasks - around 15 minutes before high stress level task a suggestion for watching calm video is seen and can be displayed on the app. (The videos are landscapes without sounds)
-4. Breathing animations - animations which displays when to breathe in and breathe out which lower the stress levels before stressful task
+1. **Buffer zone between tasks** - this application does not allow users to have two or more tasks at the same time. There is algorithm which automatically change the inserted task times, so that it does not go on the interval of the existing one and also automatically adds buffer zone between them, which is a value of minutes, which can be managed by the user
+2. **Specific colors for high stress tasks** - depending on the stress level of the task, it's component is displayed with different color
+3. **Calming videos before stressful tasks** - around 15 minutes before high stress level task a suggestion for watching calm video is seen and can be displayed on the app. (The videos are landscapes without sounds)
+4. **Breathing animations** - animations which displays when to breathe in and breathe out which lower the stress levels before stressful task
