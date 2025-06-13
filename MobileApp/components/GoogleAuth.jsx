@@ -30,9 +30,6 @@ export default function GoogleAuth({ theme, router }) {
   });
 
   useEffect(() => {
-    console.log(response);
-    console.log(process.env.EXPO_PUBLIC_EXPO_GOOGLE_CLIENT_ID);
-    console.log("Redirect URI:", makeRedirectUri({ useProxy: true }));
     handleSignIn();
   }, [response]);
 
@@ -62,7 +59,6 @@ export default function GoogleAuth({ theme, router }) {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log(response);
       const user = response.data;
 
       //await AsyncStorage.setItem("@user", JSON.stringify(user));
@@ -79,7 +75,7 @@ export default function GoogleAuth({ theme, router }) {
     }
   }
 
-  async function exchangeCodeForToken(code) {
+  /*async function exchangeCodeForToken(code) {
     const data = {
       code,
       client_id: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID,
@@ -104,10 +100,7 @@ export default function GoogleAuth({ theme, router }) {
 
     const tokens = await response.json();
     return tokens; // { access_token, refresh_token, expires_in, ... }
-  }
-
-  console.log("USER INFO:");
-  console.log(userInfo);
+  }*/
 
   return (
     <TouchableOpacity

@@ -1,7 +1,6 @@
 const now = new Date();
 
 //Data for testing the automatic rest interval of the tasks
-
 export const exampleTasks = [
     {
         id: "task1",

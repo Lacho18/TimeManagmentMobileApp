@@ -7,7 +7,6 @@ export default function QuestionComponent({
   onYesAnswer,
   onNoAnswer,
 }) {
-  console.log(questionData);
   const { font } = useMyFont();
   const styles = StyleSheet.create({
     mainDiv: {

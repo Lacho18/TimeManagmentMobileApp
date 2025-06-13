@@ -13,9 +13,6 @@ export default function TimeSelector({
     minutes: false,
   });
 
-  console.log(dateType);
-  console.log(currentSelectionOfDate);
-
   const outerClockNumbers = Array.from({ length: 12 }, (_, i) => i);
   const innerClockNumbers = Array.from({ length: 12 }, (_, i) => i + 12);
   const minutesNumbers = Array.from({ length: 60 }, (_, i) => i);
@@ -235,7 +232,7 @@ export default function TimeSelector({
                     transform: [
                       { rotate: `${rotate}deg` },
                       { translateY },
-                      { rotate: `${-rotate}deg` }, // unrotate children
+                      { rotate: `${-rotate}deg` },
                     ],
                     justifyContent: "center",
                     alignItems: "center",

@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
-//import { MONTHS } from "../../constants/Months";
 import {
   WEEKS_AHEAD_OVERVIEW_VIEW,
   MONTHS,
@@ -27,8 +26,6 @@ export default function OverViewHeader({
   //Used to programmatically set the page of the carousel
   const carouselRef = useRef(null);
   const carouselPageRef = useRef(0);
-
-  //console.log(carouselPageRef.current);
 
   const [currentMonth, setCurrentMonth] = useState();
 

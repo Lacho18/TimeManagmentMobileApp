@@ -87,10 +87,6 @@ export const panicButtonHandler = async (userId, userStartTimeOfTheDay, userMinR
     everyTaskThatHasChanged.forEach(async (task) => {
         const docRef = doc(db, "Tasks", task.id);
 
-        console.log(task.title, " Current one with the changes");
-        console.log(task);
-        console.log("---------------------------------------------------------------------------------------------------------");
-
         await updateDoc(docRef, task);
     });
 
@@ -136,10 +132,6 @@ export async function getEveryTaskForTomorrow(delayedInterval, startTimeForTomor
 
     //Every task for tomorrow without the delayed
     let everyTask = await getTaskForGivenDay(startTimeForTomorrow, userId);
-
-    console.log(endDurationTime.toString());
-    console.log(startTimeForTomorrow.toString());
-    console.log("Every task ehoooo", everyTask);
 
     if (everyTask.length == 0) {
         return [];
@@ -260,7 +252,6 @@ export async function getEveryTaskForTomorrow(delayedInterval, startTimeForTomor
 //Gets the start time of the day as date object
 //The start time is stored on the database on format "hours:minutes"
 export function getDateFromStartTime(userStartTimeOfTheDay) {
-    console.log(userStartTimeOfTheDay);
     const splitTime = userStartTimeOfTheDay.split(":");
     const startHour = Number(splitTime[0]);
     const startMinutes = Number(splitTime[1]);
@@ -289,29 +280,4 @@ function modifyDelayedTasksStartAndEndTime(startTime, currentTask) {
     }
 
     return currentTask;
-}
-
-
-
-//Function used for modifying the database
-async function addDelayedFieldToAllTasks() {
-    const tasksCollection = collection(db, "Tasks");
-
-    try {
-        const snapshot = await getDocs(tasksCollection);
-
-        const updates = snapshot.docs.map(async (document) => {
-            const docRef = doc(db, "Tasks", document.id);
-            await updateDoc(docRef, {
-                delayed: {
-                    isDelayed: false,
-                    delayedTimes: 0,
-                },
-            });
-        });
-
-        await Promise.all(updates);
-    } catch (error) {
-        console.error("Error updating tasks:", error);
-    }
 }

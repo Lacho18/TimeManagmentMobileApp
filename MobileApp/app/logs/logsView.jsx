@@ -23,8 +23,6 @@ export default function LogsView() {
 
   const [logs, setLogs] = useState([]);
 
-  console.log(logs);
-
   useEffect(() => {
     async function getLogsUseEffect() {
       const response = await getLogs(user.id);

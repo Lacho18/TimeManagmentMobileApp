@@ -46,7 +46,7 @@ export default function DailyTasksSimpleView({
       visualTasks.push(setTaskCoordinates(task));
     });
 
-    //visualTasks.splice(1, 1);
+    visualTasks.splice(1, 1);
 
     setUserWorkHours(workHours);
     setVisualTasks(visualTasks);
@@ -116,7 +116,7 @@ export default function DailyTasksSimpleView({
       alignItems: "center",
       flexWrap: "wrap",
       paddingHorizontal: 10,
-      width: 250,
+      width: 300,
     },
     text: {
       color: theme.text,
@@ -147,6 +147,7 @@ export default function DailyTasksSimpleView({
       <View>
         {visualTasks.map((task) => (
           <TouchableOpacity
+            key={task.id}
             onPress={() => {
               let selectedTaskFromUser = allDailyTasks.find(
                 (indexValue) => indexValue.id === task.id
@@ -174,7 +175,7 @@ export default function DailyTasksSimpleView({
               style={[
                 styles.text,
                 {
-                  fontSize: task.taskHeight <= 20 ? 18 : task.taskHeight * 0.5,
+                  fontSize: task.taskHeight * 0.5,
                 },
               ]}
             >

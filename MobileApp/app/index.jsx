@@ -33,7 +33,6 @@ export default function Index() {
     //Checks if the user is already logged in
     async function checkForLogInUser() {
       const userId = await AsyncStorage.getItem("@user");
-      console.log(userId);
 
       if (userId) {
         //await AsyncStorage.removeItem("@user");

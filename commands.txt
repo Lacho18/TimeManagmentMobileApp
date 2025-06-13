@@ -1,4 +1,4 @@
 git add .
-git commit -m "Final submit with hard changes"
+git commit -m "Removing unnecessary code and comments"
 git branch -M main
 git push -u origin main 

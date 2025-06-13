@@ -1,7 +1,7 @@
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc, where, or, and, writeBatch } from "firebase/firestore/lite";
 import { db } from "../firebaseConfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { formatDateMonthName, millisecondsCalculator, taskOnRestTime } from "../utils/dateUtil";
+import { millisecondsCalculator, taskOnRestTime } from "../utils/dateUtil";
 import { durationColorSetter } from "../utils/durationColorUtil";
 import { featureTasksCompiler, taskInterval } from "../utils/tasksInterval";
 import { checkForMaxTasksOverflow } from "../utils/maxTasksUtil";
@@ -33,7 +33,6 @@ export const getTaskForGivenDay = async (givenDay, userId) => {
     );
 
     try {
-        //const querySnapshot = await getDocs(q);
         const tasksSnapshot = await getDocs(tasksQuery);
         const repeatingSnapshot = await getDocs(repeatingTasks);
 
@@ -64,10 +63,6 @@ export const getTaskForGivenDay = async (givenDay, userId) => {
         console.error("Error getting tasks for the day:", err);
         return [];
     }
-}
-
-export const getOnlyTasksForTomorrow = () => {
-
 }
 
 export const createTask = async (newTask, user) => {
@@ -162,7 +157,7 @@ export const createTask = async (newTask, user) => {
 export const delayTask = async (taskId, user) => {
     if (!user) return;
 
-    // 1. Get the task from Firestore
+    //Get the task from Firestore
     const docRef = doc(db, "Tasks", taskId);
     const docSnap = await getDoc(docRef);
 
@@ -171,7 +166,7 @@ export const delayTask = async (taskId, user) => {
         return;
     }
 
-    // 2. Extract and convert timestamps
+    //Extract and convert timestamps
     const data = docSnap.data();
     const task = {
         id: docSnap.id,
@@ -180,25 +175,23 @@ export const delayTask = async (taskId, user) => {
         endTime: data.endTime?.toDate() || null,
     };
 
-    // 3. Calculate task duration + rest time
+    //Calculate task duration + rest time
     let taskDuration;
     if (task.startTime && task.endTime) {
         const originalDuration = task.endTime.getTime() - task.startTime.getTime();
         taskDuration = originalDuration;
     }
 
-    // 4. Compute new start time (next day at user-preferred start)
+    //Compute new start time (next day at user-preferred start)
     const userStartTime = getDateFromStartTime(user.preferences.dayStartTime);
 
-    // 5. Set new task times
+    //Set new task times
     task.startTime = userStartTime;
     if (task.endTime) {
         task.endTime = new Date(userStartTime.getTime() + taskDuration);
     }
 
     const allUpdatedTasks = await getEveryTaskForTomorrow(taskDuration, userStartTime, Number(user.preferences.min_rest_time_between_tasks), user.id);
-
-    console.log("Aloooooo maika ti da eba");
 
     if (allUpdatedTasks.length == 0) {
         const delayedTaskRef = doc(db, "Tasks", task.id);
@@ -211,8 +204,6 @@ export const delayTask = async (taskId, user) => {
     task.delayed.delayedTimes = task.delayed.delayedTimes + 1;
 
     allUpdatedTasks.unshift(task);
-
-    console.log("Ei tyka trqbva da ima 3 zadachi. I TRITE BE EIIIIIII ", allUpdatedTasks);
 
     allUpdatedTasks.forEach(task => {
         const docRef = doc(db, "Tasks", task.id);
@@ -244,8 +235,6 @@ export const deleteTask = async (taskObject, userId) => {
             await createLog(`Task ${taskObject.title} was automatically deleted due to too many delays`, userId);
         }
 
-        console.log("Deleting task " + taskObject.id);
-
         await deleteDoc(docRef);
     }
     catch (err) {
@@ -253,6 +242,7 @@ export const deleteTask = async (taskObject, userId) => {
     }
 }
 
+//Used only for clearing the database for test purposes
 export const deleteEveryTask = async () => {
     const querySnapshot = await getDocs(collection(db, "Tasks"));
 

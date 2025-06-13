@@ -1,10 +1,4 @@
-import {
-  Animated,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Animated, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -114,8 +108,6 @@ export default function MenuOptions({
       fontFamily: font.regular,
     },
   });
-
-  console.log(lastSelectedFilter);
 
   return (
     <Animated.View

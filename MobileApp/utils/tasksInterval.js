@@ -154,8 +154,6 @@ export const featureTasksCompilerTester = async (currentTask, min_rest_time_betw
         return;
     }
     else {
-        console.log("Current feature task:", index);
-        console.log(modifiableFeatureTask);
         await featureTasksCompilerTester(modifiableFeatureTask, min_rest_time_between_tasks, index + 1);
     }
 }

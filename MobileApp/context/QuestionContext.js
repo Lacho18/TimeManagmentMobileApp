@@ -17,7 +17,6 @@ export const QuestionProvider = ({ children }) => {
     }
 
     function closeQuestionMenu() {
-        console.log("Aide molq ti sa");
         setIsQuestionActive(false);
     }
 

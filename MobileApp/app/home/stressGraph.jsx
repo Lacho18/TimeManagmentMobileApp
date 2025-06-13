@@ -101,8 +101,6 @@ export default function StressGraph() {
     );
   }
 
-  console.log(visualData?.datasets[0].data.length);
-
   return (
     <SafeAreaView style={styles.page}>
       <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>

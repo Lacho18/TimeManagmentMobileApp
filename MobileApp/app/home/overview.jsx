@@ -12,7 +12,6 @@ import { DAYS_AHEAD_OVERVIEW_VIEW } from "../../constants/DateConstants";
 import { getGivenNumberOfDays } from "../../utils/dateUtil";
 import DayOverviewView from "../../components/Overview/DayOverviewView";
 import { deleteTask, getTaskForGivenDay } from "../../database/taskController";
-import { DUMMY_DATA_TASKS } from "../../constants/dummyData";
 import { SafeAreaView } from "react-native-safe-area-context";
 import SelectedTask from "../../components/DailyTasks/SelectedTask";
 import { useMyFont } from "../../context/FontContext";
@@ -33,14 +32,7 @@ export default function Overview() {
 
   const { theme } = useTheme();
   const { font } = useMyFont();
-  const {
-    isQuestionActive,
-    questionData,
-    closeQuestionMenu,
-    openQuestionMenu,
-    formQuestionStructure,
-    yesQuestionAnswer,
-  } = useQuestion();
+  const { isQuestionActive, questionData, closeQuestionMenu } = useQuestion();
 
   //Ref about array of dates ahead of today which will be accessible from overview page component
   const daysAhead = useRef(getGivenNumberOfDays(DAYS_AHEAD_OVERVIEW_VIEW));
@@ -121,8 +113,6 @@ export default function Overview() {
 
     //Sets the task as completed
     completedTask.completed = true;
-
-    console.log(completedTask);
 
     //Deletes and creates log for completed task
     await deleteTask(completedTask, user.id);

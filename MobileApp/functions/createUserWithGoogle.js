@@ -36,9 +36,6 @@ export default async function createUserWithGoogle(token) {
             const dataResult = await addDoc(usersCollection, insertResult);
 
             await AsyncStorage.setItem("@user", dataResult.id);
-
-            //Prints the result
-            console.log(dataResult);
         }
         else {
             await AsyncStorage.setItem("@user", querySnapshot.docs[0].id);

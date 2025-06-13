@@ -4,7 +4,7 @@ export const QUESTIONS = [
         type: "singleAnswer",
         question: "Are you calm and do you have a hard for someone to get over your nerves?",
         answers: ["Yes", "No"],
-        pointAnswer: 1,    //No answer gives point
+        pointAnswer: 1,
     },
     {
         id: 2,

@@ -29,10 +29,6 @@ import WarningComponent from "../../components/WarningComponent";
 import DailyTasksSimpleView from "../../components/DailyTasks/DailyTasksSimpleView";
 import StressLevelSelector from "../../components/StressLevelSelector";
 
-/*
-  4. Vish kak potrebitelq da si pravi customise notificacii
-*/
-
 export default function DailyTasks() {
   const { user, loading } = useUser();
 

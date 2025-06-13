@@ -9,14 +9,11 @@ import {
 } from "react-native";
 import { STRESS_LEVELS } from "../../constants/StressLevel";
 import { TASK_PRIORITIES } from "../../constants/TaskPriority";
-import {
-  formatDateMonthName,
-  millisecondsCalculator,
-} from "../../utils/dateUtil";
+import { formatDateMonthName } from "../../utils/dateUtil";
 
 import Octicons from "@expo/vector-icons/Octicons";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useQuestion } from "../../context/QuestionContext";
 
 const screenWidth = Dimensions.get("window").width;
@@ -29,7 +26,6 @@ export default function TaskViewComponent({
   selectTask,
   onCompleteTask,
 }) {
-  console.log(task);
   const { openQuestionMenu, formQuestionStructure } = useQuestion();
   const slideAnim = useRef(new Animated.Value(0)).current;
 

@@ -5,10 +5,7 @@ import BottomSheet, {
   BottomSheetModalProvider,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
-import {
-  formatDateMonthName,
-  millisecondsCalculator,
-} from "../../utils/dateUtil";
+import { formatDateMonthName } from "../../utils/dateUtil";
 
 import { STRESS_LEVELS } from "../../constants/StressLevel";
 import { TASK_PRIORITIES } from "../../constants/TaskPriority";

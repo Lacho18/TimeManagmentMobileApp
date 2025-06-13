@@ -89,8 +89,6 @@ export default function MultipleAnswerQuestion({
       borderRadius: 15,
     },
     answerText: {
-      //paddingBottom: 5,
-      //margin: 10,
       fontSize: 21,
       color: theme.text,
       textAlign: "left",

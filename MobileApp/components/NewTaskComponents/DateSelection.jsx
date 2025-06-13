@@ -11,7 +11,6 @@ import {
 import Fontisto from "@expo/vector-icons/Fontisto";
 import {
   MaterialIcons,
-  FontAwesome5,
   MaterialCommunityIcons,
   Feather,
 } from "@expo/vector-icons";
@@ -55,7 +54,7 @@ export default function DateSelection({
     const dayOfWeek = today.getDay();
 
     //Calculates the days until if newWeek until Monday and if not until the weekend
-    const daysUntil = ((newWeek ? 1 : 6) - dayOfWeek + 7) % 7; // if today is Saturday → 0 days
+    const daysUntil = ((newWeek ? 1 : 6) - dayOfWeek + 7) % 7; // if today is Saturday 0 days
 
     const result = new Date(today);
     result.setDate(today.getDate() + daysUntil);

@@ -9,7 +9,7 @@ const colorThemes = {
         background: "#DCCFF9",
         accent: "#5D3FD3",
         secondary: "#4B367C",
-        highlight: "#BB86FC" // Soft purple highlight
+        highlight: "#BB86FC"
     },
     lightBlue: {
         text: "#2C3E50",
@@ -17,7 +17,7 @@ const colorThemes = {
         background: "#D6EAF8",
         accent: "#34495E",
         secondary: "#5A7892",
-        highlight: "#7FDBFF" // Fresh light blue highlight
+        highlight: "#7FDBFF"
     },
     earthColors: {
         text: "#5D4037",
@@ -25,7 +25,7 @@ const colorThemes = {
         background: "#EAD7C5",
         accent: "#6B8E23",
         secondary: "#7B4F2C",
-        highlight: "#C2B280" // Sand / Earthy highlight
+        highlight: "#C2B280"
     },
     orange: {
         text: "#5A3B1F",
@@ -33,6 +33,14 @@ const colorThemes = {
         background: "#FFDAB8",
         accent: "#FFE4C2",
         secondary: "#FFFFFF",
+        highlight: "#FFF1E2"
+    },
+    green: {
+        text: "#2C5F5D",
+        primary: "#87A96B",
+        background: "#f0f0f0",
+        accent: "#FF7F7F",
+        secondary: "#E8D5B7",
         highlight: "#FFF1E2"
     },
     darkTheme: {
@@ -58,7 +66,6 @@ export const ThemeProvider = ({ children }) => {
         const loadTheme = async () => {
             const savedTheme = await AsyncStorage.getItem("theme");
             if (savedTheme) {
-                //setTheme(savedTheme === "dark" ? darkTheme : lightTheme);
                 setTheme(colorThemes[savedTheme]);
                 setThemeName(savedTheme);
             }

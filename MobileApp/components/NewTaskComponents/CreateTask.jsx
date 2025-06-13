@@ -8,6 +8,7 @@ import {
   Animated,
   TextInput,
   ScrollView,
+  Platform,
 } from "react-native";
 import Fontisto from "@expo/vector-icons/Fontisto";
 import { useTheme } from "../../context/ThemeContext";
@@ -30,10 +31,6 @@ import { subQuarters } from "date-fns";
 import { useWarning } from "../../context/WarningContext";
 
 const screenHeight = Dimensions.get("window").height;
-
-/*
-  MANIFEST SERIAL
-*/
 
 export default function CreateTask({ closeAddTaskMenu, visible }) {
   const { valWarningMessage } = useWarning();
@@ -108,7 +105,6 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
     //Adding functionality for duration. If this is true visualize a question that ask for setting a duration
     if (timeSelection.dateType === "startTime") {
       setIsThereDuration(1);
-      console.log("A question for that asks for setting duration of the task");
     }
 
     //After time is set hide the window that sets it
@@ -384,7 +380,7 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
           </Text>
         </TouchableOpacity>
 
-        {locationSelection && (
+        {locationSelection && Platform.OS !== "web" && (
           <TaskLocation
             theme={theme}
             locationSelectionHandler={(locatedValue) =>
@@ -442,7 +438,6 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
 
         {error !== "" && <Text style={styles.errorMessage}>{error}</Text>}
 
-        {/*Sub pages for the day*/}
         {dateSelection && (
           <DateSelection
             theme={theme}

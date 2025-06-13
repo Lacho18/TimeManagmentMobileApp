@@ -4,7 +4,6 @@ import AddTask from "../../components/NewTaskComponents/AddTask";
 import { useState } from "react";
 import CreateTask from "../../components/NewTaskComponents/CreateTask";
 import "../../utils/dateUtil";
-//import PanicButton from "../../components/Profile/PanicButton";
 
 //Providers
 import { UserProvider } from "../../context/UserContext";

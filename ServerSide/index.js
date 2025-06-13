@@ -20,17 +20,6 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
-async function test(params) {
-    const snapshot = await db.collection("Users").get();
-    const batch = db.batch();
-
-    snapshot.forEach((doc) => {
-        console.log(doc);
-    });
-}
-
-test(1);
-
 /*
     1. All tasks for the current day which are not complete will be delayed for the next day increasing it's delay counter
     2. User will be able to insert stress level
@@ -87,8 +76,6 @@ cron.schedule("0 0 * * *", async () => {
 app.get('/', (req, res) => {
     return res.send("<h1>Test whether server is working!</h1>");
 });
-
-//app.use("/register", require("./routes/register"));
 
 app.listen(PORT, () => {
     console.log("App listen on port: " + PORT);
