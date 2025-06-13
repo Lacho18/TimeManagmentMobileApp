@@ -1,4 +1,4 @@
 git add .
-git commit -m "Removing unnecessary code and comments"
+git commit -m "Adding read me file"
 git branch -M main
 git push -u origin main 
