@@ -40,9 +40,9 @@ export default function CalendarBoxView({
     mainDiv: {
       width: "100%",
       height: 75,
-      borderWidth: 5,
-      borderColor: theme.secondary,
-      backgroundColor: theme.accent,
+      borderWidth: 3,
+      borderColor: theme.highlight,
+      backgroundColor: theme.primary,
       padding: 5,
     },
     contextDiv: {

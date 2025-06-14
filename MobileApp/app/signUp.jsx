@@ -83,12 +83,13 @@ export default function SignUp() {
       borderBottomRightRadius: 20,
       borderBottomWidth: 2,
       borderRightWidth: 2,
-      borderBottomColor: theme.accent,
-      borderRightColor: theme.accent,
+      borderBottomColor: theme.highlight,
+      borderRightColor: theme.highlight,
     },
     backButtonText: {
       fontSize: 35,
       fontWeight: "bold",
+      color: theme.secondary,
     },
     linkText: {
       color: theme.secondary,
@@ -162,7 +163,7 @@ export default function SignUp() {
           <TouchableOpacity
             style={{
               ...GLOBAL_STYLES.buttonStyle,
-              borderColor: theme.accent,
+              borderColor: theme.highlight,
               backgroundColor: theme.background,
             }}
             onPress={() => {

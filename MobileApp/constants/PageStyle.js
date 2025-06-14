@@ -10,17 +10,17 @@ export const GLOBAL_STYLES = StyleSheet.create({
         fontSize: 17,
     },
     standardTextField: {
-        paddingVertical: 5,
+        paddingVertical: 7,
         paddingHorizontal: 10,
         boxSizing: "border-box",
-        fontSize: 15,
+        fontSize: 18,
         borderWidth: 2,
         borderColor: "black",
-        borderRadius: 18,
+        borderRadius: 12,
         backgroundColor: "white",
     },
     errorText: {
-        fontSize: 17,
+        fontSize: 18,
         color: "#b80202",
         textAlign: "center",
     },
@@ -33,9 +33,12 @@ export const GLOBAL_STYLES = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
         borderWidth: 2,
+        borderRadius: 10,
     },
     buttonText: {
         fontSize: 20,
+        textAlign: "center",
+        width: "100%",
     }
 }
 );

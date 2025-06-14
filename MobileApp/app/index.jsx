@@ -13,9 +13,6 @@ export default function Index() {
   const { theme, toggleTheme } = useTheme();
   const router = useRouter();
 
-  console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-  console.log(theme);
-
   if (!theme) return;
 
   useEffect(() => {
@@ -67,12 +64,6 @@ export default function Index() {
 
   return (
     <View style={{ ...GLOBAL_STYLES.page, backgroundColor: theme.primary }}>
-      <TouchableOpacity
-        style={{ width: 40, height: 40, backgroundColor: "brown" }}
-        onPress={() => {
-          router.push("/home/dailyTasks");
-        }}
-      ></TouchableOpacity>
       <Text style={styles.title}>EasePlan</Text>
       <Text style={styles.loginText}>Login</Text>
       <View style={{ gap: 20, marginTop: 40 }}>
@@ -92,7 +83,7 @@ export default function Index() {
           </Text>
         </TouchableOpacity>
       </View>
-      <Notifications />
+      {/*<Notifications />*/}
     </View>
   );
 }

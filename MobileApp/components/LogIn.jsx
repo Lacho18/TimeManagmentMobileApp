@@ -52,7 +52,7 @@ export default function LogIn({ GLOBAL_STYLES, theme, router }) {
       <TouchableOpacity
         style={{
           ...GLOBAL_STYLES.buttonStyle,
-          borderColor: theme.accent,
+          borderColor: theme.highlight,
           backgroundColor: theme.background,
         }}
         onPress={() => {
