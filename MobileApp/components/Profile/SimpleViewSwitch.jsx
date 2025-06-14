@@ -26,7 +26,7 @@ export default function SimpleViewSwitch({ theme, font, switchValue, userId }) {
   return (
     <View style={styles.container}>
       <Text
-        style={{ color: theme.text, fontSize: 17, fontFamily: font.regular }}
+        style={{ color: theme.text, fontSize: 21, fontFamily: font.regular }}
       >
         Simple view
       </Text>

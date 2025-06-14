@@ -159,12 +159,13 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
     closeButton: {
       width: 40,
       height: 40,
-      backgroundColor: "red",
+      backgroundColor: theme.background,
       justifyContent: "center",
       alignItems: "center",
       position: "absolute",
       right: 0,
       top: 0,
+      borderWidth: 1,
       borderRadius: 10,
       zIndex: 100,
     },
@@ -185,7 +186,7 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
     inputField: {
       padding: 10,
       borderWidth: 1,
-      borderColor: theme.background,
+      borderColor: theme.highlight,
       fontSize: 20,
       borderRadius: 19,
       color: theme.text,
@@ -211,15 +212,17 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
       display: "flex",
       flexDirection: "row",
       justifyContent: "space-between",
-      width: 100,
+      width: 125,
     },
 
     questionButtons: {
+      width: 50,
+      height: 40,
+      borderRadius: 10,
+      borderWidth: 1,
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      backgroundColor: theme.background,
-      padding: 5,
     },
 
     errorMessage: {
@@ -233,19 +236,19 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
     taskLocationButton: {
       alignSelf: "center",
       padding: 10,
-      borderWidth: 4,
-      borderColor: theme.secondary,
-      borderRadius: 18,
-      backgroundColor: theme.highlight,
+      borderWidth: 2,
+      borderColor: theme.highlight,
+      borderRadius: 10,
+      backgroundColor: theme.background,
       marginTop: 20,
     },
 
     addTaskButton: {
-      backgroundColor: theme.highlight,
+      backgroundColor: theme.background,
       width: 120,
       height: 50,
-      borderColor: theme.background,
-      borderWidth: 4,
+      borderColor: theme.highlight,
+      borderWidth: 2,
       padding: 10,
       borderRadius: 10,
       display: "flex",
@@ -269,7 +272,7 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
         style={styles.panel}
       >
         <TouchableOpacity style={styles.closeButton} onPress={closeAddTaskMenu}>
-          <Fontisto name="close-a" size={20} color="black" />
+          <Fontisto name="close-a" size={20} color={theme.secondary} />
         </TouchableOpacity>
 
         <Text style={styles.title}>Add new task</Text>
@@ -314,7 +317,7 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
                 <TouchableOpacity
                   style={{
                     ...styles.questionButtons,
-                    backgroundColor: "#1fff26",
+                    backgroundColor: "#77dd77",
                   }}
                   onPress={() => {
                     setIsThereDuration(2);
@@ -325,7 +328,7 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
                 <TouchableOpacity
                   style={{
                     ...styles.questionButtons,
-                    backgroundColor: "#ff0000",
+                    backgroundColor: "#ff6961",
                   }}
                   onPress={() => {
                     setIsThereDuration(0);

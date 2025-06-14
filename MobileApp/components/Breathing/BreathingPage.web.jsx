@@ -1,6 +1,8 @@
 import { Text, View } from "react-native";
+import { useMyFont } from "../../context/FontContext";
 
 export default function Breathing({ theme }) {
+  const { font } = useMyFont();
   return (
     <View
       style={{
@@ -10,7 +12,9 @@ export default function Breathing({ theme }) {
         backgroundColor: theme.background,
       }}
     >
-      <Text style={{ fontSize: 21, color: theme.text }}>
+      <Text
+        style={{ fontSize: 24, color: theme.text, fontFamily: font.regular }}
+      >
         This page is not supported on the browser
       </Text>
     </View>

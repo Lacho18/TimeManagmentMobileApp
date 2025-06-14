@@ -277,7 +277,7 @@ export default function DailyTasks() {
 
     noTasksDiv: { flex: 1, justifyContent: "center", alignItems: "center" },
     noTasksDivText: {
-      fontSize: 18,
+      fontSize: 24,
       color: theme.text,
       fontFamily: font.regular,
     },

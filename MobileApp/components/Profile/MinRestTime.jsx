@@ -59,37 +59,39 @@ export default function MinRestTime({
   const styles = StyleSheet.create({
     mainDiv: {
       width: "90%",
-      height: 300,
+      height: 325,
       position: "absolute",
       left: "50%",
       top: "50%",
       transform: "translate(-50%, -50%)",
       backgroundColor: theme.primary,
-      borderWidth: 10,
-      borderColor: theme.accent,
+      borderWidth: 2,
+      borderColor: theme.highlight,
       borderRadius: 18,
       padding: 10,
       paddingHorizontal: 20,
+      paddingVertical: 20,
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
     },
     mainText: {
-      fontSize: 18,
+      fontSize: 20,
       color: theme.text,
       textAlign: "center",
       fontFamily: font.regular,
     },
     submitButton: {
-      width: 120,
+      width: 130,
       height: 50,
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      borderWidth: 3,
-      borderColor: theme.accent,
-      borderRadius: 18,
+      borderWidth: 2,
+      borderColor: theme.highlight,
+      borderRadius: 12,
       backgroundColor: theme.background,
+      padding: 5,
     },
   });
 
@@ -101,7 +103,7 @@ export default function MinRestTime({
       <Slider
         style={{ width: "100%", height: 40 }}
         minimumValue={0}
-        maximumValue={360}
+        maximumValue={90}
         step={1}
         value={minutes}
         onValueChange={setMinutes}

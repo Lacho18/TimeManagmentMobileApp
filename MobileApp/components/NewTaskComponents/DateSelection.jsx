@@ -122,7 +122,7 @@ export default function DateSelection({
         style={styles.panel}
       >
         <TouchableOpacity style={closeButtonStyle} onPress={onClose}>
-          <Fontisto name="close-a" size={28} color="black" />
+          <Fontisto name="close-a" size={20} color={theme.secondary} />
         </TouchableOpacity>
         <Text style={styles.title}>Date</Text>
         <View style={styles.fastOptionsDiv}>

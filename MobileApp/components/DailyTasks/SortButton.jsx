@@ -23,7 +23,7 @@ export default function SortButton({
       padding: 7,
     },
     buttonText: {
-      fontSize: 16,
+      fontSize: 18,
       color: theme.text,
     },
   });
@@ -41,15 +41,15 @@ export default function SortButton({
       lastSelectedFilter.sorting === "ascending" ? (
         <AntDesign
           name="caretdown"
-          size={24}
-          color={theme.background}
+          size={28}
+          color={theme.secondary}
           style={{ alignSelf: "flex-end" }}
         />
       ) : (
         <AntDesign
           name="caretup"
-          size={24}
-          color={theme.background}
+          size={28}
+          color={theme.secondary}
           style={{ alignSelf: "flex-end" }}
         />
       )}

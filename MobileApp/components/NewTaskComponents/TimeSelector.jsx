@@ -62,6 +62,8 @@ export default function TimeSelector({
       display: "flex",
       alignItems: "center",
       gap: 10,
+      borderWidth: 2,
+      borderColor: theme.highlight,
       borderRadius: 18,
     },
 

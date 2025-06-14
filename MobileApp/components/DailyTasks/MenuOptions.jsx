@@ -25,7 +25,7 @@ export default function MenuOptions({
 }) {
   const { font } = useMyFont();
 
-  const COMPONENT_WIDTH = 250;
+  const COMPONENT_WIDTH = 275;
   const COMPONENT_MIN_HEIGHT = 150;
 
   const [menuVisible, setMenuVisible] = useState(false);
@@ -78,7 +78,9 @@ export default function MenuOptions({
       height: "auto",
       minHeight: COMPONENT_MIN_HEIGHT,
       backgroundColor: theme.primary,
-      borderRadius: 20,
+      borderWidth: 2,
+      borderColor: theme.highlight,
+      borderRadius: 18,
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
@@ -103,7 +105,7 @@ export default function MenuOptions({
       padding: 7,
     },
     buttonText: {
-      fontSize: 16,
+      fontSize: 18,
       color: theme.text,
       fontFamily: font.regular,
     },
@@ -138,7 +140,7 @@ export default function MenuOptions({
           icon={
             <MaterialIcons
               name="access-time-filled"
-              size={24}
+              size={28}
               color={theme.secondary}
             />
           }
@@ -166,7 +168,7 @@ export default function MenuOptions({
           icon={
             <MaterialCommunityIcons
               name="gauge"
-              size={24}
+              size={28}
               color={theme.secondary}
             />
           }
@@ -182,7 +184,7 @@ export default function MenuOptions({
           icon={
             <FontAwesome6
               name="hourglass-end"
-              size={24}
+              size={28}
               color={theme.secondary}
             />
           }

@@ -75,14 +75,15 @@ export default function StressGraph() {
       fontFamily: font.bold,
     },
     buttonStyle: {
-      padding: 10,
-      borderWidth: 3,
-      borderColor: theme.primary,
+      padding: 15,
+      borderWidth: 2,
+      borderColor: theme.highlight,
       borderRadius: 10,
-      backgroundColor: theme.secondary,
+      backgroundColor: theme.accent,
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
+      marginTop: 15,
     },
     backButton: {
       position: "absolute",
@@ -118,7 +119,7 @@ export default function StressGraph() {
           backgroundGradientFrom: theme.secondary,
           backgroundGradientTo: theme.secondary,
           decimalPlaces: 0,
-          color: (opacity = 1) => theme.primary,
+          color: (opacity = 1) => theme.highlight,
           labelColor: (opacity = 1) => theme.text,
           style: {
             borderRadius: 16,
@@ -136,6 +137,7 @@ export default function StressGraph() {
         style={{
           marginVertical: 8,
           borderRadius: 16,
+          backgroundColor: theme.primary,
         }}
       />
       {visualData?.datasets[0].data.length >= 30 && (
@@ -145,7 +147,13 @@ export default function StressGraph() {
             setOnlyPastMonth((oldValue) => !oldValue);
           }}
         >
-          <Text>
+          <Text
+            style={{
+              fontSize: 18,
+              color: theme.text,
+              fontFamily: font.regular,
+            }}
+          >
             {onlyPastMonth ? "View all data" : "View only past month"}
           </Text>
         </TouchableOpacity>

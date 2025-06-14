@@ -46,12 +46,15 @@ const colorThemes = {
     darkTheme: {
         background: "#272725",
         text: "#FFFFFF",
-        primary: "#181C14",
+        primary: "#1e1f1d",
         accent: "#3A3A3A",
-        secondary: "#697565",
+        secondary: "#787d77",
         highlight: "#ECDFCC"
     }
 };
+
+//The dark theme default primary
+//primary: "#1e1f1d",
 
 // Create context
 const ThemeContext = createContext();

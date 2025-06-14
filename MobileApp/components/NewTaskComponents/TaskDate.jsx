@@ -23,18 +23,18 @@ export default function TaskDate({
     },
     buttonStyle: {
       borderWidth: 1,
-      borderColor: theme.background,
-      borderRadius: 7,
+      borderColor: theme.highlight,
+      borderRadius: 10,
       width: 100,
       height: 40,
-      backgroundColor: theme.secondary,
+      backgroundColor: theme.background,
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
     },
     buttonText: {
       fontSize: 15,
-      color: "#E67300",
+      color: theme.text,
     },
     dateVisualText: {
       color: "red",

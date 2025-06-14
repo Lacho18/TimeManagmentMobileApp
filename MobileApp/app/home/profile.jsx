@@ -36,6 +36,8 @@ import StressLevelSelector from "../../components/StressLevelSelector";
 
 const { width } = Dimensions.get("window");
 
+const ICONS_SIZE = 32;
+
 export default function Profile() {
   const { theme } = useTheme();
   const { user, logout, loading } = useUser();
@@ -109,7 +111,7 @@ export default function Profile() {
       borderRadius: width / 2,
     },
     titleText: {
-      fontSize: 20,
+      fontSize: 24,
       fontWeight: "bold",
       color: theme.text,
       fontFamily: font.bold,
@@ -124,13 +126,14 @@ export default function Profile() {
       display: "flex",
       flexDirection: "row",
       justifyContent: "flex-start",
+      alignItems: "center",
       gap: 20,
       paddingLeft: 5,
       paddingRight: 5,
     },
     buttonText: {
       color: theme.text,
-      fontSize: 17,
+      fontSize: 21,
       fontFamily: font.regular,
     },
   });
@@ -172,7 +175,7 @@ export default function Profile() {
             >
               <Ionicons
                 name="person-remove-sharp"
-                size={28}
+                size={ICONS_SIZE}
                 color={theme.secondary}
               />
               <Text style={styles.buttonText}>Sign out</Text>
@@ -183,7 +186,11 @@ export default function Profile() {
                 startStressTest();
               }}
             >
-              <Ionicons name="newspaper" size={28} color={theme.secondary} />
+              <Ionicons
+                name="newspaper"
+                size={ICONS_SIZE}
+                color={theme.secondary}
+              />
               <Text style={styles.buttonText}>Make stress test</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -192,7 +199,11 @@ export default function Profile() {
                 setMinTimeRest((oldValue) => !oldValue);
               }}
             >
-              <MaterialIcons name="restore" size={28} color={theme.secondary} />
+              <MaterialIcons
+                name="restore"
+                size={ICONS_SIZE}
+                color={theme.secondary}
+              />
               <Text style={styles.buttonText}>
                 Set minimum rest time between tasks
               </Text>
@@ -203,7 +214,11 @@ export default function Profile() {
                 setMaxTasks((oldValue) => !oldValue);
               }}
             >
-              <FontAwesome5 name="tasks" size={28} color={theme.secondary} />
+              <FontAwesome5
+                name="tasks"
+                size={ICONS_SIZE}
+                color={theme.secondary}
+              />
               <Text style={styles.buttonText}>
                 Set max number of daily tasks
               </Text>
@@ -216,7 +231,7 @@ export default function Profile() {
             >
               <MaterialCommunityIcons
                 name="calendar-start"
-                size={28}
+                size={ICONS_SIZE}
                 color={theme.secondary}
               />
               <Text style={styles.buttonText}>Set start of the day</Text>
@@ -227,7 +242,11 @@ export default function Profile() {
                 router.push("/logs/logsView");
               }}
             >
-              <Feather name="activity" size={28} color={theme.secondary} />
+              <Feather
+                name="activity"
+                size={ICONS_SIZE}
+                color={theme.secondary}
+              />
               <Text style={styles.buttonText}>Activity logs</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -236,7 +255,11 @@ export default function Profile() {
                 router.push("/home/stressGraph");
               }}
             >
-              <Entypo name="area-graph" size={28} color={theme.secondary} />
+              <Entypo
+                name="area-graph"
+                size={ICONS_SIZE}
+                color={theme.secondary}
+              />
               <Text style={styles.buttonText}>Stress levels graph</Text>
             </TouchableOpacity>
           </View>

@@ -10,6 +10,8 @@ import { useStressTest } from "../../context/StressTestContext";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import ColorThemeSelector from "../ColorThemeSelector";
 
+const ICONS_SIZE = 44;
+
 export default function ProfileSimpleView({
   theme,
   font,
@@ -36,7 +38,7 @@ export default function ProfileSimpleView({
     singleButton: {
       flexBasis: "30%",
       height: 120,
-      borderWidth: 5,
+      borderWidth: 3,
       borderColor: theme.primary,
       borderRadius: 18,
       padding: 15,
@@ -46,7 +48,7 @@ export default function ProfileSimpleView({
     },
 
     buttonText: {
-      fontSize: 16,
+      fontSize: 21,
       color: theme.text,
       fontFamily: font.bold,
     },
@@ -55,43 +57,47 @@ export default function ProfileSimpleView({
   return (
     <View style={styles.buttonsDiv}>
       <TouchableOpacity style={styles.singleButton}>
-        <MaterialIcons name="color-lens" size={42} color={theme.secondary} />
+        <MaterialIcons
+          name="color-lens"
+          size={ICONS_SIZE}
+          color={theme.secondary}
+        />
         <Text style={styles.buttonText}>Theme</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.singleButton} onPress={signOutHandler}>
         <Ionicons
           name="person-remove-sharp"
-          size={42}
+          size={ICONS_SIZE}
           color={theme.secondary}
         />
         <Text style={styles.buttonText}>Sign out</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.singleButton} onPress={onTestSelect}>
-        <FontAwesome name="wpforms" size={42} color={theme.secondary} />
+        <FontAwesome name="wpforms" size={ICONS_SIZE} color={theme.secondary} />
         <Text style={styles.buttonText}>Test</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.singleButton} onPress={onMinRestTime}>
-        <MaterialIcons name="restore" size={42} color={theme.secondary} />
-        <Text style={styles.buttonText}>Rest time</Text>
+        <MaterialIcons name="restore" size={44} color={theme.secondary} />
+        <Text style={styles.buttonText}>Rest</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.singleButton} onPress={onMaxTasks}>
-        <FontAwesome5 name="tasks" size={42} color={theme.secondary} />
+        <FontAwesome5 name="tasks" size={ICONS_SIZE} color={theme.secondary} />
         <Text style={styles.buttonText}>Max task</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.singleButton} onPress={onStartTime}>
         <MaterialCommunityIcons
           name="calendar-start"
-          size={42}
+          size={ICONS_SIZE}
           color={theme.secondary}
         />
         <Text style={styles.buttonText}>Day start</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.singleButton} onPress={onLogsView}>
-        <Feather name="activity" size={42} color={theme.secondary} />
+        <Feather name="activity" size={ICONS_SIZE} color={theme.secondary} />
         <Text style={styles.buttonText}>Activity</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.singleButton} onPress={onStressLevels}>
-        <Entypo name="area-graph" size={42} color={theme.secondary} />
+        <Entypo name="area-graph" size={ICONS_SIZE} color={theme.secondary} />
         <Text style={styles.buttonText}>Stress lv.</Text>
       </TouchableOpacity>
     </View>
