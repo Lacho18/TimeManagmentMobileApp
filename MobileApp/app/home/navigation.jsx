@@ -11,6 +11,7 @@ import { useRouter } from "expo-router";
 
 export default function Navigation() {
   const { theme } = useTheme();
+  if (!theme) return;
   const router = useRouter();
 
   const styles = StyleSheet.create({

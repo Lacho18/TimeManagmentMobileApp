@@ -1,4 +1,4 @@
 git add .
-git commit -m "Modifying interface"
+git commit -m "Making final changes on app color themes"
 git branch -M main
 git push -u origin main 

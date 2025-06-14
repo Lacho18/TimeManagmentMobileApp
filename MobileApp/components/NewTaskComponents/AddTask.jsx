@@ -4,12 +4,14 @@ import { useTheme } from "../../context/ThemeContext";
 
 export default function AddTask({ showAddTaskMenu }) {
   const { theme } = useTheme();
+  if (!theme) return;
   const styles = StyleSheet.create({
     buttonStyle: {
       position: "absolute",
       width: 60,
       height: 60,
       borderWidth: 2,
+      borderColor: theme.accent,
       borderRadius: 10,
       display: "flex",
       justifyContent: "center",

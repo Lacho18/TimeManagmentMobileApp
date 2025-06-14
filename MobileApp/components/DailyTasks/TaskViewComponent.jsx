@@ -215,7 +215,7 @@ export default function TaskViewComponent({
               style={styles.delayButton}
               onPress={delayButtonHandler}
             >
-              <AntDesign name="stepforward" size={28} color={theme.secondary} />
+              <AntDesign name="stepforward" size={28} color="#41413e" />
             </TouchableOpacity>
           )}
         </View>

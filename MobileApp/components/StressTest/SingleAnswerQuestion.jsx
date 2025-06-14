@@ -46,16 +46,9 @@ export default function SingleAnswerQuestion({
       alignItems: "center",
       width: "100%",
       padding: 20,
-
-      // iOS Shadow
-      shadowColor: "black",
-      shadowOffset: { width: 0, height: 0 }, // No offset
-      shadowOpacity: 1,
-      shadowRadius: 1, // Very small blur
-
-      // Android Shadow
-      elevation: 7,
-
+      borderWidth: 2,
+      borderColor: theme.highlight,
+      backgroundColor: theme.primary,
       borderRadius: 15,
     },
     answerBox: {

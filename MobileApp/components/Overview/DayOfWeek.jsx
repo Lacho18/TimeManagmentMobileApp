@@ -40,7 +40,7 @@ export default function DayOfWeek({
       fontFamily: font.bold,
     },
     dayNumberTextSelected: {
-      backgroundColor: "#f58038",
+      backgroundColor: theme.accent,
       borderRadius: 10,
       fontFamily: font.regular,
     },

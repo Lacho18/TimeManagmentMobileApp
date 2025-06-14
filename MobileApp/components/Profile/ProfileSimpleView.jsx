@@ -10,7 +10,7 @@ import { useStressTest } from "../../context/StressTestContext";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import ColorThemeSelector from "../ColorThemeSelector";
 
-const ICONS_SIZE = 44;
+const ICONS_SIZE = 42;
 
 export default function ProfileSimpleView({
   theme,
@@ -48,7 +48,7 @@ export default function ProfileSimpleView({
     },
 
     buttonText: {
-      fontSize: 21,
+      fontSize: 20,
       color: theme.text,
       fontFamily: font.bold,
     },
@@ -77,7 +77,11 @@ export default function ProfileSimpleView({
         <Text style={styles.buttonText}>Test</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.singleButton} onPress={onMinRestTime}>
-        <MaterialIcons name="restore" size={44} color={theme.secondary} />
+        <MaterialIcons
+          name="restore"
+          size={ICONS_SIZE}
+          color={theme.secondary}
+        />
         <Text style={styles.buttonText}>Rest</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.singleButton} onPress={onMaxTasks}>

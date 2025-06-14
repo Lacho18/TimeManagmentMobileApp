@@ -79,7 +79,7 @@ export default function StressGraph() {
       borderWidth: 2,
       borderColor: theme.highlight,
       borderRadius: 10,
-      backgroundColor: theme.accent,
+      backgroundColor: theme.primary,
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
@@ -119,7 +119,7 @@ export default function StressGraph() {
           backgroundGradientFrom: theme.secondary,
           backgroundGradientTo: theme.secondary,
           decimalPlaces: 0,
-          color: (opacity = 1) => theme.highlight,
+          color: (opacity = 1) => theme.background,
           labelColor: (opacity = 1) => theme.text,
           style: {
             borderRadius: 16,

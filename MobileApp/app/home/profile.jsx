@@ -44,6 +44,8 @@ export default function Profile() {
   const { stressTest, startStressTest, endStressTest } = useStressTest();
   const { font } = useMyFont();
 
+  if (!user) return;
+
   //Follows whether to visualize the MinRestTime component which changes the min rest time
   const [minTimeRest, setMinTimeRest] = useState(false);
 
@@ -133,7 +135,7 @@ export default function Profile() {
     },
     buttonText: {
       color: theme.text,
-      fontSize: 21,
+      fontSize: 18,
       fontFamily: font.regular,
     },
   });

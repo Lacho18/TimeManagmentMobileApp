@@ -136,7 +136,7 @@ export default function StressTest() {
       alignSelf: "flex-end",
     },
     forwardProgress: {
-      backgroundColor: theme.secondary,
+      backgroundColor: theme.highlight,
     },
     submitButton: {
       alignSelf: "center",
@@ -147,7 +147,7 @@ export default function StressTest() {
       alignItems: "center",
       backgroundColor: theme.primary,
       padding: 20,
-      borderRadius: 20,
+      borderRadius: 18,
     },
     submitButtonText: {
       fontSize: 20,
@@ -210,7 +210,7 @@ export default function StressTest() {
           <View
             style={[styles.forwardProgress, { width: `${progressPercent}%` }]}
           ></View>
-          <View></View>
+          <View style={{ backgroundColor: theme.accent }}></View>
         </View>
       </View>
       {!userAnswers.current.includes(null) && (

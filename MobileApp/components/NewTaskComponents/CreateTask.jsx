@@ -166,6 +166,7 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
       right: 0,
       top: 0,
       borderWidth: 1,
+      borderColor: theme.accent,
       borderRadius: 10,
       zIndex: 100,
     },

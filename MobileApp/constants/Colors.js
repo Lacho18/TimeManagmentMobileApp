@@ -1,23 +1,67 @@
 export const COLORS = {
     purple: {
-        text: "#4B367C",
-        primary: "#A88BEB",
-        background: "#DCCFF9",
-        accent: "#5D3FD3",
-        secondary: "#5F9EA0",
+        background: "#2E073F",
+        text: "#E6D9A2",
+        primary: "#624E88",
+        accent: "#3A3A3A",
+        secondary: "#EBD3F8",
+        highlight: "#ebbefa"
     },
-    lightBlue: {
-        text: "#2C3E50",
-        primary: "#89CFF0",
-        background: "#D6EAF8",
-        accent: "#34495E",
-        secondary: "#F5E6CA",
+    blue: {
+        background: "#A6E3E9",
+        text: "#E3FDFD",
+        primary: "#71C9CE",
+        accent: "#78468a",
+        secondary: "#CBF1F5",
+        highlight: "#caffc2"
     },
-    earthColors: {
-        text: "#5D4037",
-        primary: "#A39171",
-        background: "#EAD7C5",
-        accent: "#6B8E23",
-        secondary: "#C27C59",
+    green: {
+        background: "#CAE8BD",
+        //text: "#ECFAE5",
+        text: "2C5F5D",
+        primary: "#B0DB9C",
+        accent: "#78468a",
+        secondary: "#DDF6D2",
+        highlight: "#caffc2"
     },
+    brown: {
+        background: "#C39898",
+        text: "#F1E5D1",
+        primary: "#987070",
+        accent: "#3A3A3A",
+        secondary: "#DBB5B5",
+        highlight: "#ebebeb"
+    },
+    orange: {
+        text: "#5A3B1F",
+        primary: "#FFBF99",
+        background: "#FFDAB8",
+        accent: "#FFE4C2",
+        secondary: "#FFFFFF",
+        highlight: "#FFF1E2"
+    },
+    darkTheme: {
+        background: "#272725",
+        text: "#FFFFFF",
+        primary: "#1e1f1d",
+        accent: "#3A3A3A",
+        secondary: "#787d77",
+        highlight: "#ECDFCC"
+    },
+    blue1: {
+        background: "#B3C8CF",
+        text: "#F1F0E8",
+        primary: "#89A8B2",
+        accent: "#3A3A3A",
+        secondary: "#E5E1DA",
+        highlight: "#ebebeb"
+    },
+    pink: {
+        background: "#EC7FA9",
+        text: "#FFEDFA",
+        primary: "#BE5985",
+        accent: "#78468a",
+        secondary: "#FFB8E0",
+        highlight: "#caffc2"
+    }
 };

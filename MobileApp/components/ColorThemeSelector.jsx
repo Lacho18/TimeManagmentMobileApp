@@ -1,4 +1,10 @@
-import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useTheme } from "../context/ThemeContext";
 import { useState } from "react";
@@ -53,7 +59,7 @@ export default function ColorThemeSelector({
   });
 
   return (
-    <View>
+    <ScrollView horizontal>
       <TouchableOpacity
         style={buttonStyle}
         onPress={() => setThemes((oldValue) => !oldValue)}
@@ -77,6 +83,6 @@ export default function ColorThemeSelector({
           ))}
         </View>
       )}
-    </View>
+    </ScrollView>
   );
 }

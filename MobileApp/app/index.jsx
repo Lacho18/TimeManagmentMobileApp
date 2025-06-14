@@ -13,6 +13,11 @@ export default function Index() {
   const { theme, toggleTheme } = useTheme();
   const router = useRouter();
 
+  console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+  console.log(theme);
+
+  if (!theme) return;
+
   useEffect(() => {
     //Gets the theme before component is loaded
     async function setColorTheme() {

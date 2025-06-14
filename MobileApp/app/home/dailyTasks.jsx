@@ -40,7 +40,9 @@ export default function DailyTasks() {
     );
   }
 
-  const { theme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
+  if (!theme) return;
+
   const {
     isQuestionActive,
     questionData,

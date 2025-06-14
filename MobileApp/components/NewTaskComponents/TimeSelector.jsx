@@ -76,12 +76,12 @@ export default function TimeSelector({
     },
 
     titleNumbers: {
-      fontSize: 70,
+      fontSize: 60,
       fontWeight: "bold",
       color: theme.text,
-      backgroundColor: theme.highlight,
-      width: 100,
-      height: 100,
+      backgroundColor: theme.primary,
+      width: 90,
+      height: 90,
       display: "flex",
       justifyContent: "center",
       textAlign: "center",
@@ -89,7 +89,7 @@ export default function TimeSelector({
     },
 
     symbol: {
-      fontSize: 70,
+      fontSize: 60,
       color: theme.text,
       fontWeight: "bold",
     },
@@ -101,11 +101,11 @@ export default function TimeSelector({
     },
 
     setButton: {
-      backgroundColor: theme.highlight,
+      backgroundColor: theme.primary,
       width: 120,
       height: 50,
-      borderColor: theme.primary,
-      borderWidth: 4,
+      borderColor: theme.highlight,
+      borderWidth: 2,
       padding: 10,
       borderRadius: 7,
       display: "flex",
