@@ -11,6 +11,7 @@ export default function CalmPanicButton({
   userMinRestTime,
 }) {
   const pulseAnim = useRef(new Animated.Value(1)).current;
+  const pressAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
     Animated.loop(
@@ -28,6 +29,24 @@ export default function CalmPanicButton({
       ])
     ).start();
   }, []);
+
+  const handlePressIn = () => {
+    Animated.spring(pressAnim, {
+      toValue: 0.9,
+      useNativeDriver: true,
+      speed: 50,
+      bounciness: 10,
+    }).start();
+  };
+
+  const handlePressOut = () => {
+    Animated.spring(pressAnim, {
+      toValue: 1,
+      useNativeDriver: true,
+      speed: 50,
+      bounciness: 10,
+    }).start();
+  };
 
   async function panicButtonPress() {
     await panicButtonHandler(userId, userStartTimeOfTheDay, userMinRestTime);
@@ -100,11 +119,34 @@ export default function CalmPanicButton({
       >
         <View style={styles.middleGlow} />
         <BlurView intensity={150} style={styles.blurWrapper}>
+          <Pressable
+            onPressIn={handlePressIn}
+            onPressOut={handlePressOut}
+            onPress={panicButtonPress}
+          >
+            <Animated.View
+              style={[styles.button, { transform: [{ scale: pressAnim }] }]}
+            >
+              <Text style={styles.text}>Panic button</Text>
+            </Animated.View>
+          </Pressable>
+        </BlurView>
+      </Animated.View>
+    </View>
+  );
+
+  /*return (
+    <View style={styles.container}>
+      <Animated.View
+        style={[styles.outerGlow, { transform: [{ scale: pulseAnim }] }]}
+      >
+        <View style={styles.middleGlow} />
+        <BlurView intensity={150} style={styles.blurWrapper}>
           <Pressable onPress={panicButtonPress} style={styles.button}>
             <Text style={styles.text}>Panic button</Text>
           </Pressable>
         </BlurView>
       </Animated.View>
     </View>
-  );
+  );*/
 }

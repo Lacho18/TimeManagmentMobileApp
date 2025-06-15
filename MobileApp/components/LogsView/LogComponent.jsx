@@ -1,6 +1,10 @@
 import { useRef } from "react";
 import { Image, StyleSheet, Text, View, Animated } from "react-native";
-import { formatHoursFromDate } from "../../utils/dateUtil";
+import {
+  equalDates,
+  formatHoursFromDate,
+  formatDate,
+} from "../../utils/dateUtil";
 import {
   PanGestureHandler,
   GestureHandlerRootView,
@@ -9,7 +13,10 @@ import {
 const SWIPE_THRESHOLD = 100;
 
 export default function LogComponent({ log, theme, user, removeLog }) {
+  const now = new Date();
   const translateX = useRef(new Animated.Value(0)).current;
+
+  //console.log(log.createdAt.toDate());
 
   const onGestureEvent = Animated.event(
     // Map the horizontal drag (translationX) from gesture to the translateX animated value
@@ -92,7 +99,9 @@ export default function LogComponent({ log, theme, user, removeLog }) {
           <View style={styles.contextDiv}>
             <Text style={styles.messageText}>{log.message}</Text>
             <Text style={styles.timeText}>
-              {formatHoursFromDate(log.createdAt)}
+              {equalDates(now, log.createdAt)
+                ? formatHoursFromDate(log.createdAt)
+                : formatDate(log.createdAt)}
             </Text>
           </View>
         </Animated.View>

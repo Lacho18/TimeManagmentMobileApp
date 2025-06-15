@@ -3,16 +3,22 @@ import { getDateFromStartTime } from "../functions/panicButtonHandler";
 
 //Formats the date as a string
 export const formatDate = (date) => {
-    //In case of FireStore TimeStamp
-    if (date?.toDate) {
+    if (!date) return "Invalid date";
+
+    // In case it's a Firestore Timestamp
+    if (date.toDate && typeof date.toDate === "function") {
         date = date.toDate();
     }
 
-    //Adds 0 in front of 1 digit number
-    const twoDigits = (num) => num.toString().padStart(2, '0');
+    // If it's not a valid Date object
+    if (!(date instanceof Date) || isNaN(date.getTime())) {
+        return "Invalid date";
+    }
+
+    const twoDigits = (num) => num.toString().padStart(2, "0");
 
     return `${twoDigits(date.getDate())}.${twoDigits(date.getMonth() + 1)}.${date.getFullYear()} at time ${twoDigits(date.getHours())}:${twoDigits(date.getMinutes())}`;
-}
+};
 
 export const formatDateMonthName = (date, withHours = true, withDigits = false) => {
     if (date?.toDate) {
@@ -36,6 +42,7 @@ export const formatDateMonthName = (date, withHours = true, withDigits = false) 
 }
 
 export const formatHoursFromDate = (date) => {
+
     if (date?.toDate) {
         date = date.toDate();
     }
@@ -43,6 +50,7 @@ export const formatHoursFromDate = (date) => {
     return `${String(date.getHours()).padStart(2, "0")}:${String(
         date.getMinutes()
     ).padStart(2, "0")}`
+
 }
 
 //Calculates text value from given milliseconds
@@ -64,7 +72,7 @@ export const millisecondsCalculator = (milliseconds) => {
         return `${days} day${days > 1 ? "s" : ""} ${hours > 0 && "and " + hours + " hours"}`;
     }
     else if (hours > 0) {
-        return `${hours} hour${hours > 1 ? "s" : ""} ${minutes > 0 && `and ${minutes - (hours * 60)} minute${minutes > 1 && "s"}`}`;
+        return `${hours} hour${hours > 1 ? "s" : ""} ${minutes > 0 ? `and ${minutes - (hours * 60)} minute${minutes > 1 && "s"}` : ""}`;
     }
     else {
         return `${minutes} minute${minutes > 1 ? "s" : ""}`;
@@ -103,6 +111,8 @@ export const getGivenNumberOfDays = (numberOfDays) => {
 //Compares dates by just their Year, Month and Day and returns true if all 3 are equal
 export const equalDates = (date1, date2) => {
     if (!date1 || !date2) return false;
+    if (date1?.toDate) date1 = date1.toDate();
+    if (date2?.toDate) date2 = date2.toDate();
     return (
         date1.getFullYear() === date2.getFullYear() &&
         date1.getMonth() === date2.getMonth() &&

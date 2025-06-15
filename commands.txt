@@ -1,4 +1,4 @@
 git add .
-git commit -m "Making final changes on app color themes"
+git commit -m "Making fixes on logs component"
 git branch -M main
 git push -u origin main 

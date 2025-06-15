@@ -1,11 +1,11 @@
-import { addDoc, collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore/lite"
+import { addDoc, collection, deleteDoc, doc, getDocs, orderBy, query, where } from "firebase/firestore/lite"
 import { db } from "../firebaseConfig"
 import LogModel from "../models/LogModel";
 
 export const getLogs = async (userId) => {
     const col = collection(db, "Logs");
 
-    const q = query(col, where("userId", "==", userId));
+    const q = query(col, where("userId", "==", userId), orderBy("createdAt", "desc"));
 
     const snapshot = await getDocs(q);
 

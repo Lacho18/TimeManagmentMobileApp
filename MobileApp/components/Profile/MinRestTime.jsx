@@ -41,8 +41,7 @@ export default function MinRestTime({
       const docRef = doc(db, "Users", userId);
 
       updateDoc(docRef, {
-        "preferences.min_rest_time_between_tasks":
-          millisecondsMinRestTime.toString(),
+        "preferences.min_rest_time_between_tasks": millisecondsMinRestTime,
       });
     } catch (error) {
       console.error(error.message);
