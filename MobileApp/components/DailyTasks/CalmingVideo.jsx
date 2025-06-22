@@ -26,7 +26,6 @@ export default function CalmingVideo({ theme }) {
     const videoIndex = Math.floor(Math.random() * allCalmingVideos.length);
 
     setVideo(allCalmingVideos[videoIndex]);
-
     return () => {
       clearInterval(interval);
     };

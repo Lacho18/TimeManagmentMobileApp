@@ -41,7 +41,10 @@ export default function DailyTasks() {
   }
 
   const { theme, toggleTheme } = useTheme();
-  if (!theme) return;
+  if (!theme) {
+    toggleTheme("purple");
+    return;
+  }
 
   const {
     isQuestionActive,
@@ -50,8 +53,8 @@ export default function DailyTasks() {
     openQuestionMenu,
     formQuestionStructure,
   } = useQuestion();
-  const { warningMessage, valWarningMessage, clearWarning } = useWarning();
   const { font } = useMyFont();
+  const { warningMessage, valWarningMessage, clearWarning } = useWarning();
 
   //All tasks for the current date
   const [allDailyTasks, setAllDailyTasks] = useState([]);

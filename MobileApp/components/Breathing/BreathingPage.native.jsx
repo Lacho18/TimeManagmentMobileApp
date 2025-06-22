@@ -8,6 +8,7 @@ export default function Breathing({ theme, active }) {
   const animations = [
     require("../../animations/BreathingSquire2.0.json"),
     require("../../animations/Breathing2.json"),
+    require("../../animations/Breathing3.json"),
   ];
 
   const [activeAnimation, setActiveAnimation] = useState(active === "true");
