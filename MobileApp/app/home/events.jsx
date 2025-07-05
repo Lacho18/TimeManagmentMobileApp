@@ -84,7 +84,7 @@ export default function Events() {
     mainDiv: {
       flex: 1,
       backgroundColor: theme.background,
-      paddingVertical: 50,
+      paddingVertical: 20,
       paddingBottom: 100,
     },
     tasksContainerStyle: {

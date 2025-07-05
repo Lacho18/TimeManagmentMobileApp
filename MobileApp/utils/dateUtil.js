@@ -33,7 +33,7 @@ export const formatDateMonthName = (date, withHours = true, withDigits = false) 
         return `${twoDigits(date.getDate())} ${months[date.getMonth()]} ${twoDigits(date.getHours())}:${twoDigits(date.getMinutes())}`;
     }
     else if (withDigits) {
-        return `${twoDigits(date.getDate())}.${twoDigits(date.getMonth())}`;
+        return `${twoDigits(date.getDate())}.${twoDigits(date.getMonth() + 1)}`;
     }
     else {
         return `${twoDigits(date.getDate())} ${months[date.getMonth()]}`;
@@ -72,7 +72,7 @@ export const millisecondsCalculator = (milliseconds) => {
         return `${days} day${days > 1 ? "s" : ""} ${hours > 0 && "and " + hours + " hours"}`;
     }
     else if (hours > 0) {
-        return `${hours} hour${hours > 1 ? "s" : ""} ${minutes > 0 ? `and ${minutes - (hours * 60)} minute${minutes > 1 && "s"}` : ""}`;
+        return `${hours} hour${hours > 1 ? "s" : ""} ${minutes - (hours * 60) > 0 ? `and ${minutes - (hours * 60)} minute${minutes > 1 && "s"}` : ""}`;
     }
     else {
         return `${minutes} minute${minutes > 1 ? "s" : ""}`;

@@ -31,7 +31,7 @@ export default function SimpleViewSwitch({ theme, font, switchValue, userId }) {
         Simple view
       </Text>
       <Switch
-        trackColor={{ false: theme.accent, true: theme.highlight }}
+        trackColor={{ false: theme.primary, true: theme.highlight }}
         thumbColor={isEnabled ? theme.highlight : theme.accent}
         ios_backgroundColor={theme.primary}
         onValueChange={toggleSwitch}

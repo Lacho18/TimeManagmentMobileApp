@@ -46,7 +46,7 @@ export default function DailyTasksSimpleView({
       visualTasks.push(setTaskCoordinates(task));
     });
 
-    visualTasks.splice(1, 1);
+    //visualTasks.splice(1, 1);
 
     setUserWorkHours(workHours);
     setVisualTasks(visualTasks);

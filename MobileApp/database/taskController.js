@@ -1,7 +1,7 @@
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc, where, or, and, writeBatch } from "firebase/firestore/lite";
 import { db } from "../firebaseConfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { millisecondsCalculator, taskOnRestTime } from "../utils/dateUtil";
+import { formatDateMonthName, millisecondsCalculator, taskOnRestTime } from "../utils/dateUtil";
 import { durationColorSetter } from "../utils/durationColorUtil";
 import { featureTasksCompiler, taskInterval } from "../utils/tasksInterval";
 import { checkForMaxTasksOverflow } from "../utils/maxTasksUtil";
@@ -174,6 +174,12 @@ export const delayTask = async (taskId, user) => {
         startTime: data.startTime?.toDate(),
         endTime: data.endTime?.toDate() || null,
     };
+
+    //Creating log for delaying task
+    console.log("ALO AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+    const tomorrow = new Date(task.startTime);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    await createLog(`Task ${task.title} was delayed for ${formatDateMonthName(tomorrow, false, true)}`, user.id);
 
     //Calculate task duration + rest time
     let taskDuration;

@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useStressTest } from "../context/StressTestContext";
 import { db } from "../firebaseConfig";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore/lite";
+import { createLog } from "../database/logsController";
+import { formatDateMonthName } from "../utils/dateUtil";
 
 function manageColors(value) {
   if (value >= 0 && value <= 25) {
@@ -42,6 +44,16 @@ export default function StressLevelSelector({ theme, font, userId }) {
   //Adds the new stress level to the stressLevels array of the user
   function addStressLevel() {
     const userDocRef = doc(db, "Users", userId);
+
+    //Creating log for inserting new stress value
+    createLog(
+      `Inserted new stress level with value: ${stressLevel} on ${formatDateMonthName(
+        new Date(),
+        false,
+        true
+      )}`,
+      userId
+    );
 
     updateDoc(userDocRef, {
       stressLevels: arrayUnion({

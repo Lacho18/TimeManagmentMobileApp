@@ -33,15 +33,15 @@ export default function DayOfWeek({
       fontFamily: font.regular,
     },
     dayNumberText: {
-      fontSize: 18,
+      fontSize: 20,
       color: theme.text,
       fontWeight: "bold",
-      padding: 7,
+      padding: 8,
       fontFamily: font.bold,
     },
     dayNumberTextSelected: {
-      backgroundColor: theme.accent,
-      borderRadius: 10,
+      backgroundColor: theme.highlight,
+      borderRadius: 7,
       fontFamily: font.regular,
     },
   });

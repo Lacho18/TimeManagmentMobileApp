@@ -15,6 +15,8 @@ import { useMyFont } from "../../context/FontContext";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore/lite";
 import { db } from "../../firebaseConfig";
 import { useUser } from "../../context/UserContext";
+import { createLog } from "../../database/logsController";
+import { formatDateMonthName } from "../../utils/dateUtil";
 
 const screenWidth = Dimensions.get("window").width - 10;
 
@@ -79,6 +81,16 @@ export default function StressTest() {
       }
     });
     let stressLevel = stressPoints * 10;
+
+    //Creating log for completing test
+    await createLog(
+      `Completed stress test on date ${formatDateMonthName(
+        new Date(),
+        false,
+        true
+      )} with level: ${stressLevel}`,
+      user.id
+    );
 
     const userDocRef = doc(db, "Users", user.id);
 

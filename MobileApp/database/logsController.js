@@ -23,6 +23,8 @@ export const getLogs = async (userId) => {
 export const createLog = async (logMessage, userId) => {
     const col = collection(db, "Logs");
 
+    console.log("Pederasiiiiiiiii");
+
     const logStructure = { ...LogModel };
     logStructure.userId = userId;
     logStructure.createdAt = new Date();

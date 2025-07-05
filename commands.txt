@@ -1,4 +1,4 @@
 git add .
-git commit -m "Fixing animations and videos"
+git commit -m "Adding new logs functionalities"
 git branch -M main
 git push -u origin main 
