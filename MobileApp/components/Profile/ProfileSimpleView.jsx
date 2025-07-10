@@ -10,7 +10,7 @@ import { useStressTest } from "../../context/StressTestContext";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import ColorThemeSelector from "../ColorThemeSelector";
 
-const ICONS_SIZE = 42;
+const ICONS_SIZE = 40;
 
 export default function ProfileSimpleView({
   theme,
@@ -48,7 +48,7 @@ export default function ProfileSimpleView({
     },
 
     buttonText: {
-      fontSize: 20,
+      fontSize: 16,
       color: theme.text,
       fontFamily: font.bold,
     },

@@ -17,7 +17,11 @@ export default function Breathing({ theme, active }) {
   );
 
   function getRandomAnimation() {
-    const randomAnimationIndex = Math.round(Math.random() * animations.length);
+    const randomAnimationIndex = Math.round(
+      Math.random() * (animations.length - 1)
+    );
+
+    console.log(randomAnimationIndex);
 
     setAnimation(animations[randomAnimationIndex]);
   }

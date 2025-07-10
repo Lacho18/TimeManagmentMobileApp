@@ -69,13 +69,13 @@ export default function DayStartTime({
       alignItems: "center",
     },
     mainText: {
-      fontSize: 21,
+      fontSize: 18,
       color: theme.text,
       textAlign: "center",
       fontFamily: font.regular,
     },
     submitButton: {
-      width: 130,
+      width: 200,
       height: 50,
       display: "flex",
       justifyContent: "center",

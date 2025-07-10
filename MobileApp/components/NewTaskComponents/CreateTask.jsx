@@ -232,6 +232,10 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
       fontWeight: "bold",
       width: 250,
       textAlign: "center",
+      display: "flex",
+      justifyContent: "center",
+      width: "100%",
+      paddingBottom: 50,
     },
 
     taskLocationButton: {
@@ -429,7 +433,7 @@ export default function CreateTask({ closeAddTaskMenu, visible }) {
             alignItems: "center",
             justifyContent: "center",
             marginTop: 18,
-            marginBottom: 100,
+            marginBottom: 50,
           }}
         >
           <TouchableOpacity

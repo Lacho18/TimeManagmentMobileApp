@@ -90,16 +90,18 @@ export default function DailyTasksSimpleView({
   const styles = StyleSheet.create({
     mainDiv: {
       width: "100%",
-      height: 500,
+      //height: 500,
       alignSelf: "center",
       marginTop: 40,
       backgroundColor: theme.accent,
       paddingLeft: 10,
       position: "relative",
+      //flex: 1,
     },
 
     mainDivMoreStyles: {
-      flexDirection: "row",
+      flexDirection: "column",
+      flexGrow: 1,
     },
 
     hoursDiv: {
@@ -130,59 +132,61 @@ export default function DailyTasksSimpleView({
       style={styles.mainDiv}
       contentContainerStyle={styles.mainDivMoreStyles}
     >
-      <View style={styles.hoursDiv}>
-        {userWorkHours.map((hour, index) => (
-          <Text
-            key={index}
-            style={{
-              position: "absolute",
-              top: index * HOURS_RANGE,
-              color: theme.text,
-            }}
-          >
-            {hour}
-          </Text>
-        ))}
-      </View>
-      <View>
-        {visualTasks.map((task) => (
-          <TouchableOpacity
-            key={task.id}
-            onPress={() => {
-              let selectedTaskFromUser = allDailyTasks.find(
-                (indexValue) => indexValue.id === task.id
-              );
-              selectTask(selectedTaskFromUser);
-            }}
-            onLongPress={() => {
-              deleteVisualTask(task.id);
-              onCompleteTask(task.id);
-            }}
-            delayLongPress={1000}
-            style={[
-              styles.taskBox,
-              {
-                position: "absolute",
-                top: task.y,
-                height: task.taskHeight,
-                maxHeight: task.taskHeight,
-                backgroundColor: task.background,
-                zIndex: 120,
-              },
-            ]}
-          >
+      <View style={{ display: "flex", flexDirection: "row" }}>
+        <View style={styles.hoursDiv}>
+          {userWorkHours.map((hour, index) => (
             <Text
+              key={index}
+              style={{
+                position: "absolute",
+                top: index * HOURS_RANGE,
+                color: theme.text,
+              }}
+            >
+              {hour}
+            </Text>
+          ))}
+        </View>
+        <View>
+          {visualTasks.map((task) => (
+            <TouchableOpacity
+              key={task.id}
+              onPress={() => {
+                let selectedTaskFromUser = allDailyTasks.find(
+                  (indexValue) => indexValue.id === task.id
+                );
+                selectTask(selectedTaskFromUser);
+              }}
+              onLongPress={() => {
+                deleteVisualTask(task.id);
+                onCompleteTask(task.id);
+              }}
+              delayLongPress={1000}
               style={[
-                styles.text,
+                styles.taskBox,
                 {
-                  fontSize: task.taskHeight * 0.5,
+                  position: "absolute",
+                  top: task.y,
+                  height: task.taskHeight,
+                  maxHeight: task.taskHeight,
+                  backgroundColor: task.background,
+                  zIndex: 120,
                 },
               ]}
             >
-              {task.title}
-            </Text>
-          </TouchableOpacity>
-        ))}
+              <Text
+                style={[
+                  styles.text,
+                  {
+                    fontSize: task.taskHeight * 0.5,
+                  },
+                ]}
+              >
+                {task.title}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
       </View>
     </ScrollView>
   );

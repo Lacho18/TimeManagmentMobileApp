@@ -1,6 +1,12 @@
 import Slider from "@react-native-community/slider";
 import { useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Pressable,
+} from "react-native";
 import { doc, updateDoc } from "firebase/firestore/lite";
 import { db } from "../../firebaseConfig";
 import { useUser } from "../../context/UserContext";
@@ -75,7 +81,7 @@ export default function MinRestTime({
       alignItems: "center",
     },
     mainText: {
-      fontSize: 20,
+      fontSize: 18,
       color: theme.text,
       textAlign: "center",
       fontFamily: font.regular,
@@ -95,7 +101,7 @@ export default function MinRestTime({
   });
 
   return (
-    <View style={styles.mainDiv}>
+    <Pressable style={styles.mainDiv} onPress={() => {}}>
       <Text style={styles.mainText}>
         This is time that is automatically added between tasks
       </Text>
@@ -122,6 +128,6 @@ export default function MinRestTime({
       >
         <Text style={styles.mainText}>Set new time</Text>
       </TouchableOpacity>
-    </View>
+    </Pressable>
   );
 }

@@ -23,7 +23,9 @@ export default function CalmingVideo({ theme }) {
   //Used to set and on unmount to remove the interval for the timer
   useEffect(() => {
     const interval = setInterval(updateTimer, 1000);
-    const videoIndex = Math.floor(Math.random() * allCalmingVideos.length);
+    const videoIndex = Math.floor(
+      Math.random() * (allCalmingVideos.length - 1)
+    );
 
     setVideo(allCalmingVideos[videoIndex]);
     return () => {

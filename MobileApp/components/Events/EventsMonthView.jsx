@@ -65,26 +65,27 @@ export default function EventsMonthView({ month, theme, font }) {
 
     eventsBoxesDiv: {
       marginVertical: 25,
+      paddingBottom: 20,
       display: "flex",
       gap: 15,
     },
 
     eventsBox: {
-      borderWidth: 3,
+      borderWidth: 1,
       borderColor: theme.secondary,
-      backgroundColor: theme.secondary,
+      backgroundColor: theme.background,
       padding: 10,
       display: "flex",
     },
 
     eventBoxMonthName: {
-      color: theme.background,
+      color: theme.secondary,
       fontSize: 12,
       fontFamily: font.regular,
     },
 
     eventBoxEventName: {
-      color: theme.background,
+      color: theme.secondary,
       fontSize: 15,
       fontFamily: font.regular,
     },
